@@ -98,56 +98,37 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .intro{position:absolute;left:0;right:0;bottom:7%;display:grid;gap:12px;justify-items:center;padding:0 16px}
 @media (max-width:560px){.intro{bottom:4%;gap:8px}.btn-play{font-size:1.3rem;padding:12px 36px}}
 
-/* Mascota: partes y animaciones */
-#mascot{transform-box:view-box;transform-origin:451px 372px;animation:floatM 3.4s ease-in-out infinite}
-@keyframes floatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-#head{transform-box:view-box;transform-origin:462px 215px;animation:headIdle 4.4s ease-in-out infinite}
-@keyframes headIdle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2.2deg) translateY(-1px)}}
-#armL{transform-box:view-box;transform-origin:420px 249px;animation:armIdle 3.2s ease-in-out infinite}
-#armR{transform-box:view-box;transform-origin:493px 249px;animation:armIdle 3.2s ease-in-out infinite -1.6s}
-@keyframes armIdle{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}
-.lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);animation:blink 4.8s infinite}
-@keyframes blink{0%,93%,100%{transform:scaleY(0)}95%,97%{transform:scaleY(1)}}
-.shine{animation:shine 7s linear infinite}
-@keyframes shine{0%{transform:translateX(-90px) skewX(-20deg);opacity:0}10%{opacity:.75}30%{transform:translateX(250px) skewX(-20deg);opacity:0}100%{transform:translateX(250px) skewX(-20deg);opacity:0}}
-.is-enter #mascot{animation:enter .9s cubic-bezier(.3,1.4,.4,1) both}
-@keyframes enter{0%{transform:translateY(70px) scale(.4);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
-.is-enter #armL,.is-enter #armR,.is-happy #armL,.is-happy #armR{animation:cheer .35s ease-in-out 3 alternate}
-@keyframes cheer{from{transform:rotate(0)}to{transform:rotate(-18deg)}}
-.is-stirring #mascot{animation:lean 1.35s ease-in-out both}
-@keyframes lean{0%{transform:translateY(0) rotate(0)}20%{transform:translateY(14px) rotate(-3deg)}40%{transform:translateY(16px) rotate(3deg)}60%{transform:translateY(14px) rotate(-3deg)}80%{transform:translateY(16px) rotate(2deg)}100%{transform:translateY(12px) rotate(0)}}
-.is-stirring #head{animation:headStir 1.35s ease-in-out both}
-@keyframes headStir{0%{transform:rotate(0)}20%{transform:rotate(-7deg) translateY(4px)}40%{transform:rotate(7deg) translateY(4px)}60%{transform:rotate(-7deg) translateY(4px)}80%{transform:rotate(6deg) translateY(3px)}100%{transform:rotate(0)}}
-.is-stirring #armR{animation:armRStir 1.35s ease-in-out both}
-@keyframes armRStir{0%{transform:rotate(0)}22%{transform:rotate(150deg)}38%{transform:rotate(136deg)}54%{transform:rotate(158deg)}70%{transform:rotate(138deg)}86%{transform:rotate(156deg)}100%{transform:rotate(146deg)}}
-.is-stirring #armL{animation:armLStir 1.35s ease-in-out both}
-@keyframes armLStir{0%{transform:rotate(0)}22%{transform:rotate(-150deg)}38%{transform:rotate(-158deg)}54%{transform:rotate(-136deg)}70%{transform:rotate(-156deg)}86%{transform:rotate(-138deg)}100%{transform:rotate(-146deg)}}
-.is-stirring #bowl{animation:bowlShake 1.35s ease-in-out both}
-#bowl{transform-box:view-box;transform-origin:450px 424px}
-@keyframes bowlShake{0%,100%{transform:rotate(0)}15%{transform:rotate(-3deg) translateY(-3px)}30%{transform:rotate(3deg)}45%{transform:rotate(-3deg) translateY(-3px)}60%{transform:rotate(3deg)}75%{transform:rotate(-2deg) translateY(-2px)}90%{transform:rotate(2deg)}}
-.is-lifting #mascot{animation:unlean .9s cubic-bezier(.3,1.3,.4,1) both}
-@keyframes unlean{0%{transform:translateY(12px)}100%{transform:translateY(0)}}
-.is-lifting #head{animation:headLook .9s ease-out both}
-@keyframes headLook{0%{transform:rotate(0)}100%{transform:rotate(6deg) translate(3px,-2px)}}
-.is-lifting #armR{animation:armRLift 1s cubic-bezier(.3,1.25,.4,1) both}
-@keyframes armRLift{0%{transform:rotate(146deg)}100%{transform:rotate(-6deg)}}
-.is-lifting #armL{animation:armLLift .9s cubic-bezier(.3,1.25,.4,1) both}
-@keyframes armLLift{0%{transform:rotate(-146deg)}100%{transform:rotate(0)}}
-#drawn{transform-box:view-box;transform-origin:544px 193px;opacity:0;transform:scale(.5);transition:opacity .2s ease,transform .55s cubic-bezier(.3,1.3,.4,1)}
-.is-lifting #drawn{opacity:1;transform:scale(1.8)}
-.is-meh #armR{animation:droopR .8s ease-in-out both}
-@keyframes droopR{0%,100%{transform:rotate(0)}40%{transform:rotate(30deg)}}
-.is-meh #armL{animation:droopL .8s ease-in-out both}
-@keyframes droopL{0%,100%{transform:rotate(0)}40%{transform:rotate(-30deg)}}
+/* Escena ilustrada: i3sit@ ya está en la imagen; se animan la escena, las galletas del tazón, la galleta de la mano y las chispas */
+.scene-wrap{background:#FBE7EE}
+#photo{transform-box:view-box;transform-origin:450px 536px;animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.012)}}
+.is-enter #photo{animation:enterPhoto .9s cubic-bezier(.3,1.4,.4,1) both}
+@keyframes enterPhoto{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+.is-stirring #photo{animation:shakePhoto 1.35s ease-in-out both}
+@keyframes shakePhoto{0%,100%{transform:translate(0,0) rotate(0)}12%{transform:translate(-4px,2px) rotate(-.6deg)}25%{transform:translate(4px,-1px) rotate(.6deg)}38%{transform:translate(-4px,1px) rotate(-.5deg)}50%{transform:translate(4px,2px) rotate(.5deg)}62%{transform:translate(-3px,-1px) rotate(-.4deg)}75%{transform:translate(3px,1px) rotate(.4deg)}88%{transform:translate(-2px,0) rotate(-.2deg)}}
+.is-lifting #photo{animation:none}
+.is-happy #photo{animation:jumpPhoto .7s cubic-bezier(.3,1.3,.4,1) both}
+@keyframes jumpPhoto{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-14px) scale(1.03)}}
+.is-meh #photo{animation:mehPhoto .8s ease-in-out both}
+@keyframes mehPhoto{0%,100%{transform:rotate(0)}30%{transform:rotate(-1deg) translateY(4px)}70%{transform:rotate(.8deg)}}
+.ck{transform-box:fill-box;transform-origin:center;opacity:0;transition:opacity .25s}
+.is-stirring .ck,.is-lifting .ck{opacity:1}
+.is-stirring .ck{animation:jig .26s ease-in-out infinite alternate}
+.is-stirring .ck:nth-child(3n){animation-name:hop;animation-duration:.42s}
+.is-stirring .ck:nth-child(2n){animation-delay:.08s}
+.is-stirring .ck:nth-child(4n){animation-delay:.14s}
+@keyframes jig{from{transform:rotate(-14deg) translateY(-2px)}to{transform:rotate(14deg) translateY(-7px)}}
+@keyframes hop{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-24px) rotate(14deg)}}
+#drawn{transform-box:view-box;transform-origin:601px 183px;opacity:0;transform:scale(.5)}
+.is-lifting #drawn{animation:flyCookie .95s cubic-bezier(.3,.9,.4,1) both}
+@keyframes flyCookie{0%{opacity:1;transform:translate(-147px,132px) scale(.55) rotate(-150deg)}55%{opacity:1;transform:translate(-40px,-30px) scale(1.25) rotate(-40deg)}100%{opacity:1;transform:translate(0,0) scale(1.15) rotate(0)}}
 .is-return #drawn{animation:cookieAway .5s ease-in both}
-@keyframes cookieAway{0%{opacity:1;transform:scale(1.8)}100%{opacity:0;transform:scale(.4) translateY(-30px)}}
-.is-return #head{animation:headBack .5s ease-out both}
-@keyframes headBack{0%{transform:rotate(6deg) translate(3px,-2px)}100%{transform:rotate(0)}}
+@keyframes cookieAway{0%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(.4) translateY(-30px)}}
 .half{transform-box:fill-box;transform-origin:center}
-.is-open .half-l{animation:breakL .8s cubic-bezier(.2,1.3,.3,1) both}
-.is-open .half-r{animation:breakR .8s cubic-bezier(.2,1.3,.3,1) both}
-@keyframes breakL{0%{transform:none}18%{transform:translate(2px,0) rotate(4deg)}32%{transform:translate(-2px,0) rotate(-4deg) scale(1.07)}44%{transform:translate(1px,0) rotate(2deg) scale(1.1)}62%{transform:translate(-20px,0) rotate(-28deg)}100%{transform:translate(-15px,4px) rotate(-18deg)}}
-@keyframes breakR{0%{transform:none}18%{transform:translate(-2px,0) rotate(-4deg)}32%{transform:translate(2px,0) rotate(4deg) scale(1.07)}44%{transform:translate(-1px,0) rotate(-2deg) scale(1.1)}62%{transform:translate(20px,0) rotate(28deg)}100%{transform:translate(15px,4px) rotate(18deg)}}
+.is-open .half-l{animation:popL .8s cubic-bezier(.2,1.3,.3,1) both}
+.is-open .half-r{animation:popR .8s cubic-bezier(.2,1.3,.3,1) both}
+@keyframes popL{0%{transform:none}25%{transform:scale(1.14) rotate(-6deg)}50%{transform:scale(.94)}75%{transform:scale(1.06) rotate(-3deg)}100%{transform:none}}
+@keyframes popR{0%{transform:none}25%{transform:scale(1.14) rotate(6deg)}50%{transform:scale(.94)}75%{transform:scale(1.06) rotate(3deg)}100%{transform:none}}
 .crumb{transform-box:fill-box;transform-origin:center;opacity:0}
 .is-open .crumb{animation:crumbFly .9s cubic-bezier(.15,.8,.3,1) both;animation-delay:.42s}
 @keyframes crumbFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),calc(var(--dy) + 26px)) rotate(var(--rot,0)) scale(.4)}}
@@ -157,108 +138,15 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .flash{transform-box:fill-box;transform-origin:center;opacity:0}
 .is-open .flash{animation:flashPop .5s ease-out both;animation-delay:.42s}
 @keyframes flashPop{0%{opacity:0;transform:scale(.2)}30%{opacity:.9;transform:scale(1.1)}100%{opacity:0;transform:scale(1.6)}}
-.slipmini{transform-box:fill-box;transform-origin:center;transform:scaleX(0);transition:transform .55s cubic-bezier(.2,1.4,.3,1) .55s}
-.is-open .slipmini{transform:scaleX(1)}
-.ck{transform-box:fill-box;transform-origin:center}
-.is-stirring .ck{animation:jig .26s ease-in-out infinite alternate}
-.is-stirring .ck:nth-child(3n){animation-name:hop;animation-duration:.42s}
-.is-stirring .ck:nth-child(2n){animation-delay:.08s}
-.is-stirring .ck:nth-child(4n){animation-delay:.14s}
-@keyframes jig{from{transform:rotate(-14deg) translateY(-2px)}to{transform:rotate(14deg) translateY(-6px)}}
-@keyframes hop{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-22px) rotate(14deg)}}
+.slipmini{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .55s cubic-bezier(.2,1.4,.3,1) .55s}
+.is-open .slipmini{transform:translateY(-54px) scale(1)}
 .spark{opacity:0;transform-box:fill-box;transform-origin:center}
 .is-stirring .spark,.is-lifting .spark,.is-happy .spark{animation:twinkle .55s ease-in-out infinite;animation-delay:var(--d,0s)}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(25deg)}}
 .dk{transition:opacity .4s,filter .4s}
-.dk.gone{opacity:.18;filter:grayscale(1)}
-.is-happy #mascot{animation:jump .7s cubic-bezier(.3,1.3,.4,1) both}
-@keyframes jump{0%,100%{transform:translateY(0)}40%{transform:translateY(-30px) rotate(-2deg)}}
-.is-happy #head{animation:headHappy .7s ease-in-out both}
-@keyframes headHappy{0%,100%{transform:rotate(0)}30%{transform:rotate(-6deg) translateY(-4px)}70%{transform:rotate(6deg) translateY(-4px)}}
-.is-meh #mascot{animation:shrug .8s ease-in-out both}
-@keyframes shrug{0%,100%{transform:rotate(0)}30%{transform:rotate(-3deg)}70%{transform:rotate(2deg)}}
-.is-meh #head{animation:headMeh .8s ease-in-out both}
-@keyframes headMeh{0%,100%{transform:rotate(0)}40%{transform:rotate(-10deg) translateY(3px)}}
 #bubble{transform-box:fill-box;transform-origin:left bottom}
 #bubble.pop{animation:pop .45s cubic-bezier(.2,1.4,.3,1) both}
 @keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
-
-/* Sala en vivo */
-.pill{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:700;font-size:.82rem;background:var(--paper)}
-.pill .dot{width:9px;height:9px;border-radius:50%;background:#C9C2DE}
-.pill.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(91,194,54,.3)}
-.live{display:grid;gap:12px;justify-items:center;width:100%;text-align:center}
-.live .ask{font-family:var(--font-display);font-weight:400;font-size:1.3rem;letter-spacing:.03em;color:var(--rose)}
-.live .count{font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--ink)}
-.live .count small{font-family:var(--font-body);font-size:1rem;font-weight:700;color:var(--muted)}
-.dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:520px}
-.dots i{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);transition:background .3s,transform .3s}
-.dots i.done{background:var(--green);transform:scale(1.1)}
-.progress{width:min(100%,420px);height:14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
-.progress span{display:block;height:100%;background:var(--green);transition:width .4s ease}
-.totals{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;width:100%}
-.total{flex:1 1 160px;max-width:240px;border:3px solid var(--ink);border-radius:18px;padding:14px;display:grid;gap:4px;justify-items:center;box-shadow:0 6px 0 0 var(--line);animation:popIn .55s cubic-bezier(.2,.9,.3,1.3) both}
-.total .big-n{font-family:var(--font-display);font-size:3rem;line-height:1}
-.total .lab{font-weight:800;font-size:.95rem}
-.total.pro{background:var(--mint);border-color:var(--green)}
-.total.con{background:var(--rosewater);border-color:var(--rose)}
-.total.con .big-n{color:var(--rose)}
-.total.pro .big-n{color:var(--green-dk)}
-.stamp.tie{border-color:#9A8FB0;color:#6F6A8E;border-style:dotted;font-size:1rem;letter-spacing:.06em}
-.linklike{background:none;border:0;padding:0;color:var(--rose);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:.9rem}
-.notice{border:3px solid var(--pink);background:var(--pinkt);border-radius:14px;padding:10px 14px;font-size:.95rem;font-weight:600}
-
-/* Sala: código, QR y enlace */
-.sala{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center}
-.sala .lab{font-family:var(--font-display);font-size:.85rem;letter-spacing:.06em;color:var(--muted)}
-.sala-code{display:grid;gap:4px;justify-items:center;border:3px solid var(--ink);border-radius:18px;padding:12px 22px;background:var(--pinkt);box-shadow:0 6px 0 0 var(--line)}
-.sala-code .code{font-family:var(--font-display);font-size:3.4rem;line-height:1;letter-spacing:.12em;color:var(--rose)}
-.sala-qr{width:168px;height:168px;border:3px solid var(--ink);border-radius:14px;padding:6px;background:#fff;display:grid;place-items:center}
-.sala-qr svg{width:100%;height:100%}
-.sala-link{display:grid;gap:8px;min-width:0;flex:1 1 220px;max-width:360px}
-.sala-link .url{font-weight:800;font-size:1.1rem;overflow-wrap:anywhere;color:var(--ink)}
-.sala-link .row{display:flex;flex-wrap:wrap;gap:8px}
-.sala-people{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
-.join{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin-top:4px}
-.join input{border:3px solid var(--ink);border-radius:12px;padding:8px 12px;width:150px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;text-align:center;background:rgba(255,255,255,.92)}
-.join .lab{font-weight:700;font-size:.9rem;color:var(--ink);background:rgba(255,255,255,.85);border-radius:999px;padding:2px 10px}
-.student .s-code{font-family:var(--font-display);letter-spacing:.1em}
-
-/* Vista del estudiante (celular) */
-.student{display:grid;gap:14px}
-.student .s-stage{display:grid;gap:14px;justify-items:center}
-.student .s-wait{display:grid;gap:8px;justify-items:center;text-align:center;padding:22px 10px;font-weight:700;color:var(--muted)}
-.student .s-wait svg{width:90px;height:90px;overflow:visible;animation:floatM 3s ease-in-out infinite}
-.student .s-wait .t{font-family:var(--font-display);font-weight:400;font-size:1.3rem;color:var(--rose)}
-.student .paper{width:100%;transform:none}
-.student .paper.hab{padding-right:22px}
-.student .paper.rec{margin:0}
-.student .votebar .btn{flex:1 1 140px}
-.student .btn.chosen{outline:4px solid var(--ink);outline-offset:-4px}
-.student .s-done{font-weight:800;text-align:center;color:var(--green-dk)}
-.student .s-done.no{color:var(--rose)}
-
-/* Inicio del docente: desfile de galletas y galletas flotando */
-.cookie-parade{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 16px}
-.cookie-parade svg{width:66px;height:66px;overflow:visible;animation:paradeBounce 1.7s ease-in-out infinite;animation-delay:calc(var(--i) * .13s);filter:drop-shadow(0 6px 0 rgba(59,34,56,.12))}
-@keyframes paradeBounce{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-16px) rotate(7deg)}}
-.float-cookies{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;display:none}
-body.is-start .float-cookies{display:block}
-.float-cookies svg{position:absolute;overflow:visible;left:var(--x);bottom:-90px;width:var(--s);height:var(--s);opacity:.85;animation:floatUp var(--t) linear infinite;animation-delay:var(--d)}
-@keyframes floatUp{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-55vh) translateX(18px) rotate(180deg)}100%{transform:translateY(-115vh) translateX(-10px) rotate(360deg)}}
-.brand,main{position:relative;z-index:1}
-
-/* Inicio del docente */
-.start-form{display:grid;gap:12px;max-width:520px;margin:0 auto;justify-items:stretch}
-.start-form .field{max-width:none}
-.start-form .votebar{margin-top:4px}
-.resume{margin:18px auto 0;max-width:520px;display:grid;gap:8px;justify-items:center;border:3px dashed #F3C9D3;border-radius:16px;padding:12px}
-.resume .note{max-width:none}
-.session-info{margin:-6px 0 12px;font-weight:700;color:var(--muted)}
-.session-info b{color:var(--rose)}
-.s-info{font-weight:700;color:var(--muted);margin-bottom:4px}
-.s-info b{color:var(--rose)}
-.s-hello{font-weight:800;color:var(--green-dk);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
 
 /* Controles bajo la escena */
 .controls{display:grid;gap:16px;justify-items:center;margin-top:16px}
@@ -466,163 +354,68 @@ details.howto[open] summary::after{content:"\2212"}
     <p class="session-info" id="sessionInfo"></p>
 
     <div class="scene-wrap" id="sceneWrap">
-      <svg class="scene" id="scene" viewBox="0 0 900 560" aria-labelledby="sceneDesc" role="img">
-        <title id="sceneDesc">Oficina con i3sit@, la mascota de i3, detrás de un escritorio con un tazón de galletas rosadas con R</title>
+      <svg class="scene" id="scene" viewBox="0 0 900 536" aria-labelledby="sceneDesc" role="img">
+        <title id="sceneDesc">i3sit@ en su oficina, con un tazón de galletas rosadas con R y una galleta en la mano</title>
         <defs>
-          <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD6E0"/><stop offset="1" stop-color="#FFF3E6"/></linearGradient>
-          <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C9A3"/><stop offset="1" stop-color="#E8A77A"/></linearGradient>
-          <linearGradient id="woodf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E0996E"/><stop offset="1" stop-color="#C97F55"/></linearGradient>
-          <linearGradient id="shineG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".55"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
-          <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="13" cy="13" r="2" fill="#FFE9EE"/></pattern>
-          <clipPath id="inBowl"><ellipse cx="450" cy="337" rx="152" ry="30"/><rect x="298" y="200" width="304" height="137"/></clipPath>
-          <mask id="headMask" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="560"><image href="mascota/cabeza.webp" x="360.5" y="55.5" width="171.3" height="169.0"/></mask>
+          <clipPath id="inBowl"><rect x="292" y="268" width="330" height="92" rx="40"/></clipPath>
         </defs>
-
-        <!-- Pared -->
-        <rect x="0" y="0" width="900" height="370" fill="#FFFFFF"/>
-        <rect x="0" y="0" width="900" height="370" fill="url(#dots)"/>
-        <rect x="0" y="330" width="900" height="40" fill="#FFF0F3"/>
-
-        <!-- Tablero -->
-        <g id="board">
-          <rect x="70" y="60" width="230" height="160" rx="12" fill="#FFFFFF" stroke="#3B2238" stroke-width="4"/>
-          <rect x="60" y="220" width="250" height="12" rx="6" fill="#F3C9D3" stroke="#3B2238" stroke-width="3"/>
-          <text x="90" y="112" font-size="42" fill="#E63E7E">i3</text>
-          <polyline points="92,186 128,166 158,176 196,132 226,110" fill="none" stroke="#FF8C2E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="226" cy="110" r="6" fill="#E63E7E"/>
-          <path d="M262 76 c-6 -10 -20 -4 -14 8 c3 6 14 14 14 14 s11 -8 14 -14 c6 -12 -8 -18 -14 -8z" fill="#FF6FA3"/>
-          <path d="M254 112 l8 8 l14 -16" fill="none" stroke="#FF8C2E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="226" y="144" width="42" height="42" rx="4" fill="#FFE1CC" stroke="#3B2238" stroke-width="3" transform="rotate(-7 247 165)"/>
-          <path d="M236 158 h22 M236 168 h14" stroke="#C98B3E" stroke-width="3" stroke-linecap="round" transform="rotate(-7 247 165)"/>
-          <rect x="254" y="166" width="38" height="38" rx="4" fill="#FFD6DE" stroke="#3B2238" stroke-width="3" transform="rotate(6 273 185)"/>
-          <path d="M262 180 h20 M262 190 h12" stroke="#B5146E" stroke-width="3" stroke-linecap="round" transform="rotate(6 273 185)"/>
-        </g>
-
-        <!-- Reloj -->
-        <g id="clock">
-          <circle cx="334" cy="96" r="24" fill="#FFFFFF" stroke="#3B2238" stroke-width="4"/>
-          <path d="M334 80 v16 l10 6" fill="none" stroke="#3B2238" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="334" cy="96" r="3" fill="#FF6FA3"/>
-        </g>
-
-        <!-- Ventana -->
-        <g id="window">
-          <rect x="690" y="84" width="170" height="142" rx="14" fill="url(#skyg)" stroke="#3B2238" stroke-width="4"/>
-          <circle cx="822" cy="118" r="20" fill="#FFB347" stroke="#3B2238" stroke-width="3"/>
-          <path d="M728 176 c-16 0 -20 -22 -4 -24 c4 -16 30 -16 34 -2 c14 -6 28 11 16 26z" fill="#FFFFFF" stroke="#3B2238" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M775 84 v142 M690 155 h170" stroke="#3B2238" stroke-width="4"/>
-          <rect x="682" y="224" width="186" height="12" rx="6" fill="#F3C9D3" stroke="#3B2238" stroke-width="3"/>
-        </g>
-
-        <!-- Planta -->
-        <g id="plant">
-          <path d="M826 245 c-30 -40 -14 -70 8 -78 c16 10 26 44 -8 78z" fill="#5BC236" stroke="#3B2238" stroke-width="3"/>
-          <path d="M832 250 c-2 -44 22 -72 44 -68 c6 20 -8 56 -44 68z" fill="#7ED957" stroke="#3B2238" stroke-width="3"/>
-          <path d="M822 252 c-10 -36 -42 -50 -58 -40 c-2 22 20 46 58 40z" fill="#3E9A1E" stroke="#3B2238" stroke-width="3"/>
-          <path d="M796 250 h66 l-8 72 h-50z" fill="#FF7B6B" stroke="#3B2238" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="790" y="244" width="78" height="16" rx="6" fill="#FFA396" stroke="#3B2238" stroke-width="4"/>
-        </g>
-
-        <!-- Mascota de i3 (ilustración oficial en partes: cabeza, cuerpo, brazos) -->
-        <g id="mascot">
-          <g id="head">
-            <image href="mascota/cabeza.webp" x="360.5" y="55.5" width="171.3" height="169.0"/>
-            <g mask="url(#headMask)"><rect class="shine" x="361" y="40" width="70" height="200" fill="url(#shineG)"/></g>
-            <ellipse class="lid" cx="430.6" cy="148.1" rx="7" ry="13" fill="#8345C9"/>
-            <ellipse class="lid" cx="482.4" cy="144.1" rx="7" ry="13" fill="#5A9E89"/>
+        <g id="photo">
+          <image id="officeImg" href="mascota/oficina.webp" x="-10" y="-6" width="920" height="548" preserveAspectRatio="xMidYMid slice"/>
+          <!-- Galletas que se revuelven en el tazón (aparecen al revolver) -->
+          <g id="bowl" class="bowl" clip-path="url(#inBowl)">
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(304 296) rotate(-18 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(346 282) rotate(14 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(390 276) rotate(-6 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(434 274) rotate(20 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(478 276) rotate(-12 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(522 282) rotate(8 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(562 294) rotate(26 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(328 314) rotate(28 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(372 310) rotate(-22 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(416 308) rotate(10 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(460 310) rotate(-16 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(504 312) rotate(24 23 23)"/>
+            <use href="#fc" class="ck" width="46" height="46" transform="translate(546 318) rotate(-30 23 23)"/>
           </g>
-          <image id="bodyImg" href="mascota/cuerpo.webp" x="352.4" y="203.3" width="189.7" height="154.7"/>
-          <g id="armL"><image href="mascota/brazo-izq.webp" x="345.5" y="171.1" width="76.5" height="105.2"/></g>
-          <g id="armR">
-            <image href="mascota/brazo-der.webp" x="493.9" y="167.1" width="77.0" height="102.3"/>
-            <g id="drawn">
-              <g transform="translate(512 161)">
-                <rect class="slipmini" x="2" y="23" width="60" height="19" rx="2.5" fill="#FFFFFF" stroke="#3B2238" stroke-width="2"/>
-                <path d="M10 29.5 h44 M10 35.5 h34" stroke="#F3C9D3" stroke-width="1.6" class="slipmini"/>
-                <path class="flash" d="M32 14 l4 12 l12 -4 l-8 10 l8 10 l-12 -4 l-4 12 l-4 -12 l-12 4 l8 -10 l-8 -10 l12 4z" fill="#FFF6E5" stroke="#FFB347" stroke-width="2"/>
-                <use class="half half-l" href="#fc" clip-path="url(#clipL)"/>
-                <use class="half half-r" href="#fc" clip-path="url(#clipR)"/>
-                <g fill="#F8857A" stroke="#3B2238" stroke-width="1.2">
-                  <circle class="crumb" cx="32" cy="32" r="3" style="--dx:-26px;--dy:-30px;--rot:120deg"/>
-                  <circle class="crumb" cx="32" cy="32" r="2.4" style="--dx:24px;--dy:-34px;--rot:-90deg"/>
-                  <ellipse class="crumb" cx="32" cy="32" rx="3.4" ry="2.2" style="--dx:-34px;--dy:-6px;--rot:200deg"/>
-                  <ellipse class="crumb" cx="32" cy="32" rx="2.8" ry="2" style="--dx:34px;--dy:-10px;--rot:-160deg"/>
-                  <circle class="crumb" cx="32" cy="32" r="2.2" style="--dx:-16px;--dy:22px;--rot:60deg" fill="#FFF0C9"/>
-                  <circle class="crumb" cx="32" cy="32" r="2.6" style="--dx:18px;--dy:20px;--rot:-40deg" fill="#FFF0C9"/>
-                  <circle class="crumb" cx="32" cy="32" r="1.8" style="--dx:-6px;--dy:-40px;--rot:30deg"/>
-                  <circle class="crumb" cx="32" cy="32" r="2" style="--dx:8px;--dy:34px;--rot:-20deg"/>
-                </g>
-                <text class="crac" x="32" y="-6" text-anchor="middle" font-size="15" fill="#FF8C2E" stroke="#3B2238" stroke-width="1.2" paint-order="stroke" font-family="Luckiest Guy, Baloo 2, sans-serif">¡CRAC!</text>
+          <!-- La galleta que saca y muestra en la mano -->
+          <g id="drawn">
+            <g transform="translate(569 151)">
+              <path class="flash" d="M32 14 l4 12 l12 -4 l-8 10 l8 10 l-12 -4 l-4 12 l-4 -12 l-12 4 l8 -10 l-8 -10 l12 4z" fill="#FFF6E5" stroke="#FFB347" stroke-width="2"/>
+              <use class="half half-l" href="#fc" clip-path="url(#clipL)"/>
+              <use class="half half-r" href="#fc" clip-path="url(#clipR)"/>
+              <rect class="slipmini" x="-2" y="24" width="68" height="22" rx="3" fill="#FFFFFF" stroke="#3B2238" stroke-width="2"/>
+              <path d="M8 31 h52 M8 38 h40" stroke="#F3C9D3" stroke-width="1.8" class="slipmini"/>
+              <g fill="#F8857A" stroke="#3B2238" stroke-width="1.2">
+                <circle class="crumb" cx="32" cy="32" r="3" style="--dx:-26px;--dy:-30px;--rot:120deg"/>
+                <circle class="crumb" cx="32" cy="32" r="2.4" style="--dx:24px;--dy:-34px;--rot:-90deg"/>
+                <ellipse class="crumb" cx="32" cy="32" rx="3.4" ry="2.2" style="--dx:-34px;--dy:-6px;--rot:200deg"/>
+                <ellipse class="crumb" cx="32" cy="32" rx="2.8" ry="2" style="--dx:34px;--dy:-10px;--rot:-160deg"/>
+                <circle class="crumb" cx="32" cy="32" r="2.2" style="--dx:-16px;--dy:22px;--rot:60deg" fill="#FFF0C9"/>
+                <circle class="crumb" cx="32" cy="32" r="2.6" style="--dx:18px;--dy:20px;--rot:-40deg" fill="#FFF0C9"/>
+                <circle class="crumb" cx="32" cy="32" r="1.8" style="--dx:-6px;--dy:-40px;--rot:30deg"/>
+                <circle class="crumb" cx="32" cy="32" r="2" style="--dx:8px;--dy:34px;--rot:-20deg"/>
               </g>
+              <text class="crac" x="32" y="-8" text-anchor="middle" font-size="15" fill="#FF8C2E" stroke="#3B2238" stroke-width="1.2" paint-order="stroke" font-family="Luckiest Guy, Baloo 2, sans-serif">¡CRAC!</text>
             </g>
           </g>
+          <!-- Chispas -->
+          <g id="sparks" fill="#FFB347" stroke="#3B2238" stroke-width="2">
+            <path class="spark" style="--d:0s" d="M300 250 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5z"/>
+            <path class="spark" style="--d:.18s" d="M620 262 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5z" fill="#FF6FA3"/>
+            <path class="spark" style="--d:.36s" d="M470 246 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#E63E7E"/>
+            <path class="spark" style="--d:.27s" d="M380 240 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF8C2E"/>
+            <path class="spark" style="--d:.09s" d="M656 150 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FFB347"/>
+            <path class="spark" style="--d:.45s" d="M560 130 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF6FA3"/>
+          </g>
+          <g id="deskCookies"></g>
         </g>
-
         <!-- Globo de diálogo -->
         <g id="bubble" hidden>
-          <rect id="bubbleBox" x="548" y="26" width="200" height="52" rx="18" fill="#FFFFFF" stroke="#3B2238" stroke-width="3"/>
-          <polygon id="bubbleTail" points="566,76 594,76 546,104" fill="#FFFFFF" stroke="#3B2238" stroke-width="3" stroke-linejoin="round"/>
-          <rect id="bubbleCover" x="568" y="72" width="24" height="8" fill="#FFFFFF"/>
-          <text id="bubbleText" x="568" y="60" font-size="19" fill="#3B2238"></text>
+          <rect id="bubbleBox" x="588" y="18" width="200" height="52" rx="18" fill="#FFFFFF" stroke="#3B2238" stroke-width="3"/>
+          <polygon id="bubbleTail" points="606,68 634,68 586,96" fill="#FFFFFF" stroke="#3B2238" stroke-width="3" stroke-linejoin="round"/>
+          <rect id="bubbleCover" x="608" y="64" width="24" height="8" fill="#FFFFFF"/>
+          <text id="bubbleText" x="608" y="52" font-size="19" fill="#3B2238"></text>
         </g>
-
-        <!-- Escritorio -->
-        <g id="desk">
-          <rect x="60" y="364" width="780" height="200" fill="url(#woodf)" stroke="#3B2238" stroke-width="4"/>
-          <path d="M90 410 h160 M90 470 h160 M650 410 h160 M650 470 h160" stroke="#B46A42" stroke-width="4" stroke-linecap="round" opacity=".7"/>
-          <rect x="30" y="334" width="840" height="36" rx="14" fill="url(#wood)" stroke="#3B2238" stroke-width="4"/>
-        </g>
-
-        <!-- Laptop -->
-        <g id="laptop">
-          <path d="M160 250 h96 l6 78 h-108 z" fill="#F3C9D3" stroke="#3B2238" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M170 258 h78 l5 62 h-88 z" fill="#FFF0F3"/>
-          <text x="196" y="306" font-size="36" fill="#E63E7E">R</text>
-          <rect x="140" y="326" width="140" height="12" rx="6" fill="#F0D4DC" stroke="#3B2238" stroke-width="4"/>
-        </g>
-
-        <!-- Taza -->
-        <g id="mug">
-          <path d="M672 300 h44 v38 a10 10 0 0 1 -10 10 h-24 a10 10 0 0 1 -10 -10 z" fill="#FF6FA3" stroke="#3B2238" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M716 310 h10 a10 10 0 0 1 0 20 h-10" fill="none" stroke="#3B2238" stroke-width="4"/>
-          <path d="M684 290 c-4 -8 4 -10 0 -18 M700 290 c-4 -8 4 -10 0 -18" fill="none" stroke="#F3C9D3" stroke-width="3" stroke-linecap="round"/>
-        </g>
-
-        <!-- Tazón de galletas -->
-        <g id="bowl" class="bowl">
-          <path d="M300 337 C300 384 342 424 450 424 C558 424 600 384 600 337 Z" fill="#FF8C2E" stroke="#3B2238" stroke-width="4" stroke-linejoin="round"/>
-          <ellipse cx="450" cy="337" rx="150" ry="28" fill="#C8521C" stroke="#3B2238" stroke-width="4"/>
-          <g id="bowlCookies" clip-path="url(#inBowl)">
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(307 304) rotate(-18 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(353 294) rotate(14 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(399 288) rotate(-6 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(445 292) rotate(20 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(491 296) rotate(-12 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(535 306) rotate(8 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(327 320) rotate(28 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(377 316) rotate(-22 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(429 314) rotate(10 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(479 318) rotate(-16 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(525 324) rotate(24 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(407 302) rotate(38 24 24)"/>
-            <use href="#fc" class="ck" width="48" height="48" transform="translate(461 306) rotate(-32 24 24)"/>
-          </g>
-          <path d="M300 337 A150 28 0 0 0 600 337" fill="none" stroke="#FFB063" stroke-width="10"/>
-          <path d="M300 337 A150 28 0 0 0 600 337" fill="none" stroke="#3B2238" stroke-width="4"/>
-          <path d="M300 337 A150 28 0 0 1 600 337" fill="none" stroke="#3B2238" stroke-width="4"/>
-        </g>
-
-        <!-- Chispas -->
-        <g id="sparks" fill="#FFB347" stroke="#3B2238" stroke-width="2">
-          <path class="spark" style="--d:0s" d="M330 280 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5z"/>
-          <path class="spark" style="--d:.18s" d="M585 270 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5z" fill="#FF6FA3"/>
-          <path class="spark" style="--d:.36s" d="M470 262 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#E63E7E"/>
-          <path class="spark" style="--d:.27s" d="M400 270 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF8C2E"/>
-          <path class="spark" style="--d:.09s" d="M600 160 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FFB347"/>
-        </g>
-
-        <!-- Galletas sobre la mesa: una por recomendación -->
-        <g id="deskCookies"></g>
       </svg>
 
     </div>
@@ -751,7 +544,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span>Lo que pasa en esta pantalla se guarda solo en este navegador.</span>
-  <span class="ver">versión 2026-10-24 17:47</span>
+  <span class="ver">versión 2026-10-24 17:56</span>
 </footer>
 
 <script>
@@ -792,10 +585,7 @@ const RECS = [
     a:"Acelerar implica fuerza, energía y desgaste. Guarda silencio un momento, pide aclaraciones y piensa despacio. Ahorras energía y errores." }
 ];
 /* Dónde está cada galleta sobre la mesa (x, y, giro) */
-const DESK_SPOTS = [
-  [90,400,-20],[150,445,15],[80,500,30],[200,500,-10],[262,420,25],[140,390,-35],[232,470,5],
-  [620,405,10],[690,450,-25],[760,400,20],[822,470,-5],[700,510,30],[630,500,-15],[770,520,12],[850,420,35]
-];
+const DESK_SPOTS = []; // la ilustración ya trae galletas sobre el escritorio
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 /* ---------- Estado ---------- */
@@ -879,6 +669,8 @@ function say(text){
   try { w = t.getComputedTextLength(); } catch(e){ w = text.length * 11; }
   const width = Math.min(Math.max(w + 40, 120), 340);
   box.setAttribute("width", width);
+  const bx = Math.max(300, Math.min(588, 880 - width)); box.setAttribute("x", bx); t.setAttribute("x", bx + 20);
+  $("bubbleTail").setAttribute("points", `${bx+18},68 ${bx+46},68 ${bx-2},96`); $("bubbleCover").setAttribute("x", bx + 20);
   g.classList.remove("pop"); void g.getBBox(); g.classList.add("pop");
 }
 function bubbleFor(){
