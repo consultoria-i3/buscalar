@@ -238,6 +238,16 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .student .s-done{font-weight:800;text-align:center;color:var(--green-dk)}
 .student .s-done.no{color:var(--rose)}
 
+/* Inicio del docente: desfile de galletas y galletas flotando */
+.cookie-parade{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 16px}
+.cookie-parade svg{width:66px;height:66px;overflow:visible;animation:paradeBounce 1.7s ease-in-out infinite;animation-delay:calc(var(--i) * .13s);filter:drop-shadow(0 6px 0 rgba(59,34,56,.12))}
+@keyframes paradeBounce{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-16px) rotate(7deg)}}
+.float-cookies{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;display:none}
+body.is-start .float-cookies{display:block}
+.float-cookies svg{position:absolute;overflow:visible;left:var(--x);bottom:-90px;width:var(--s);height:var(--s);opacity:.85;animation:floatUp var(--t) linear infinite;animation-delay:var(--d)}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-55vh) translateX(18px) rotate(180deg)}100%{transform:translateY(-115vh) translateX(-10px) rotate(360deg)}}
+.brand,main{position:relative;z-index:1}
+
 /* Inicio del docente */
 .start-form{display:grid;gap:12px;max-width:520px;margin:0 auto;justify-items:stretch}
 .start-form .field{max-width:none}
@@ -392,6 +402,9 @@ details.howto[open] summary::after{content:"\2212"}
 </head>
 <body>
 
+<div class="float-cookies" id="floatCookies" aria-hidden="true">
+  <svg viewBox="0 0 64 64" style="--x:6%;--d:0s;--s:54px;--t:19s"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--x:18%;--d:-6s;--s:38px;--t:23s"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--x:31%;--d:-12s;--s:46px;--t:21s"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--x:68%;--d:-3s;--s:42px;--t:24s"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--x:82%;--d:-9s;--s:60px;--t:20s"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--x:93%;--d:-15s;--s:36px;--t:22s"><use href="#fc"/></svg>
+</div>
 <header class="brand">
   <div class="site">relacion.at</div>
   <span class="badge">🌷 Relaciónate más, vas por más</span>
@@ -400,6 +413,13 @@ details.howto[open] summary::after{content:"\2212"}
 </header>
 
 <main>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="fc" viewBox="0 0 64 64" overflow="visible"><image href="mascota/galleta.webp" x="0" y="0" width="64" height="64"/></symbol>
+      <clipPath id="clipL"><polygon points="0,0 34,0 29,12 36,24 28,38 35,52 30,64 0,64"/></clipPath>
+      <clipPath id="clipR"><polygon points="34,0 64,0 64,64 30,64 35,52 28,38 36,24 29,12"/></clipPath>
+    </defs>
+  </svg>
   <section class="card student" id="studentView" hidden aria-labelledby="studentTitle">
     <div class="card-head">
       <h2 id="studentTitle">Tu pantalla</h2>
@@ -421,6 +441,9 @@ details.howto[open] summary::after{content:"\2212"}
     <div class="card-head">
       <h2 id="startTitle">Crear la sala</h2>
       <span class="hint">Una sala por sesión. Los estudiantes entran con el código o el QR desde su celular.</span>
+    </div>
+    <div class="cookie-parade" aria-hidden="true">
+      <svg viewBox="0 0 64 64" style="--i:0"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--i:1"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--i:2"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--i:3"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--i:4"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--i:5"><use href="#fc"/></svg><svg viewBox="0 0 64 64" style="--i:6"><use href="#fc"/></svg>
     </div>
     <form class="start-form" id="startForm" autocomplete="off">
       <div class="field"><label for="moduloInput">Módulo que se está dictando</label><input id="moduloInput" type="text" maxlength="60" placeholder="Ej.: Relaciones laborales"></div>
@@ -446,18 +469,6 @@ details.howto[open] summary::after{content:"\2212"}
       <svg class="scene" id="scene" viewBox="0 0 900 560" aria-labelledby="sceneDesc" role="img">
         <title id="sceneDesc">Oficina con i3sit@, la mascota de i3, detrás de un escritorio con un tazón de galletas rosadas con R</title>
         <defs>
-          <symbol id="fc" viewBox="0 0 64 64" overflow="visible">
-            <circle cx="32" cy="32" r="29" fill="url(#ckg)" stroke="#3B2238" stroke-width="3"/>
-            <ellipse cx="22" cy="19" rx="12" ry="7" fill="#FFFFFF" opacity=".22" transform="rotate(-30 22 19)"/>
-            <g fill="#FFF0C9" stroke="#E0B873" stroke-width="1.5">
-              <circle cx="15" cy="24" r="3.4"/><circle cx="44" cy="13" r="3.2"/><circle cx="52" cy="34" r="3.4"/><circle cx="13" cy="42" r="3.2"/>
-              <circle cx="46" cy="51" r="3.4"/><circle cx="28" cy="55" r="3"/><circle cx="27" cy="10" r="2.6"/><circle cx="50" cy="22" r="2.4"/>
-            </g>
-            <text x="32" y="44" text-anchor="middle" font-size="30" fill="#FFF6E5" stroke="#3B2238" stroke-width="1.6" paint-order="stroke" font-family="Luckiest Guy, Baloo 2, sans-serif">R</text>
-          </symbol>
-          <radialGradient id="ckg" cx=".4" cy=".35" r=".75"><stop offset="0" stop-color="#FFA093"/><stop offset=".7" stop-color="#F8857A"/><stop offset="1" stop-color="#E86A62"/></radialGradient>
-          <clipPath id="clipL"><polygon points="0,0 34,0 29,12 36,24 28,38 35,52 30,64 0,64"/></clipPath>
-          <clipPath id="clipR"><polygon points="34,0 64,0 64,64 30,64 35,52 28,38 36,24 29,12"/></clipPath>
           <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD6E0"/><stop offset="1" stop-color="#FFF3E6"/></linearGradient>
           <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C9A3"/><stop offset="1" stop-color="#E8A77A"/></linearGradient>
           <linearGradient id="woodf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E0996E"/><stop offset="1" stop-color="#C97F55"/></linearGradient>
@@ -740,7 +751,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span>Lo que pasa en esta pantalla se guarda solo en este navegador.</span>
-  <span class="ver">versión 2026-10-24 17:43</span>
+  <span class="ver">versión 2026-10-24 17:47</span>
 </footer>
 
 <script>
@@ -889,6 +900,7 @@ function bubbleFor(){
 function renderStage(){
   const total = RECS.length, n = state.opened.length, pool = unopened();
   $("stageHint").textContent = `${n} de ${total} galletas abiertas · Ronda ${state.round}`;
+  document.body.classList.toggle("is-start", live.mode !== "student" && !state.started);
   if (live.mode !== "student"){
     $("startCard").hidden = state.started; $("teacherCard").hidden = !state.started;
     document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard)").forEach(el => el.hidden = !state.started);
