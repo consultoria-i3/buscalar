@@ -427,10 +427,6 @@ details.howto[open] summary::after{content:"\2212"}
       <div class="field"><label for="docenteInput">Nombre del docente</label><input id="docenteInput" type="text" maxlength="40" placeholder="Ej.: Ana Pérez"></div>
       <div class="votebar"><button class="btn btn-play btn-xl" type="submit" id="createRoomBtn" disabled>Crear sala y jugar</button></div>
     </form>
-    <div class="resume" id="resumeBox" hidden>
-      <p class="note" id="resumeText"></p>
-      <button class="btn btn-sm" type="button" id="resumeBtn">Continuar esa sala</button>
-    </div>
     '<form class="join" id="joinForm" autocomplete="off">
       <span class="lab">¿Eres estudiante?</span>
       <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala">
@@ -744,7 +740,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span>Lo que pasa en esta pantalla se guarda solo en este navegador.</span>
-  <span class="ver">versión 2026-10-24 17:39</span>
+  <span class="ver">versión 2026-10-24 17:43</span>
 </footer>
 
 <script>
@@ -824,12 +820,7 @@ function save(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } ca
 function load(){
   let d = null;
   try { d = JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch(e){}
-  if (d && typeof d === "object" && d.started){
-    prev = Object.assign(fresh(), d);
-    if (["stirring","lifting","opening"].includes(prev.phase)) prev.phase = "revealed";
-    if (prev.phase !== "idle" && (prev.current === null || prev.current === undefined)) prev.phase = "idle";
-  }
-  state = fresh(); // siempre se entra por la pantalla de inicio
+  state = fresh(); // siempre se entra por la pantalla de inicio: cada sesión es una sala nueva
 }
 
 function toast(msg){
@@ -1160,46 +1151,7 @@ function renderReset(){
 }
 
 function renderAll(){ renderStage(); renderTray(); renderTable(); renderLog(); renderReset(); }
-function renderStart(){
-  const box = $("resumeBox"); if (!prev){ box.hidden = true; return; }
-  box.hidden = false;
-  const t = $("resumeText"); t.replaceChildren();
-  t.append("Hay una sala guardada en este navegador: ", h("b", null, prev.modulo || "sin módulo"), " · ", h("b", null, prev.docente || "sin docente"), ` · ${prev.opened.length} de ${RECS.length} galletas abiertas, ronda ${prev.round}.`);
-}
-
-function showStudentView(){
-  $("studentView").hidden = false;
-  $("teacherCard").hidden = true;
-  document.querySelectorAll(".teacher-only").forEach(el => el.hidden = true);
-}
-function renderStudentShell(){
-  const t = live.teacher, info = $("sInfo"); info.replaceChildren();
-  if (t && (t.modulo || t.docente)) info.append("Módulo: ", h("b", null, t.modulo || "—"), " · Docente: ", h("b", null, t.docente || "—"));
-  else if (live.code) info.append("Sala ", h("b", null, live.code));
-  $("nickForm").hidden = live.registered;
-  $("sHello").hidden = !live.registered;
-  $("sStage").hidden = !live.registered;
-  if (live.registered) $("sHelloText").textContent = `¡Hola, ${live.nick}! Ya estás participando.`;
-}
-function wireNick(onRegister){
-  const input = $("nickInput"), btn = $("nickBtn");
-  try { live.nick = localStorage.getItem("buscalar-nick") || ""; } catch(e){}
-  input.value = live.nick;
-  const valid = ()=> input.value.trim().length >= 2;
-  btn.disabled = !valid();
-  input.addEventListener("input", ()=>{ btn.disabled = !valid(); });
-  $("nickForm").addEventListener("submit", e=>{
-    e.preventDefault();
-    if (!valid()){ input.focus(); return; }
-    live.nick = input.value.trim().slice(0,30);
-    try { localStorage.setItem("buscalar-nick", live.nick); } catch(e){}
-    live.registered = true;
-    renderStudentShell(); onRegister(); renderStudent();
-  });
-  $("changeNickBtn").addEventListener("click", ()=>{ live.registered = false; renderStudentShell(); input.focus(); });
-  renderStudentShell();
-}
-
+function renderStart(){}
 
 /* ---------- Sala en vivo con Supabase: el docente proyecta, los estudiantes votan desde su celular ---------- */
 const SUPA_URL = "https://aqgjmakpqcorkxpolmpa.supabase.co";
@@ -1420,10 +1372,6 @@ function start(){
     state.modulo = $("moduloInput").value.trim().slice(0,60); state.docente = $("docenteInput").value.trim().slice(0,40);
     save(); renderAll(); flashScene("is-enter", 1000); live.onCreate();
     $("nameInput").focus({preventScroll:true});
-  });
-  $("resumeBtn").addEventListener("click", ()=>{
-    if (!prev) return;
-    state = prev; state.started = true; save(); renderAll(); live.onResume();
   });
   renderStart();
   $("joinForm").addEventListener("submit", e=>{
