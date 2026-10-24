@@ -7,3 +7,6 @@ tablas `buscalar_*`): el docente proyecta, los estudiantes entran con el código
 1. Importar este repositorio en Vercel (Add New → Project). Framework: Other. Sin comando de build.
 2. Settings → Domains → agregar `buscalar.relacion.at`.
 3. En GoDaddy (DNS de relacion.at) crear el registro CNAME que Vercel indique para `buscalar`.
+
+## Publicación
+Conectado a Vercel (proyecto `buscalar-vercel`): cada push a `main` se despliega en https://buscalar.relacion.at
