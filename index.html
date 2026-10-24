@@ -384,7 +384,7 @@ details.howto[open] summary::after{content:"\2212"}
   <div class="site">relacion.at</div>
   <span class="badge">🌷 Relaciónate más, vas por más</span>
   <h1>Galletas de la R</h1>
-  <p class="tag">i3sit@ revuelve el tazón y sacará una recomendación. Ponle la R si tú le das la razón.</p>
+  <p class="tag">i3sit@ revuelve el tazón y sacará un hábito. Ponle la R si tú le das la razón.</p>
 </header>
 
 <main>
@@ -616,11 +616,11 @@ details.howto[open] summary::after{content:"\2212"}
         <div class="slip-paper" id="slipPaper"></div>
         <div class="teacher-box" id="teacherBox">
           <span class="who">🧑‍🏫 Turno del participante</span>
-          <p class="note">Quien sacó la galleta cuenta qué haría. Cuando termine, el docente muestra la recomendación.</p>
-          <button class="btn btn-teacher btn-xl" id="showRecBtn">Mostrar la recomendación</button>
+          <p class="note">Quien sacó la galleta cuenta qué haría. Cuando termine, el docente abre la votación.</p>
+          <button class="btn btn-teacher btn-xl" id="showRecBtn">Abrir la votación</button>
         </div>
         <div class="live" id="liveBox" hidden>
-          <p class="ask">Votación en vivo: ¿le ponen la R?</p>
+          <p class="ask" id="liveAsk">Votación en vivo: ¿le ponen la R?</p>
           <div class="count" id="liveCount">0 <small>de 0 respondieron</small></div>
           <div class="progress"><span id="liveBar" style="width:0%"></span></div>
           <div class="dots" id="liveDots"></div>
@@ -631,7 +631,7 @@ details.howto[open] summary::after{content:"\2212"}
           <button class="linklike" id="manualVoteBtn" type="button">Registrar el voto del grupo a mano</button>
         </div>
         <div class="vote" id="voteBox" hidden>
-          <p class="ask">¿Le das la razón a esta recomendación?</p>
+          <p class="ask" id="voteAsk">¿Le das la razón? Ponle la R</p>
           <div class="votebar">
             <button class="btn btn-si btn-xl" id="yesBtn"><span class="rb">R</span> Sí, le pongo la R</button>
             <button class="btn btn-no btn-xl" id="noBtn"><span class="rb">R</span> No le pongo la R</button>
@@ -705,8 +705,8 @@ details.howto[open] summary::after{content:"\2212"}
         <li><strong>Pasa al frente.</strong> Un estudiante escribe su nombre (o no) y toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece el hábito.</li>
         <li><strong>Turno del participante.</strong> Lee el hábito en voz alta y cuenta qué haría en esa situación.</li>
-        <li><strong>El docente muestra la recomendación.</strong> Cuando el participante termina, el docente toca «Mostrar la recomendación» y se lee para el grupo.</li>
-        <li><strong>Ponle la R.</strong> Si hay estudiantes conectados desde su celular, cada uno vota «Sí, le pongo la R» o «No» en su pantalla; cuando todos responden, aparecen los totales en la pantalla del docente. Si no hay sala, el docente registra el voto del grupo con los botones.</li>
+        <li><strong>El docente abre la votación.</strong> Cuando el participante termina, el docente toca «Abrir la votación».</li>
+        <li><strong>Ponle la R.</strong> El grupo decide si le da la razón al participante. Si hay estudiantes conectados desde su celular, cada uno vota «Sí, le pongo la R» o «No» en su pantalla; cuando todos responden, aparecen los totales en la pantalla del docente. Si no hay sala, el docente registra el voto del grupo con los botones. La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al tocar JUGAR se crea una sala con un código y un QR. Los estudiantes lo escanean (o entran a buscalar.relacion.at y escriben el código), ponen su nombre y votan. No necesitan cuenta.</li>
         <li><strong>Siguiente galleta.</strong> Cada galleta sale una sola vez por ronda; cuando se acaban, se hornea otra ronda y las R se siguen sumando. La tabla muestra cuál convenció más.</li>
       </ol>
@@ -717,7 +717,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span>Lo que pasa en esta pantalla se guarda solo en este navegador.</span>
-  <span class="ver">versión 2026-10-24 17:25</span>
+  <span class="ver">versión 2026-10-24 17:26</span>
 </footer>
 
 <script>
@@ -856,7 +856,7 @@ function bubbleFor(){
     case "stirring": return "Mmm… ¿cuál será?";
     case "lifting": return "¡Esta!";
     case "revealed": return "¿Qué harías tú?";
-    case "advised": return "¿Le das la razón?";
+    case "advised": return "¿Le dan la razón?";
     case "voted": return state.lastVote ? "¡Esa es la R!" : "Bueno… ¿y por qué no?";
   }
   if (!pool.length) return "¡Se acabaron! ¿Otra ronda?";
@@ -916,10 +916,9 @@ function renderSlip(){
       row.classList.add("break");
     });
   }
-  const withRec = state.phase === "advised";
-  if (withRec){
-    paper.append(h("div",{class:"paper rec" + (state.phase === "advised" ? " reveal-in" : "")}, h("div",{class:"label"}, h("span",{class:"letter"},"A"), "La recomendación"), h("p",{class:"big"}, rec.a)));
-  }
+  const whoAsk = state.name ? `¿Le das la razón a ${state.name}? Ponle la R` : "¿Le das la razón? Ponle la R";
+  $("voteAsk").textContent = whoAsk;
+  $("liveAsk").textContent = state.name ? `Votación en vivo: ¿le dan la razón a ${state.name}?` : "Votación en vivo: ¿le dan la razón?";
   const conf = h("div",{class:"confetti",id:"confetti","aria-hidden":"true"});
   const colors = ["#FF6FA3","#E63E7E","#FF8C2E","#FFB347","#5BC236","#FFD166"];
   for (let i=0;i<18;i++){
@@ -948,10 +947,10 @@ function renderSlip(){
       tb.append(h("div",{class:"total pro"}, h("div",{class:"big-n"}, c.pro), h("div",{class:"lab"}, "le ponen la R")),
                 h("div",{class:"total con", style:"animation-delay:.12s"}, h("div",{class:"big-n"}, c.con), h("div",{class:"lab"}, "no le ponen la R")));
       const verdict = c.pro > c.con ? "La clase le puso la R" : c.pro < c.con ? "La clase no le puso la R" : "Empate: la clase se dividió";
-      res.append(h("b",{class: c.pro > c.con ? "" : "no"}, verdict), ` · recomendación #${idx+1}` + (state.name ? `, sacada por ${state.name}.` : "."), h("span",{class:"cn"}, `${c.total === 1 ? "1 estudiante respondió" : c.total + " estudiantes respondieron"}. Acumulado: ${t.pro} con R y ${t.con} sin R.`));
+      res.append(h("b",{class: c.pro > c.con ? "" : "no"}, verdict), (state.name ? ` a ${state.name}` : "") + ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${c.total === 1 ? "1 estudiante respondió" : c.total + " estudiantes respondieron"}. Acumulado: ${t.pro} con R y ${t.con} sin R.`));
     } else {
       const yes = state.lastVote === true;
-      res.append(name, yes ? " le puso la " : " no le puso la ", h("b",{class: yes ? "" : "no"}, "R"), ` a la recomendación #${idx+1}.`, h("span",{class:"cn"}, `Va ${t.pro} con R y ${t.con} sin R.`));
+      res.append("El grupo", yes ? " le puso la " : " no le puso la ", h("b",{class: yes ? "" : "no"}, "R"), (state.name ? ` a ${state.name}` : "") + ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `Va ${t.pro} con R y ${t.con} sin R.`));
     }
     $("nextBtn").textContent = unopened().length ? "Siguiente galleta 🍪" : "Terminar la ronda 🏁";
   }
@@ -1291,7 +1290,7 @@ function renderStudent(){
   box.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1))), t.name ? h("span", null, "sacada por ", h("b", null, t.name)) : null));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.r : null;
   if (t.phase === "advised"){
-    box.append(h("p",{class:"ask", style:"font-family:var(--font-display);color:var(--rose);font-size:1.25rem;text-align:center"}, "Mira la recomendación en la pantalla. ¿Le das la razón?"));
+    box.append(h("p",{class:"ask", style:"font-family:var(--font-display);color:var(--rose);font-size:1.25rem;text-align:center"}, t.name ? `¿Le das la razón a ${t.name}? Ponle la R` : "¿Le das la razón? Ponle la R"));
     const yes = h("button",{class:"btn btn-si btn-xl" + (mine === true ? " chosen" : ""), type:"button", onclick: ()=>studentVote(true, t)}, h("span",{class:"rb"},"R"), " Sí, le pongo la R");
     const no = h("button",{class:"btn btn-no btn-xl" + (mine === false ? " chosen" : ""), type:"button", onclick: ()=>studentVote(false, t)}, h("span",{class:"rb"},"R"), " No le pongo la R");
     box.append(h("div",{class:"votebar"}, yes, no));
@@ -1300,7 +1299,7 @@ function renderStudent(){
   }
   box.append(h("div",{class:"paper hab"}, h("div",{class:"label"}, h("span",{class:"letter"},"H"), "El hábito"), h("p",{class:"big"}, rec.h)));
   if (t.phase === "revealed"){
-    box.append(h("p",{class:"note"}, "Escucha a quien sacó la galleta. Cuando el docente muestre la recomendación en la pantalla, aquí aparecerán los botones para votar."));
+    box.append(h("p",{class:"note"}, "Escucha a quien sacó la galleta. Cuando el docente abra la votación, aquí aparecerán los botones."));
     return;
   }
   if (t.phase === "advised") return;
