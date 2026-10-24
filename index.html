@@ -238,6 +238,18 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .student .s-done{font-weight:800;text-align:center;color:var(--green-dk)}
 .student .s-done.no{color:var(--rose)}
 
+/* Inicio del docente */
+.start-form{display:grid;gap:12px;max-width:520px;margin:0 auto;justify-items:stretch}
+.start-form .field{max-width:none}
+.start-form .votebar{margin-top:4px}
+.resume{margin:18px auto 0;max-width:520px;display:grid;gap:8px;justify-items:center;border:3px dashed #F3C9D3;border-radius:16px;padding:12px}
+.resume .note{max-width:none}
+.session-info{margin:-6px 0 12px;font-weight:700;color:var(--muted)}
+.session-info b{color:var(--rose)}
+.s-info{font-weight:700;color:var(--muted);margin-bottom:4px}
+.s-info b{color:var(--rose)}
+.s-hello{font-weight:800;color:var(--green-dk);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+
 /* Controles bajo la escena */
 .controls{display:grid;gap:16px;justify-items:center;margin-top:16px}
 .idle-controls{display:grid;gap:14px;justify-items:center;width:100%}
@@ -393,23 +405,46 @@ details.howto[open] summary::after{content:"\2212"}
       <h2 id="studentTitle">Tu pantalla</h2>
       <span class="pill" id="sPill"><span class="dot"></span><span id="sPillText">Conectando…</span></span>
     </div>
+    <div class="s-info" id="sInfo"></div>
     <form class="field nick-form" id="nickForm" autocomplete="off">
       <label for="nickInput">Tu nombre</label>
       <div class="nick-row">
-        <input id="nickInput" type="text" maxlength="30" placeholder="Escribe tu nombre" autocomplete="nickname" enterkeyhint="done">
-        <button class="btn btn-si btn-sm" type="submit" id="nickBtn">Listo</button>
+        <input id="nickInput" type="text" maxlength="30" placeholder="Escribe tu nombre para participar" autocomplete="nickname" enterkeyhint="go">
+        <button class="btn btn-si btn-sm" type="submit" id="nickBtn" disabled>Participar</button>
       </div>
-      <p class="nick-ok" id="nickOk" hidden></p>
     </form>
-    <div class="s-stage" id="sStage"></div>
+    <div class="s-hello" id="sHello" hidden><span id="sHelloText"></span> <button class="linklike" type="button" id="changeNickBtn">Cambiar nombre</button></div>
+    <div class="s-stage" id="sStage" hidden></div>
   </section>
 
-  <section class="card" id="teacherCard" aria-labelledby="stageTitle">
+  <section class="card teacher-only" id="startCard" aria-labelledby="startTitle">
+    <div class="card-head">
+      <h2 id="startTitle">Crear la sala</h2>
+      <span class="hint">Una sala por sesión. Los estudiantes entran con el código o el QR desde su celular.</span>
+    </div>
+    <form class="start-form" id="startForm" autocomplete="off">
+      <div class="field"><label for="moduloInput">Módulo que se está dictando</label><input id="moduloInput" type="text" maxlength="60" placeholder="Ej.: Relaciones laborales"></div>
+      <div class="field"><label for="docenteInput">Nombre del docente</label><input id="docenteInput" type="text" maxlength="40" placeholder="Ej.: Ana Pérez"></div>
+      <div class="votebar"><button class="btn btn-play btn-xl" type="submit" id="createRoomBtn" disabled>Crear sala y jugar</button></div>
+    </form>
+    <div class="resume" id="resumeBox" hidden>
+      <p class="note" id="resumeText"></p>
+      <button class="btn btn-sm" type="button" id="resumeBtn">Continuar esa sala</button>
+    </div>
+    '<form class="join" id="joinForm" autocomplete="off">
+      <span class="lab">¿Eres estudiante?</span>
+      <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala">
+      <button class="btn btn-sm" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <section class="card" id="teacherCard" hidden aria-labelledby="stageTitle">
     <div class="card-head">
       <h2 id="stageTitle">La oficina de i3sit@</h2>
       <span class="hint" id="stageHint">0 de 15 galletas abiertas · Ronda 1</span>
       <span class="pill" id="roomPill" hidden><span class="dot"></span><span id="roomText">Sala</span></span>
     </div>
+    <p class="session-info" id="sessionInfo"></p>
 
     <div class="scene-wrap" id="sceneWrap">
       <svg class="scene" id="scene" viewBox="0 0 900 560" aria-labelledby="sceneDesc" role="img">
@@ -583,14 +618,6 @@ details.howto[open] summary::after{content:"\2212"}
         <g id="deskCookies"></g>
       </svg>
 
-      <div class="intro" id="intro">
-        <button class="btn btn-play" id="playBtn">JUGAR</button>
-        <form class="join" id="joinForm" autocomplete="off">
-          <span class="lab">¿Eres estudiante?</span>
-          <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala">
-          <button class="btn btn-sm" type="submit">Entrar</button>
-        </form>
-      </div>
     </div>
 
     <div class="controls" id="controls" hidden>
@@ -717,7 +744,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span>Lo que pasa en esta pantalla se guarda solo en este navegador.</span>
-  <span class="ver">versión 2026-10-24 17:26</span>
+  <span class="ver">versión 2026-10-24 17:34</span>
 </footer>
 
 <script>
@@ -767,8 +794,9 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 /* ---------- Estado ---------- */
 const LS_KEY = "galleta-de-la-r-v3";
 const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const fresh = () => ({ started:false, opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastCounts:null, name:"", liveVotes:{} });
+const fresh = () => ({ started:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastCounts:null, name:"", liveVotes:{} });
 let state = fresh();
+let prev = null; // sala anterior guardada en este navegador (para "Continuar")
 let timers = [];
 let returning = false;
 
@@ -794,12 +822,14 @@ const SHOWING = ["revealed","advised","voted"];
 
 function save(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){} }
 function load(){
-  try {
-    const d = JSON.parse(localStorage.getItem(LS_KEY) || "null");
-    if (d && typeof d === "object") state = Object.assign(fresh(), d);
-  } catch(e){}
-  if (["stirring","lifting","opening"].includes(state.phase)) state.phase = "revealed";
-  if (state.phase !== "idle" && (state.current === null || state.current === undefined)) state.phase = "idle";
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch(e){}
+  if (d && typeof d === "object" && d.started){
+    prev = Object.assign(fresh(), d);
+    if (["stirring","lifting","opening"].includes(prev.phase)) prev.phase = "revealed";
+    if (prev.phase !== "idle" && (prev.current === null || prev.current === undefined)) prev.phase = "idle";
+  }
+  state = fresh(); // siempre se entra por la pantalla de inicio
 }
 
 function toast(msg){
@@ -850,7 +880,7 @@ function say(text){
   g.classList.remove("pop"); void g.getBBox(); g.classList.add("pop");
 }
 function bubbleFor(){
-  if (!state.started) return "¡Hola! Toca JUGAR";
+  if (!state.started) return "¡Hola! Crea la sala";
   const pool = unopened();
   switch (state.phase){
     case "stirring": return "Mmm… ¿cuál será?";
@@ -868,8 +898,10 @@ function bubbleFor(){
 function renderStage(){
   const total = RECS.length, n = state.opened.length, pool = unopened();
   $("stageHint").textContent = `${n} de ${total} galletas abiertas · Ronda ${state.round}`;
-  $("intro").hidden = state.started;
+  if (live.mode !== "student"){ $("startCard").hidden = state.started; $("teacherCard").hidden = !state.started; }
   $("controls").hidden = !state.started;
+  const si = $("sessionInfo"); si.replaceChildren();
+  if (state.modulo || state.docente) si.append("Módulo: ", h("b", null, state.modulo || "—"), " · Docente: ", h("b", null, state.docente || "—"));
   const showing = SHOWING.includes(state.phase);
   if (showing) setScene("is-lifting","is-open"); else if (state.phase === "idle" && !returning) setScene();
   $("idleControls").hidden = !(state.phase === "idle" && pool.length > 0);
@@ -1125,26 +1157,44 @@ function renderReset(){
 }
 
 function renderAll(){ renderStage(); renderTray(); renderTable(); renderLog(); renderReset(); }
+function renderStart(){
+  const box = $("resumeBox"); if (!prev){ box.hidden = true; return; }
+  box.hidden = false;
+  const t = $("resumeText"); t.replaceChildren();
+  t.append("Hay una sala guardada en este navegador: ", h("b", null, prev.modulo || "sin módulo"), " · ", h("b", null, prev.docente || "sin docente"), ` · ${prev.opened.length} de ${RECS.length} galletas abiertas, ronda ${prev.round}.`);
+}
 
 function showStudentView(){
   $("studentView").hidden = false;
   $("teacherCard").hidden = true;
   document.querySelectorAll(".teacher-only").forEach(el => el.hidden = true);
 }
-function wireNick(onChange){
-  const input = $("nickInput"), ok = $("nickOk");
+function renderStudentShell(){
+  const t = live.teacher, info = $("sInfo"); info.replaceChildren();
+  if (t && (t.modulo || t.docente)) info.append("Módulo: ", h("b", null, t.modulo || "—"), " · Docente: ", h("b", null, t.docente || "—"));
+  else if (live.code) info.append("Sala ", h("b", null, live.code));
+  $("nickForm").hidden = live.registered;
+  $("sHello").hidden = !live.registered;
+  $("sStage").hidden = !live.registered;
+  if (live.registered) $("sHelloText").textContent = `¡Hola, ${live.nick}! Ya estás participando.`;
+}
+function wireNick(onRegister){
+  const input = $("nickInput"), btn = $("nickBtn");
   try { live.nick = localStorage.getItem("buscalar-nick") || ""; } catch(e){}
   input.value = live.nick;
-  const hello = ()=>{ ok.hidden = !live.nick; ok.textContent = live.nick ? `¡Hola, ${live.nick}! Ya estás en la sala.` : ""; };
-  hello();
-  const apply = final => {
+  const valid = ()=> input.value.trim().length >= 2;
+  btn.disabled = !valid();
+  input.addEventListener("input", ()=>{ btn.disabled = !valid(); });
+  $("nickForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    if (!valid()){ input.focus(); return; }
     live.nick = input.value.trim().slice(0,30);
     try { localStorage.setItem("buscalar-nick", live.nick); } catch(e){}
-    onChange();
-    if (final){ hello(); input.blur(); toast(live.nick ? "Nombre guardado" : "Escribe tu nombre"); }
-  };
-  input.addEventListener("input", ()=>apply(false));
-  $("nickForm").addEventListener("submit", e=>{ e.preventDefault(); apply(true); });
+    live.registered = true;
+    renderStudentShell(); onRegister(); renderStudent();
+  });
+  $("changeNickBtn").addEventListener("click", ()=>{ live.registered = false; renderStudentShell(); input.focus(); });
+  renderStudentShell();
 }
 
 
@@ -1157,9 +1207,11 @@ function makeId(){ try { return Array.from(crypto.getRandomValues(new Uint8Array
 function deviceId(){ try { let d = localStorage.getItem(DEVICE_KEY); if (!d || d.length < 8){ d = makeId(); localStorage.setItem(DEVICE_KEY, d); } return d; } catch(e){ return makeId(); } }
 
 const live = {
-  mode: "local", session: null, code: null, channel: null, students: [], manual: false,
+  mode: "local", session: null, code: null, channel: null, students: [], manual: false, registered: false,
   teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: null,
-  broadcast(){ pushState(); }
+  broadcast(){ pushState(); },
+  onCreate(){ this.session = null; this.students = []; try { localStorage.removeItem(SESSION_KEY); } catch(e){} teacherConnect(); },
+  onResume(){ teacherConnect(); }
 };
 
 /* --- docente --- */
@@ -1181,7 +1233,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -1238,6 +1290,7 @@ function renderSala(){
   const card = $("salaCard"); if (!live.session || !state.started){ card.hidden = true; return; }
   card.hidden = false;
   $("salaCode").textContent = live.session.code;
+  $("salaHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Docente: ${state.docente}` : "") || "Los estudiantes entran con el QR o el código y votan desde su celular.";
   const url = salaUrl(); $("salaUrl").textContent = url.replace(/^https?:\/\//, "");
   if (live.qrFor !== live.session.code && window.qrcode){
     try { const qr = window.qrcode(0, "M"); qr.addData(url); qr.make(); $("salaQr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 1, scalable: true }); live.qrFor = live.session.code; } catch(e){}
@@ -1273,6 +1326,8 @@ function renderLive(){
 }
 
 function renderStudent(){
+  renderStudentShell();
+  if (!live.registered) return;
   const box = $("sStage"); box.replaceChildren();
   const t = live.teacher;
   const cookieSvg = () => { const svg = document.createElementNS(SVG_NS,"svg"); svg.setAttribute("viewBox","0 0 64 64"); svg.setAttribute("aria-hidden","true"); const u = document.createElementNS(SVG_NS,"use"); u.setAttribute("href","#fc"); svg.append(u); return svg; };
@@ -1323,8 +1378,10 @@ function studentVote(r, t){
 }
 async function studentConnect(code){
   live.mode = "student"; live.code = code; live.isTeacher = false;
-  showStudentView(); renderStudent();
-  wireNick(()=>{ if (live.channel){ live.channel.track({ role: "estudiante", nick: live.nick, device: live.device }).catch(()=>{}); } });
+  showStudentView();
+  const track = ()=>{ if (live.channel && live.registered){ live.channel.track({ role: "estudiante", nick: live.nick, device: live.device }).catch(()=>{}); } };
+  wireNick(track);
+  renderStudent();
   if (!sb) return;
   const applyState = st => { const t = (st && st.phase) ? st : null; if (JSON.stringify(t) !== JSON.stringify(live.teacher)){ live.teacher = t; renderStudent(); } };
   try {
@@ -1334,7 +1391,7 @@ async function studentConnect(code){
   } catch(e){}
   const ch = sb.channel("sala-" + code, { config: { presence: { key: live.device } } });
   ch.on("postgres_changes", { event: "UPDATE", schema: "public", table: "buscalar_sessions", filter: "code=eq." + code }, p => { if (p.new) applyState(p.new.state); })
-    .subscribe(async status => { if (status === "SUBSCRIBED"){ try { await ch.track({ role: "estudiante", nick: live.nick, device: live.device }); } catch(e){} } });
+    .subscribe(async status => { if (status === "SUBSCRIBED" && live.registered){ try { await ch.track({ role: "estudiante", nick: live.nick, device: live.device }); } catch(e){} } });
   live.channel = ch;
   live.pollTimer = setInterval(async ()=>{ try { const { data } = await sb.from("buscalar_sessions").select("state").eq("code", code).maybeSingle(); if (data) applyState(data.state); } catch(e){} }, 5000);
 }
@@ -1351,12 +1408,21 @@ function start(){
   buildDeskCookies();
   load();
   renderAll();
-  $("playBtn").addEventListener("click", ()=>{
-    state.started = true; save(); renderStage();
-    flashScene("is-enter", 1000);
-    if (live.mode === "teacher") teacherConnect();
+  const startValid = ()=> $("moduloInput").value.trim().length >= 2 && $("docenteInput").value.trim().length >= 2;
+  ["moduloInput","docenteInput"].forEach(id => $(id).addEventListener("input", ()=>{ $("createRoomBtn").disabled = !startValid(); }));
+  $("startForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    if (!startValid()){ ($("moduloInput").value.trim().length < 2 ? $("moduloInput") : $("docenteInput")).focus(); return; }
+    state = fresh(); state.started = true;
+    state.modulo = $("moduloInput").value.trim().slice(0,60); state.docente = $("docenteInput").value.trim().slice(0,40);
+    save(); renderAll(); flashScene("is-enter", 1000); live.onCreate();
     $("nameInput").focus({preventScroll:true});
   });
+  $("resumeBtn").addEventListener("click", ()=>{
+    if (!prev) return;
+    state = prev; state.started = true; save(); renderAll(); live.onResume();
+  });
+  renderStart();
   $("joinForm").addEventListener("submit", e=>{
     e.preventDefault();
     const code = $("joinCode").value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0,4);
