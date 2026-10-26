@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Galletas de la R · Buscalar</title>
-<meta name="description" content="Juego de aula de relacion.at e i3: i3sit@ rompe una galleta con un hábito laboral, el docente muestra la recomendación y los estudiantes votan desde su celular si le ponen la R.">
+<meta name="description" content="Juego de aula de relacion.at e i3: i3sit@ rompe una galleta con un hábito laboral, el participante cuenta qué haría y los estudiantes votan desde su celular si le ponen la R.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23F8857A' stroke='%233B2238' stroke-width='3'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='30' font-family='Arial Black,Arial' font-weight='900' fill='%23FFF6E5' stroke='%233B2238' stroke-width='1.5'%3ER%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -274,16 +274,45 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .toolbar .sep{flex:1 1 10px}
 .confirm{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--pinkt);border:2px solid var(--pink);border-radius:14px;padding:6px 12px;font-size:.92rem;font-weight:700}
 
-/* Instrucciones */
-details.howto summary{cursor:pointer;font-family:var(--font-display);font-size:1.35rem;letter-spacing:.03em;color:var(--rose);list-style:none;display:flex;justify-content:space-between;align-items:center}
-details.howto summary::-webkit-details-marker{display:none}
-details.howto summary::after{content:"+";font-size:1.6rem;color:var(--muted)}
-details.howto[open] summary::after{content:"\2212"}
-.howto ol{margin:14px 0 0;padding-left:22px;display:grid;gap:8px;font-weight:600}
-.howto ol strong{color:var(--rose)}
-.footer{text-align:center;color:var(--muted);font-size:.88rem;margin-top:26px;display:grid;gap:6px;font-weight:600}
-.footer b{color:var(--rose)}
-.footer .ver{font-size:.75rem;opacity:.7}
+/* Sala en vivo */
+.pill{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:700;font-size:.82rem;background:var(--paper)}
+.pill .dot{width:9px;height:9px;border-radius:50%;background:#C9C2DE}
+.pill.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(91,194,54,.3)}
+.live{display:grid;gap:12px;justify-items:center;width:100%;text-align:center}
+.live .ask{font-family:var(--font-display);font-weight:400;font-size:1.3rem;letter-spacing:.03em;color:var(--rose)}
+.live .count{font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--ink)}
+.live .count small{font-family:var(--font-body);font-size:1rem;font-weight:700;color:var(--muted)}
+.dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:520px}
+.dots i{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);transition:background .3s,transform .3s}
+.dots i.done{background:var(--green);transform:scale(1.1)}
+.progress{width:min(100%,420px);height:14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress span{display:block;height:100%;background:var(--green);transition:width .4s ease}
+.totals{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;width:100%}
+.total{flex:1 1 160px;max-width:240px;border:3px solid var(--ink);border-radius:18px;padding:14px;display:grid;gap:4px;justify-items:center;box-shadow:0 6px 0 0 var(--line);animation:popIn .55s cubic-bezier(.2,.9,.3,1.3) both}
+.total .big-n{font-family:var(--font-display);font-size:3rem;line-height:1}
+.total .lab{font-weight:800;font-size:.95rem}
+.total.pro{background:var(--mint);border-color:var(--green)}
+.total.con{background:var(--rosewater);border-color:var(--rose)}
+.total.con .big-n{color:var(--rose)}
+.total.pro .big-n{color:var(--green-dk)}
+.stamp.tie{border-color:#9A8FB0;color:#6F6A8E;border-style:dotted;font-size:1rem;letter-spacing:.06em}
+.linklike{background:none;border:0;padding:0;color:var(--rose);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:.9rem}
+.notice{border:3px solid var(--pink);background:var(--pinkt);border-radius:14px;padding:10px 14px;font-size:.95rem;font-weight:600}
+
+
+/* Vista del estudiante (celular) */
+.student{display:grid;gap:14px}
+.student .s-stage{display:grid;gap:14px;justify-items:center}
+.student .s-wait{display:grid;gap:8px;justify-items:center;text-align:center;padding:22px 10px;font-weight:700;color:var(--muted)}
+.student .s-wait svg{width:90px;height:90px;overflow:visible;animation:floatM 3s ease-in-out infinite}
+.student .s-wait .t{font-family:var(--font-display);font-weight:400;font-size:1.3rem;color:var(--rose)}
+.student .paper{width:100%;transform:none}
+.student .paper.hab{padding-right:22px}
+.student .paper.rec{margin:0}
+.student .votebar .btn{flex:1 1 140px}
+.student .btn.chosen{outline:4px solid var(--ink);outline-offset:-4px}
+.student .s-done{font-weight:800;text-align:center;color:var(--green-dk)}
+.student .s-done.no{color:var(--rose)}
 
 /* Inicio del docente: desfile de galletas y galletas flotando */
 .cookie-parade{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 16px}
@@ -294,6 +323,61 @@ body.is-start .float-cookies{display:block}
 .float-cookies svg{position:absolute;overflow:visible;left:var(--x);bottom:-90px;width:var(--s);height:var(--s);opacity:.85;animation:floatUp var(--t) linear infinite;animation-delay:var(--d)}
 @keyframes floatUp{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-55vh) translateX(18px) rotate(180deg)}100%{transform:translateY(-115vh) translateX(-10px) rotate(360deg)}}
 .brand,main{position:relative;z-index:1}
+
+/* Inicio del docente */
+.start-form{display:grid;gap:12px;max-width:520px;margin:0 auto;justify-items:stretch}
+.start-form .field{max-width:none}
+.start-form .votebar{margin-top:4px}
+.session-info{margin:-6px 0 12px;font-weight:700;color:var(--muted)}
+.session-info b{color:var(--rose)}
+.s-info{font-weight:700;color:var(--muted);margin-bottom:4px}
+.s-info b{color:var(--rose)}
+.s-hello{font-weight:800;color:var(--green-dk);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+
+@keyframes floatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.nick-row{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.nick-row input{flex:1 1 180px}
+.nick-row .btn{flex:0 0 auto}
+.s-join input{text-transform:uppercase;letter-spacing:.18em;font-family:var(--font-display);font-size:1.4rem;text-align:center;max-width:220px}
+.s-join .note{max-width:none;text-align:left}
+.s-missing{border:3px solid var(--pink);background:var(--pinkt);border-radius:14px;padding:10px 14px;font-weight:700;margin-bottom:10px}
+.student .s-leave{text-align:center;margin-top:6px}
+
+/* Invitación: código, QR y enlace (en la sala recién creada y en el diálogo «Invitar participantes») */
+.invite{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center}
+.invite .lab{font-family:var(--font-display);font-size:.85rem;letter-spacing:.06em;color:var(--muted)}
+.invite-code{display:grid;gap:8px;justify-items:center;border:3px solid var(--ink);border-radius:18px;padding:14px 24px;background:var(--pinkt);box-shadow:0 6px 0 0 var(--line)}
+.invite-code .code{font-family:var(--font-display);font-size:clamp(3rem,8vw,4.6rem);line-height:1;letter-spacing:.16em;color:var(--rose);user-select:all}
+.invite-qr{width:min(200px,60vw);aspect-ratio:1;border:3px solid var(--ink);border-radius:14px;padding:6px;background:#fff;display:grid;place-items:center}
+.invite-qr svg{width:100%;height:100%}
+.invite-link{display:grid;gap:8px;min-width:0;flex:1 1 240px;max-width:380px}
+.invite-link .url{font-weight:800;font-size:1.15rem;overflow-wrap:anywhere;color:var(--ink);background:var(--cream);border:2px dashed var(--peach);border-radius:12px;padding:8px 12px;user-select:all}
+.invite-link .row{display:flex;flex-wrap:wrap;gap:8px}
+.invite-steps{font-weight:700;color:var(--muted);text-align:center;max-width:60ch;margin:10px auto 0}
+.invite-steps b{color:var(--rose)}
+.invite-people{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
+.invite-people .who{font-family:var(--font-display);font-size:.9rem;letter-spacing:.04em;color:var(--muted);width:100%;text-align:center}
+.lobby-go{display:grid;gap:8px;justify-items:center;margin-top:18px}
+.join{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin-top:14px}
+.join input{border:3px solid var(--ink);border-radius:12px;padding:8px 12px;width:150px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;text-align:center;background:rgba(255,255,255,.92)}
+.join .lab{font-weight:700;font-size:.9rem;color:var(--ink);background:rgba(255,255,255,.85);border-radius:999px;padding:2px 10px}
+dialog.invite-dlg{border:3px solid var(--ink);border-radius:var(--radius);padding:clamp(16px,3vw,28px);width:min(820px,calc(100vw - 32px));max-height:calc(100vh - 40px);overflow:auto;background:var(--paper);color:var(--ink);box-shadow:0 8px 0 0 var(--line),0 30px 60px rgba(59,34,56,.25)}
+dialog.invite-dlg::backdrop{background:rgba(59,34,56,.45)}
+dialog.invite-dlg .card-head{margin-bottom:14px}
+dialog.invite-dlg h2{font-family:var(--font-display);font-weight:400;font-size:1.35rem;letter-spacing:.03em;color:var(--rose)}
+body.is-student .teacher-note{display:none}
+.head-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* Instrucciones */
+details.howto summary{cursor:pointer;font-family:var(--font-display);font-size:1.35rem;letter-spacing:.03em;color:var(--rose);list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.howto summary::-webkit-details-marker{display:none}
+details.howto summary::after{content:"+";font-size:1.6rem;color:var(--muted)}
+details.howto[open] summary::after{content:"\2212"}
+.howto ol{margin:14px 0 0;padding-left:22px;display:grid;gap:8px;font-weight:600}
+.howto ol strong{color:var(--rose)}
+.footer{text-align:center;color:var(--muted);font-size:.88rem;margin-top:26px;display:grid;gap:6px;font-weight:600}
+.footer b{color:var(--rose)}
+.footer .ver{font-size:.75rem;opacity:.7}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:999px;font-weight:700;font-size:.92rem;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:calc(100vw - 32px);text-align:center;z-index:20}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -313,7 +397,7 @@ body.is-start .float-cookies{display:block}
 <main>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
-      <symbol id="fc" viewBox="0 0 64 64" overflow="visible"><image href="mascota/galleta.webp" x="0" y="0" width="64" height="64"/></symbol>
+      <symbol id="fc" viewBox="0 0 64 64" overflow="visible"><image href="/mascota/galleta.webp" x="0" y="0" width="64" height="64"/></symbol>
       <clipPath id="clipL"><polygon points="0,0 34,0 29,12 36,24 28,38 35,52 30,64 0,64"/></clipPath>
       <clipPath id="clipR"><polygon points="34,0 64,0 64,64 30,64 35,52 28,38 36,24 29,12"/></clipPath>
     </defs>
@@ -324,6 +408,15 @@ body.is-start .float-cookies{display:block}
       <span class="pill" id="sPill"><span class="dot"></span><span id="sPillText">Conectando…</span></span>
     </div>
     <div class="s-info" id="sInfo"></div>
+    <div class="s-missing" id="sMissing" hidden>Esa sala no existe o ya se cerró. Revisa el código con el docente.</div>
+    <form class="field s-join" id="codeForm" autocomplete="off" hidden>
+      <label for="codeInput">Código de la sala</label>
+      <div class="nick-row">
+        <input id="codeInput" type="text" maxlength="4" placeholder="ABCD" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+        <button class="btn btn-si btn-sm" type="submit" id="codeBtn" disabled>Entrar</button>
+      </div>
+      <p class="note">Son 4 letras. Pídele el código o escanea el QR que muestra el docente.</p>
+    </form>
     <form class="field nick-form" id="nickForm" autocomplete="off">
       <label for="nickInput">Tu nombre</label>
       <div class="nick-row">
@@ -333,6 +426,7 @@ body.is-start .float-cookies{display:block}
     </form>
     <div class="s-hello" id="sHello" hidden><span id="sHelloText"></span> <button class="linklike" type="button" id="changeNickBtn">Cambiar nombre</button></div>
     <div class="s-stage" id="sStage" hidden></div>
+    <p class="s-leave" id="sLeave" hidden><button class="linklike" type="button" id="leaveRoomBtn">Cambiar de sala</button></p>
   </section>
 
   <section class="card teacher-only" id="startCard" aria-labelledby="startTitle">
@@ -348,9 +442,9 @@ body.is-start .float-cookies{display:block}
       <div class="field"><label for="docenteInput">Nombre del docente</label><input id="docenteInput" type="text" maxlength="40" placeholder="Ej.: Ana Pérez"></div>
       <div class="votebar"><button class="btn btn-play btn-xl" type="submit" id="createRoomBtn" disabled>Crear sala y jugar</button></div>
     </form>
-    '<form class="join" id="joinForm" autocomplete="off">
+    <form class="join" id="joinForm" autocomplete="off">
       <span class="lab">¿Eres estudiante?</span>
-      <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala">
+      <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala" autocapitalize="characters" spellcheck="false">
       <button class="btn btn-sm" type="submit">Entrar</button>
     </form>
   </section>
@@ -359,7 +453,10 @@ body.is-start .float-cookies{display:block}
     <div class="card-head">
       <h2 id="stageTitle">La oficina de i3sit@</h2>
       <span class="hint" id="stageHint">0 de 15 galletas abiertas · Ronda 1</span>
-      <span class="pill" id="roomPill" hidden><span class="dot"></span><span id="roomText">Sala</span></span>
+      <div class="head-actions">
+        <span class="pill" id="roomPill" hidden><span class="dot"></span><span id="roomText">Sala</span></span>
+        <button class="btn btn-sm" id="inviteBtn" type="button" hidden>👥 Invitar participantes</button>
+      </div>
     </div>
     <p class="session-info" id="sessionInfo"></p>
 
@@ -370,7 +467,7 @@ body.is-start .float-cookies{display:block}
           <clipPath id="inBowl"><rect x="292" y="268" width="330" height="92" rx="40"/></clipPath>
         </defs>
         <g id="photo">
-          <image id="officeImg" href="mascota/oficina.webp" x="-10" y="-6" width="920" height="548" preserveAspectRatio="xMidYMid slice"/>
+          <image id="officeImg" href="/mascota/oficina.webp" x="-10" y="-6" width="920" height="548" preserveAspectRatio="xMidYMid slice"/>
           <!-- Galletas que se revuelven en el tazón (aparecen al revolver) -->
           <g id="bowl" class="bowl" clip-path="url(#inBowl)">
             <use href="#fc" class="ck" width="46" height="46" transform="translate(304 296) rotate(-18 23 23)"/>
@@ -485,23 +582,58 @@ body.is-start .float-cookies{display:block}
 
   <section class="card teacher-only" id="salaCard" hidden aria-labelledby="salaTitle">
     <div class="card-head">
-      <h2 id="salaTitle">Sala para los celulares</h2>
-      <span class="hint" id="salaHint">Los estudiantes entran con el QR o el código y votan desde su celular.</span>
+      <h2 id="salaTitle">Sala lista: invita a los participantes</h2>
+      <span class="hint" id="salaHint"></span>
     </div>
-    <div class="sala">
-      <div class="sala-code"><div class="lab">Código de sala</div><div class="code" id="salaCode">····</div></div>
-      <div class="sala-qr" id="salaQr" aria-label="Código QR de la sala"></div>
-      <div class="sala-link">
-        <div class="lab">Enlace</div>
+    <div class="invite">
+      <div class="invite-code">
+        <div class="lab">Código de la sala</div>
+        <div class="code" id="salaCode">····</div>
+        <button class="btn btn-sm" id="salaCopyCode" type="button">Copiar código</button>
+      </div>
+      <div class="invite-qr" id="salaQr" aria-label="Código QR para entrar a la sala"></div>
+      <div class="invite-link">
+        <div class="lab">Enlace directo</div>
         <div class="url" id="salaUrl"></div>
         <div class="row">
-          <button class="btn btn-sm" id="copyLinkBtn" type="button">Copiar enlace</button>
-          <button class="btn btn-sm" id="newRoomBtn" type="button">Nueva sala</button>
+          <button class="btn btn-sm" id="salaCopyLink" type="button">Copiar enlace</button>
         </div>
+        <p class="invite-steps" style="margin:0;text-align:left">Con el QR o el enlace entran directo. Con el código: <b>buscalar.relacion.at/sala</b> y escriben las 4 letras.</p>
       </div>
     </div>
-    <div class="sala-people" id="salaPeople"></div>
+    <div class="invite-people" id="salaPeople"></div>
+    <div class="lobby-go">
+      <button class="btn btn-play btn-xl" id="beginBtn" type="button">🍪 Empezar la partida</button>
+      <p class="note">Pueden seguir entrando después: durante la partida tendrás el botón «Invitar participantes».</p>
+      <button class="linklike" id="newRoomBtn" type="button">Crear otra sala con otro código</button>
+    </div>
   </section>
+
+  <dialog class="invite-dlg" id="inviteDlg" aria-labelledby="dlgTitle">
+    <div class="card-head">
+      <h2 id="dlgTitle">Invitar participantes</h2>
+      <span class="hint" id="dlgHint"></span>
+      <button class="btn btn-sm" id="dlgClose" type="button">Cerrar</button>
+    </div>
+    <div class="invite">
+      <div class="invite-code">
+        <div class="lab">Código de la sala</div>
+        <div class="code" id="dlgCode">····</div>
+        <button class="btn btn-sm" id="dlgCopyCode" type="button">Copiar código</button>
+      </div>
+      <div class="invite-qr" id="dlgQr" aria-label="Código QR para entrar a la sala"></div>
+      <div class="invite-link">
+        <div class="lab">Enlace directo</div>
+        <div class="url" id="dlgUrl"></div>
+        <div class="row">
+          <button class="btn btn-sm" id="dlgCopyLink" type="button">Copiar enlace</button>
+        </div>
+        <p class="invite-steps" style="margin:0;text-align:left">Con el QR o el enlace entran directo. Con el código: <b>buscalar.relacion.at/sala</b> y escriben las 4 letras.</p>
+      </div>
+    </div>
+    <div class="invite-people" id="dlgPeople"></div>
+    <p class="invite-steps">Quien entre ahora se incorpora a la sala tal como va: ve la galleta actual y vota en la votación que esté abierta o en la siguiente.</p>
+  </dialog>
 
   <section class="card teacher-only" aria-labelledby="trayTitle">
     <div class="card-head">
@@ -544,7 +676,7 @@ body.is-start .float-cookies{display:block}
         <li><strong>Turno del participante.</strong> Lee el hábito en voz alta y cuenta qué haría en esa situación.</li>
         <li><strong>El docente abre la votación.</strong> Cuando el participante termina, el docente toca «Abrir la votación».</li>
         <li><strong>Ponle la R.</strong> El grupo decide si le da la razón al participante. Si hay estudiantes conectados desde su celular, cada uno vota «Sí, le pongo la R» o «No» en su pantalla; cuando todos responden, aparecen los totales en la pantalla del docente. Si no hay sala, el docente registra el voto del grupo con los botones. La recomendación del material queda en la tabla de resultados, para el cierre.</li>
-        <li><strong>Para que los estudiantes voten desde su celular:</strong> al tocar JUGAR se crea una sala con un código y un QR. Los estudiantes lo escanean (o entran a buscalar.relacion.at y escriben el código), ponen su nombre y votan. No necesitan cuenta.</li>
+        <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Siguiente galleta.</strong> Cada galleta sale una sola vez por ronda; cuando se acaban, se hornea otra ronda y las R se siguen sumando. La tabla muestra cuál convenció más.</li>
       </ol>
     </details>
@@ -553,8 +685,8 @@ body.is-start .float-cookies{display:block}
 
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
-  <span>Lo que pasa en esta pantalla se guarda solo en este navegador.</span>
-  <span class="ver">versión 2026-10-24 17:56</span>
+  <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
+  <span class="ver">versión 2026-10-26 11:47</span>
 </footer>
 
 <script>
@@ -601,9 +733,9 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 /* ---------- Estado ---------- */
 const LS_KEY = "galleta-de-la-r-v3";
 const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const fresh = () => ({ started:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastCounts:null, name:"", liveVotes:{} });
+/* started: la sala ya existe (el docente llenó módulo y nombre). playing: la partida arrancó (en el sitio hay una pantalla de invitación entre ambas). */
+const fresh = () => ({ started:false, playing:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastCounts:null, name:"", liveVotes:{} });
 let state = fresh();
-let prev = null; // sala anterior guardada en este navegador (para "Continuar")
 let timers = [];
 let returning = false;
 
@@ -685,6 +817,7 @@ function say(text){
 }
 function bubbleFor(){
   if (!state.started) return "¡Hola! Crea la sala";
+  if (!state.playing) return "¡Que entren todos!";
   const pool = unopened();
   switch (state.phase){
     case "stirring": return "Mmm… ¿cuál será?";
@@ -704,8 +837,10 @@ function renderStage(){
   $("stageHint").textContent = `${n} de ${total} galletas abiertas · Ronda ${state.round}`;
   document.body.classList.toggle("is-start", live.mode !== "student" && !state.started);
   if (live.mode !== "student"){
-    $("startCard").hidden = state.started; $("teacherCard").hidden = !state.started;
-    document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard)").forEach(el => el.hidden = !state.started);
+    const playing = state.started && state.playing;
+    $("startCard").hidden = state.started; $("teacherCard").hidden = !playing;
+    document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard)").forEach(el => el.hidden = !playing);
+    const sala = $("salaCard"); if (sala) sala.hidden = !(state.started && !state.playing);
   }
   $("controls").hidden = !state.started;
   const si = $("sessionInfo"); si.replaceChildren();
@@ -874,8 +1009,8 @@ function newRound(){
 }
 
 function resetGame(){
-  const started = state.started;
-  state = fresh(); state.started = started; save(); renderAll(); resetSessionRemote(); pushState();
+  const started = state.started, playing = state.playing, modulo = state.modulo, docente = state.docente;
+  state = fresh(); state.started = started; state.playing = playing; state.modulo = modulo; state.docente = docente; save(); renderAll(); resetSessionRemote(); pushState();
   $("nameInput").value = "";
   toast("Juego reiniciado");
 }
@@ -967,17 +1102,72 @@ function renderReset(){
 function renderAll(){ renderStage(); renderTray(); renderTable(); renderLog(); renderReset(); }
 function renderStart(){}
 
-/* ---------- Sala en vivo con Supabase: el docente proyecta, los estudiantes votan desde su celular ---------- */
+/* La partida arranca (después de la pantalla de invitación). No toca la sala ni el código: los que ya entraron siguen conectados. */
+function beginGame(){
+  if (!state.started || state.playing) return;
+  state.playing = true; save(); renderAll(); flashScene("is-enter", 1000);
+  $("nameInput").focus({preventScroll:true});
+}
+
+/* ---------- Vista del estudiante (celular): solo su pantalla, nunca el panel del docente ---------- */
+function showStudentView(){
+  live.mode = "student";
+  document.body.classList.remove("is-start"); document.body.classList.add("is-student");
+  $("studentView").hidden = false;
+  $("teacherCard").hidden = true;
+  document.querySelectorAll(".teacher-only").forEach(el => el.hidden = true);
+  const inv = $("inviteDlg"); if (inv && inv.open) inv.close();
+}
+function renderStudentShell(){
+  const t = live.teacher, info = $("sInfo"); info.replaceChildren();
+  if (t && (t.modulo || t.docente)) info.append("Módulo: ", h("b", null, t.modulo || "—"), " · Docente: ", h("b", null, t.docente || "—"));
+  else if (live.code) info.append("Sala ", h("b", null, live.code));
+  const askCode = !!live.site && (!live.code || !!live.missing);  // en el sitio: sin código (o código inválido) se pide el código primero
+  $("sMissing").hidden = !live.missing;
+  $("codeForm").hidden = !askCode;
+  $("nickForm").hidden = askCode || live.registered;
+  $("sHello").hidden = askCode || !live.registered;
+  $("sStage").hidden = askCode || !live.registered;
+  $("sLeave").hidden = !(live.site && live.code && !live.missing);
+  if (live.registered) $("sHelloText").textContent = `¡Hola, ${live.nick}! Ya estás participando.`;
+  if (askCode && live.code) $("codeInput").value = live.code;
+}
+function wireNick(onRegister){
+  const input = $("nickInput"), btn = $("nickBtn");
+  try { live.nick = localStorage.getItem("buscalar-nick") || ""; } catch(e){}
+  input.value = live.nick;
+  const valid = ()=> input.value.trim().length >= 2;
+  btn.disabled = !valid();
+  input.addEventListener("input", ()=>{ btn.disabled = !valid(); });
+  $("nickForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    if (!valid()){ input.focus(); return; }
+    live.nick = input.value.trim().slice(0,30);
+    try { localStorage.setItem("buscalar-nick", live.nick); } catch(e){}
+    live.registered = true;
+    renderStudentShell(); onRegister(); renderStudent();
+  });
+  $("changeNickBtn").addEventListener("click", ()=>{ live.registered = false; renderStudentShell(); input.focus(); });
+  renderStudentShell();
+}
+
+/* ---------- Sala en vivo con Supabase: el docente proyecta, los estudiantes votan desde su celular ----------
+   Rutas:  /                → panel del docente (crea y controla la sala; el secreto de la sala vive solo en su navegador)
+           /sala            → pantalla del estudiante: pide el código de 4 letras
+           /sala/ABCD       → pantalla del estudiante ya dentro de la sala ABCD (es lo que llevan el QR y el enlace de invitación)
+           /?s=ABCD         → forma antigua del enlace; sigue funcionando y entra como estudiante
+   El enlace de estudiante nunca crea salas ni muestra el panel del docente: solo lee el estado publicado y envía votos. */
 const SUPA_URL = "https://aqgjmakpqcorkxpolmpa.supabase.co";
 const SUPA_KEY = "sb_publishable_W7804ewC4lDiGQOqIOMOfg_XYXE7lDw";
 const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
 const DEVICE_KEY = "buscalar-device", SESSION_KEY = "buscalar-session", NICK_KEY = "buscalar-nick";
 function makeId(){ try { return Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b => b.toString(16).padStart(2,"0")).join(""); } catch(e){ return "d" + Math.random().toString(36).slice(2,14) + Date.now().toString(36); } }
 function deviceId(){ try { let d = localStorage.getItem(DEVICE_KEY); if (!d || d.length < 8){ d = makeId(); localStorage.setItem(DEVICE_KEY, d); } return d; } catch(e){ return makeId(); } }
+const cleanCode = v => String(v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0,4);
 
 const live = {
-  mode: "local", session: null, code: null, channel: null, students: [], manual: false, registered: false,
-  teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: null,
+  site: true, mode: "local", session: null, code: null, channel: null, students: [], manual: false, registered: false, missing: false,
+  teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: {},
   broadcast(){ pushState(); },
   onCreate(){ this.session = null; this.students = []; try { localStorage.removeItem(SESSION_KEY); } catch(e){} teacherConnect(); },
   onResume(){ teacherConnect(); }
@@ -1002,7 +1192,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -1041,12 +1231,14 @@ async function fetchVotes(){
     if (data){ let changed = false; data.forEach(v => { if (state.liveVotes[v.device_id] !== v.r){ state.liveVotes[v.device_id] = v.r; changed = true; } }); if (changed) save(); onStudentsChange(); }
   } catch(e){}
 }
+/* Cada vez que cambia la lista de conectados (entra o sale alguien, también en mitad de una ronda): se actualiza el
+   contador, la lista de la invitación y, si hay votación abierta, el cierre automático cuando todos los conectados respondieron. */
 function onStudentsChange(){
   if (live.mode !== "teacher") return;
   const n = live.students.length;
   $("roomPill").hidden = false; $("roomPill").classList.toggle("on", n > 0);
-  $("roomText").textContent = (live.session ? "Sala " + live.session.code + " · " : "") + (n ? `${n} estudiante${n===1?"":"s"}` : "nadie conectado aún");
-  renderSalaPeople();
+  $("roomText").textContent = (live.session ? "Sala " + live.session.code + " · " : "") + (n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
+  renderInvitePeople();
   if (state.phase === "advised" && state.current !== null){
     renderSlip();
     const answered = live.students.filter(st => state.liveVotes[st.id] !== undefined).length;
@@ -1054,22 +1246,49 @@ function onStudentsChange(){
     if (n && answered >= n && !live.manual) live.closeTimer = setTimeout(()=>{ if (state.phase === "advised") closeVote(); }, reduced ? 0 : 900);
   }
 }
-function salaUrl(){ return location.origin + location.pathname.replace(/index\.html$/, "") + "?s=" + (live.session ? live.session.code : ""); }
-function renderSala(){
-  const card = $("salaCard"); if (!live.session || !state.started){ card.hidden = true; return; }
-  card.hidden = false;
-  $("salaCode").textContent = live.session.code;
-  $("salaHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Docente: ${state.docente}` : "") || "Los estudiantes entran con el QR o el código y votan desde su celular.";
-  const url = salaUrl(); $("salaUrl").textContent = url.replace(/^https?:\/\//, "");
-  if (live.qrFor !== live.session.code && window.qrcode){
-    try { const qr = window.qrcode(0, "M"); qr.addData(url); qr.make(); $("salaQr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 1, scalable: true }); live.qrFor = live.session.code; } catch(e){}
+
+/* --- invitación: código, QR y enlace (misma información en la sala recién creada y en el diálogo «Invitar participantes») --- */
+function salaUrl(){ return location.origin + "/sala/" + (live.session ? live.session.code : ""); }
+function salaUrlShort(){ return salaUrl().replace(/^https?:\/\//, ""); }
+function fillInvite(prefix){
+  if (!live.session) return;
+  const code = live.session.code, url = salaUrl();
+  $(prefix + "Code").textContent = code;
+  $(prefix + "Url").textContent = salaUrlShort();
+  const qrBox = $(prefix + "Qr");
+  if (live.qrFor[prefix] !== code && window.qrcode){
+    try { const qr = window.qrcode(0, "M"); qr.addData(url); qr.make(); qrBox.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 1, scalable: true }); live.qrFor[prefix] = code; } catch(e){}
   }
-  renderSalaPeople();
 }
-function renderSalaPeople(){
-  const box = $("salaPeople"); if (!box) return; box.replaceChildren();
-  if (!live.students.length){ box.append(h("span",{class:"note"}, "Todavía no entra nadie. Pide que escaneen el QR o escriban el código.")); return; }
-  live.students.forEach(st => box.append(h("span",{class:"chip"}, h("span", null, st.nick || "Estudiante"))));
+function renderInvitePeople(){
+  ["salaPeople","dlgPeople"].forEach(id => {
+    const box = $(id); if (!box) return; box.replaceChildren();
+    const n = live.students.length;
+    if (!n){ box.append(h("span",{class:"who"}, "Todavía no entra nadie. Pide que escaneen el QR o escriban el código en buscalar.relacion.at/sala.")); return; }
+    box.append(h("span",{class:"who"}, `${n} participante${n===1?"":"s"} en la sala`));
+    live.students.forEach(st => box.append(h("span",{class:"chip"}, h("span", null, st.nick || "Estudiante"))));
+  });
+}
+function renderSala(){
+  const card = $("salaCard");
+  if (!live.session || !state.started){ card.hidden = true; return; }
+  card.hidden = !!state.playing;           // la invitación grande solo antes de empezar; durante la partida vive en el diálogo
+  $("salaHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Docente: ${state.docente}` : "");
+  fillInvite("sala");
+  if (!state.playing) renderInvitePeople();
+  const inviteBtn = $("inviteBtn"); if (inviteBtn) inviteBtn.hidden = !state.playing;
+  const dlg = $("inviteDlg"); if (dlg && dlg.open) fillInvite("dlg");
+}
+function openInvite(){
+  const dlg = $("inviteDlg"); if (!dlg || !live.session) return;
+  $("dlgHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Docente: ${state.docente}` : "");
+  fillInvite("dlg"); renderInvitePeople();
+  if (typeof dlg.showModal === "function"){ if (!dlg.open) dlg.showModal(); } else dlg.setAttribute("open", "");
+}
+function closeInvite(){ const dlg = $("inviteDlg"); if (!dlg) return; if (typeof dlg.close === "function" && dlg.open) dlg.close(); else dlg.removeAttribute("open"); }
+function copyText(text, okMsg){
+  const done = ()=> toast(okMsg);
+  try { navigator.clipboard.writeText(text).then(done, ()=>{ window.prompt("Copia este texto:", text); }); } catch(e){ window.prompt("Copia este texto:", text); }
 }
 async function saveResult(idx, pro, con){
   if (!sb || !live.session) return;
@@ -1096,15 +1315,15 @@ function renderLive(){
 
 function renderStudent(){
   renderStudentShell();
-  if (!live.registered) return;
+  if (!live.registered || !live.code || live.missing) return;
   const box = $("sStage"); box.replaceChildren();
   const t = live.teacher;
   const cookieSvg = () => { const svg = document.createElementNS(SVG_NS,"svg"); svg.setAttribute("viewBox","0 0 64 64"); svg.setAttribute("aria-hidden","true"); const u = document.createElementNS(SVG_NS,"use"); u.setAttribute("href","#fc"); svg.append(u); return svg; };
   const wait = (title, text) => h("div",{class:"s-wait"}, cookieSvg(), h("div",{class:"t"}, title), h("div", null, text));
   $("sPillText").textContent = live.code ? "Sala " + live.code : "Sin sala";
   $("sPill").classList.toggle("on", !!t);
-  if (live.missing){ box.append(wait("Esa sala no existe", "Revisa el código con el docente."), h("a",{class:"btn btn-sm", href: location.pathname}, "Cambiar de sala")); return; }
   if (!t){ box.append(wait("Esperando al docente…", "Cuando saque una galleta, aquí la verás.")); return; }
+  if (t.playing === false){ box.append(wait("¡Ya estás en la sala!", "Espera a que el docente empiece la partida.")); return; }
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
   if (!rec || ["idle","stirring","lifting"].includes(t.phase)){
@@ -1145,17 +1364,36 @@ function studentVote(r, t){
   sb.from("buscalar_votes").upsert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r, nick: live.nick }, { onConflict: "session_code,device_id,round,cookie_idx" })
     .then(({ error }) => { if (error) toast("No se pudo enviar tu voto. Intenta otra vez."); });
 }
+/* Formulario del código (pantalla /sala sin código, o código que no existe) */
+function wireCodeForm(){
+  const input = $("codeInput"), btn = $("codeBtn");
+  const valid = ()=> cleanCode(input.value).length === 4;
+  input.addEventListener("input", ()=>{ const c = cleanCode(input.value); if (input.value !== c) input.value = c; btn.disabled = !valid(); });
+  btn.disabled = !valid();
+  $("codeForm").addEventListener("submit", e=>{ e.preventDefault(); if (!valid()){ input.focus(); return; } location.href = "/sala/" + cleanCode(input.value); });
+  $("leaveRoomBtn").addEventListener("click", ()=>{ location.href = "/sala"; });
+}
+/* Pantalla del estudiante sin código: pide el código y nada más */
+function studentAsk(){
+  live.code = null; live.missing = false;
+  showStudentView(); wireCodeForm(); wireNick(()=>{});
+  $("sPillText").textContent = "Sin sala";
+  renderStudentShell();
+  $("codeInput").focus({preventScroll:true});
+}
+/* Pantalla del estudiante dentro de una sala: comprueba que exista, pide el nombre y desde ahí sigue al docente en vivo.
+   Puede entrar en cualquier momento (antes o durante la partida): recibe el estado actual y se incorpora a la fase que esté. */
 async function studentConnect(code){
-  live.mode = "student"; live.code = code; live.isTeacher = false;
-  showStudentView();
+  live.code = code; live.missing = false;
+  showStudentView(); wireCodeForm();
   const track = ()=>{ if (live.channel && live.registered){ live.channel.track({ role: "estudiante", nick: live.nick, device: live.device }).catch(()=>{}); } };
   wireNick(track);
   renderStudent();
-  if (!sb) return;
+  if (!sb){ $("sPillText").textContent = "Sin conexión"; return; }
   const applyState = st => { const t = (st && st.phase) ? st : null; if (JSON.stringify(t) !== JSON.stringify(live.teacher)){ live.teacher = t; renderStudent(); } };
   try {
     const { data } = await sb.from("buscalar_sessions").select("state").eq("code", code).maybeSingle();
-    if (!data){ live.missing = true; renderStudent(); return; }
+    if (!data){ live.missing = true; renderStudent(); $("codeInput").focus({preventScroll:true}); return; }
     applyState(data.state);
   } catch(e){}
   const ch = sb.channel("sala-" + code, { config: { presence: { key: live.device } } });
@@ -1164,14 +1402,18 @@ async function studentConnect(code){
   live.channel = ch;
   live.pollTimer = setInterval(async ()=>{ try { const { data } = await sb.from("buscalar_sessions").select("state").eq("code", code).maybeSingle(); if (data) applyState(data.state); } catch(e){} }, 5000);
 }
-function initLive(){
+function studentRoute(){
+  const m = location.pathname.match(/^\/sala(?:\/([^/?#]*))?\/?$/i);
   const params = new URLSearchParams(location.search);
-  const code = (params.get("s") || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0,4);
-  if (code){ studentConnect(code); return; }
+  if (!m && !params.has("s")) return null;
+  return { code: cleanCode(m && m[1] !== undefined ? m[1] : params.get("s")) };
+}
+function initLive(){
+  const r = studentRoute();
+  if (r){ if (r.code.length === 4) studentConnect(r.code); else studentAsk(); return; }
   live.mode = sb ? "teacher" : "local";
   if (live.mode === "teacher" && state.started) teacherConnect();
 }
-
 /* ---------- Arranque ---------- */
 function start(){
   buildDeskCookies();
@@ -1183,22 +1425,25 @@ function start(){
     e.preventDefault();
     if (!startValid()){ ($("moduloInput").value.trim().length < 2 ? $("moduloInput") : $("docenteInput")).focus(); return; }
     state = fresh(); state.started = true;
+    state.playing = !live.site; // en el sitio primero se muestra la invitación (código, QR y enlace); la partida arranca con «Empezar la partida»
     state.modulo = $("moduloInput").value.trim().slice(0,60); state.docente = $("docenteInput").value.trim().slice(0,40);
-    save(); renderAll(); flashScene("is-enter", 1000); live.onCreate();
-    $("nameInput").focus({preventScroll:true});
+    save(); renderAll(); if (state.playing) flashScene("is-enter", 1000); live.onCreate();
+    if (state.playing) $("nameInput").focus({preventScroll:true});
   });
+  const beginBtn = $("beginBtn"); if (beginBtn) beginBtn.addEventListener("click", beginGame);
   renderStart();
   $("joinForm").addEventListener("submit", e=>{
     e.preventDefault();
-    const code = $("joinCode").value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0,4);
-    if (code.length === 4) location.href = location.pathname + "?s=" + code;
+    const code = cleanCode($("joinCode").value);
+    if (code.length === 4) location.href = "/sala/" + code; else $("joinCode").focus();
   });
-  $("newRoomBtn").addEventListener("click", async ()=>{ live.session = null; live.students = []; try { localStorage.removeItem(SESSION_KEY); } catch(e){} await teacherConnect(); toast("Sala nueva lista"); });
-  $("copyLinkBtn").addEventListener("click", ()=>{
-    const url = salaUrl();
-    const done = ()=> toast("Enlace copiado");
-    try { navigator.clipboard.writeText(url).then(done, ()=>{ window.prompt("Copia el enlace:", url); }); } catch(e){ window.prompt("Copia el enlace:", url); }
-  });
+  $("newRoomBtn").addEventListener("click", async ()=>{ live.session = null; live.students = []; live.qrFor = {}; try { localStorage.removeItem(SESSION_KEY); } catch(e){} await teacherConnect(); toast("Sala nueva lista"); });
+  $("salaCopyCode").addEventListener("click", ()=> copyText(live.session ? live.session.code : "", "Código copiado"));
+  $("dlgCopyCode").addEventListener("click", ()=> copyText(live.session ? live.session.code : "", "Código copiado"));
+  $("salaCopyLink").addEventListener("click", ()=> copyText(salaUrl(), "Enlace copiado"));
+  $("dlgCopyLink").addEventListener("click", ()=> copyText(salaUrl(), "Enlace copiado"));
+  $("inviteBtn").addEventListener("click", openInvite);
+  $("dlgClose").addEventListener("click", closeInvite);
   $("breakBtn").addEventListener("click", drawCookie);
   $("nameInput").addEventListener("keydown", e=>{ if (e.key === "Enter"){ e.preventDefault(); drawCookie(); } });
   $("showRecBtn").addEventListener("click", showRec);
