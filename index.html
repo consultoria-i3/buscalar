@@ -373,8 +373,16 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .timer.over .secs{color:var(--muted)}
 .opts{display:grid;gap:10px;width:100%}
 .opts .btn.opt{width:100%;justify-content:flex-start;text-align:left;gap:14px;padding:12px 18px;min-height:64px}
-.opts.answered .btn.opt:disabled{opacity:.35}
-.opts.answered .btn.opt.chosen:disabled{opacity:1}
+/* Tras la primera elección: la elegida sigue a color y las otras dos quedan en gris */
+.opts.answered .btn.opt:disabled{opacity:1;background:#E9E6EC;color:#8E889A;border-color:#C9C3D1;box-shadow:0 4px 0 0 #C9C3D1}
+.opts.answered .btn.opt:disabled .rb{background:#F4F1F6;border-color:#C9C3D1;color:#8E889A;text-decoration:none}
+.opts.answered .btn.opt.chosen:disabled{opacity:1;color:inherit;border-color:var(--ink);box-shadow:0 6px 0 0 var(--ink)}
+.opts.answered .btn-si.opt.chosen:disabled{background:linear-gradient(#B6EE7A,#6FCF3A)}
+.opts.answered .btn-no.opt.chosen:disabled{background:linear-gradient(#FF8FB8,#E63E7E);color:#fff}
+.opts.answered .btn-re.opt.chosen:disabled{background:linear-gradient(#FFE0B8,#FFB347)}
+.opts.answered .btn.opt.chosen:disabled .rb{background:var(--paper);border-color:var(--ink);color:var(--ink)}
+.opts.answered .btn-no.opt.chosen:disabled .rb{color:var(--rose);text-decoration:line-through}
+.opts.answered .btn-re.opt.chosen:disabled .rb{color:#B5461B}
 .opt-txt{display:grid;gap:2px;line-height:1.15;min-width:0}
 .opt-txt b{font-family:var(--font-display);font-weight:400;font-size:1.25rem;letter-spacing:.02em}
 .opt-txt small{font-family:var(--font-body);font-size:.9rem;font-weight:700;opacity:.92;text-transform:none;letter-spacing:0}
@@ -757,7 +765,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 14:48</span>
+  <span class="ver">versión 2026-10-26 14:51</span>
 </footer>
 
 <script>
