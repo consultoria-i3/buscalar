@@ -771,7 +771,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 15:02</span>
+  <span class="ver">versión 2026-10-26 15:11</span>
 </footer>
 
 <script>
@@ -988,7 +988,7 @@ function bubbleFor(){
     case "voted": return { reconozco:"¡Esa es la R!", rechazo:"Bueno… ¿y por qué no?", replanteo:"¡A replantearla!", empate:"¡Empate!", nadie:"¿Nadie? ¡Atentos!" }[state.lastVerdict] || "¡Listo!";
   }
   if (!pool.length) return "¡Se acabaron! ¿Otra ronda?";
-  return ["¡Saca una galleta!","¿Quién sigue?","¡Dale, sin miedo!"][state.log.length % 3];
+  return ["¡Saca una galleta!","¡Otra galleta!","¡Dale, sin miedo!"][state.log.length % 3];
 }
 
 /* ---------- Escenario / controles ---------- */
