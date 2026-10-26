@@ -390,10 +390,51 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .total .pct{font-family:var(--font-display);font-size:1.25rem;line-height:1;color:var(--muted);margin-top:-2px}
 .bar.share{width:min(100%,520px);height:16px;margin:2px auto 0}
 .bar.share:empty{display:none}
-/* Socialización / debate: conversación oral moderada por el docente */
-.debate{width:min(100%,640px);border:3px solid var(--ink);border-radius:18px;padding:16px 20px;background:linear-gradient(#FFF3F7,#FFEBDD);box-shadow:0 6px 0 0 var(--line);display:grid;gap:8px;text-align:center;animation:popIn .55s cubic-bezier(.2,.9,.3,1.3) both}
-.debate-t{font-family:var(--font-display);font-size:1.45rem;letter-spacing:.02em;color:var(--rose);line-height:1.2}
-.debate p{margin:0;font-weight:700;font-size:1.05rem;color:var(--ink);line-height:1.4}
+/* ---------- Socialización (debate): dentro de la escena de i3sit@, con su propio color (lila-rosa) para no confundirse con votación ni resultados ---------- */
+.scene-reveal.is-debate{background:radial-gradient(ellipse 66% 78% at 50% 52%,rgba(255,250,253,.95) 0%,rgba(250,236,250,.88) 40%,rgba(243,226,248,.55) 70%,rgba(243,226,248,0) 100%);padding:2.5% 4%}
+.dz{position:relative;width:min(100%,800px);display:grid;justify-items:center;gap:clamp(6px,1.4cqw,14px);text-align:center;pointer-events:auto}
+.dz-chip{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:999px;padding:3px 14px;background:#fff;font-weight:800;font-size:clamp(.72rem,1.5cqw,.95rem);color:#7A3E8E;box-shadow:0 3px 0 0 var(--ink)}
+.dz-chip i{width:9px;height:9px;border-radius:50%;background:#B565D9;animation:livePulse 1.2s ease-in-out infinite}
+@keyframes livePulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.4}}
+.dz-title{font-family:var(--font-display);font-size:clamp(1.3rem,4.6cqw,2.9rem);line-height:1.05;color:var(--rose);letter-spacing:.01em;-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill;text-shadow:0 4px 0 rgba(59,34,56,.18)}
+.dz-title span{color:#9B4DCA}
+.dz-msg{margin:0;max-width:44ch;font-weight:800;font-size:clamp(.85rem,2cqw,1.25rem);line-height:1.4;color:var(--ink)}
+.dz-steps{display:flex;align-items:stretch;justify-content:center;gap:clamp(6px,2cqw,22px);width:100%;position:relative}
+.dz-steps::before{content:"";position:absolute;left:16%;right:16%;top:calc(clamp(40px,8cqw,70px) / 2);border-top:3px dashed #D9B8E8;z-index:0}
+.dz-step{position:relative;z-index:1;display:grid;justify-items:center;gap:4px;flex:0 1 clamp(90px,22cqw,190px);animation:popIn .55s cubic-bezier(.2,.9,.3,1.3) both;animation-delay:calc(var(--i) * .15s + .2s)}
+.dz-ico{width:clamp(40px,8cqw,70px);height:clamp(40px,8cqw,70px);border-radius:50% 50% 50% 14%;border:3px solid var(--ink);display:grid;place-items:center;font-size:clamp(1.1rem,3.4cqw,2rem);box-shadow:0 4px 0 0 var(--ink);animation:talk 2.4s ease-in-out infinite;animation-delay:calc(var(--i) * .8s)}
+.dz-step:nth-child(1) .dz-ico{background:#FFD6E4}
+.dz-step:nth-child(2) .dz-ico{background:#EADCF8;border-radius:50%}
+.dz-step:nth-child(3) .dz-ico{background:#FFE6CC;border-radius:50% 50% 14% 50%}
+@keyframes talk{0%,70%,100%{transform:translateY(0) scale(1)}80%{transform:translateY(-6px) scale(1.08) rotate(-4deg)}90%{transform:translateY(0) scale(.98) rotate(2deg)}}
+.dz-step b{font-family:var(--font-display);font-weight:400;font-size:clamp(.8rem,1.9cqw,1.15rem);color:var(--ink);line-height:1.1}
+.dz-step small{font-size:clamp(.66rem,1.4cqw,.85rem);font-weight:700;color:var(--muted);line-height:1.2}
+.dz-hab{display:flex;align-items:center;gap:8px;max-width:100%;border:2px dashed #D9B8E8;border-radius:14px;background:rgba(255,255,255,.88);padding:5px 12px;font-size:clamp(.72rem,1.6cqw,.95rem);font-weight:700;color:#B5146E;text-align:left}
+.dz-hab svg{width:clamp(22px,4cqw,34px);height:clamp(22px,4cqw,34px);flex:none;overflow:visible}
+.dz-hab .k{font-family:var(--font-display);font-weight:400;color:var(--muted);white-space:nowrap}
+.dz-float{position:absolute;font-style:normal;font-size:clamp(1rem,3cqw,1.8rem);opacity:.85;animation:floaty 4s ease-in-out infinite;pointer-events:none}
+.dz-float.f1{left:2%;top:8%}.dz-float.f2{right:-2%;top:-4%;animation-delay:1.2s}.dz-float.f3{left:6%;bottom:16%;animation-delay:2.1s}.dz-float.f4{right:7%;bottom:22%;animation-delay:.6s}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-10px) rotate(6deg)}}
+.scene-reveal.is-debate .dz{animation:debateIn .6s cubic-bezier(.2,1.1,.3,1) both}
+@keyframes debateIn{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
+/* Debajo de la escena: resultados compactos + acción principal del docente */
+.after.is-debate .totals{display:none}
+.after.is-debate .result{font-size:.95rem;opacity:.85}
+.debate-cta{display:grid;justify-items:center;gap:8px;width:min(100%,560px);padding:14px 16px;border:3px solid #9B4DCA;border-radius:20px;background:linear-gradient(#FBF3FF,#F4E6FB)}
+.dz-live{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.9rem;color:#7A3E8E}
+.dz-live i{width:10px;height:10px;border-radius:50%;background:#B565D9;animation:livePulse 1.2s ease-in-out infinite}
+.btn-debate{background:linear-gradient(#D7A8F0,#9B4DCA);color:#fff;font-size:1.35rem;padding:16px 30px;width:100%;justify-content:center;animation:ctaGlow 2.2s ease-in-out infinite}
+.btn-debate span{transition:transform .2s}
+.btn-debate:hover span{transform:translateX(4px)}
+@keyframes ctaGlow{0%,100%{box-shadow:0 6px 0 0 var(--ink)}50%{box-shadow:0 6px 0 0 var(--ink),0 0 0 6px rgba(181,101,217,.25)}}
+/* Celular */
+.s-scene .scene-reveal.is-debate{padding:14px 10px 16px}
+.s-scene .dz-steps::before{display:none}
+.s-scene .dz-float{display:none}
+.s-scene .dz-step{flex:1 1 0}
+.s-debate-res{display:grid;gap:6px;justify-items:center;width:100%}
+.s-debate-res .lab{font-family:var(--font-display);font-size:.85rem;letter-spacing:.04em;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.dz-ico,.dz-float,.dz-chip i,.dz-live i,.btn-debate,.dz-step,.scene-reveal.is-debate .dz{animation:none!important}}
 .summary{display:grid;gap:10px;margin-bottom:14px;padding:14px;border:3px solid var(--ink);border-radius:16px;background:var(--cream)}
 .summary .lab{font-family:var(--font-display);font-size:1rem;letter-spacing:.03em;color:var(--rose)}
 .summary .totals{gap:10px}
@@ -704,11 +745,11 @@ details.howto[open] summary::after{content:"\2212"}
           <div class="totals" id="totalsBox" hidden></div>
           <div class="bar share" id="shareBar" aria-hidden="true"></div>
           <p class="result" id="resultText"></p>
-          <div class="debate" id="debateBox" hidden>
-            <div class="debate-t">💬 ¿Le damos la R… o tiene razón?</div>
-            <p>Es momento de compartir nuestras razones, escuchar otras perspectivas y descubrir si mantenemos nuestra postura o nos replanteamos la R.</p>
+          <div class="debate-cta" id="debateBox" hidden>
+            <span class="dz-live"><i></i> Debate en curso · conversación oral y libre</span>
+            <button class="btn btn-xl btn-debate" id="nextBtn" hidden>💬 Cerrar debate y continuar <span aria-hidden="true">➜</span></button>
+            <span class="note">Tú decides cuándo termina. Los resultados de esta galleta quedan guardados para el resumen final.</span>
           </div>
-          <button class="btn btn-coral btn-xl" id="nextBtn" hidden>Cerrar debate y continuar</button>
         </div>
       </div>
     </div>
@@ -824,7 +865,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 16:15</span>
+  <span class="ver">versión 2026-10-26 16:24</span>
 </footer>
 
 <script>
@@ -964,18 +1005,30 @@ function syncVoteClock(t){
 /* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
 function studentResultUI(box, t, mine, debate){
   const c = { pro: t.pro || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
-  box.append(buildTotals(c), buildShareBar(c));
+  if (debate) box.append(h("div",{class:"s-debate-res"}, h("span",{class:"lab"}, "Resultado de esta galleta"), buildShareBar(c)));
+  else box.append(buildTotals(c), buildShareBar(c));
   const v = verdictOf(c);
   box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine ? ` · tú: ${OPT[mine].label}` : " · tú quedaste sin responder")));
-  if (debate) box.append(buildDebate());
-  else box.append(h("p",{class:"note"}, "En un momento abrimos la conversación."));
+  if (!debate) box.append(h("p",{class:"note"}, "En un momento abrimos la conversación."));
 }
 const later = (fn, ms) => { timers.push(setTimeout(fn, reduced ? 0 : ms)); };
 function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 const SHOWING = ["revealed","advised","voted","debate"];
 const DEBATE_TITLE = "¿Le damos la R… o tiene razón?";
 const DEBATE_MSG = "Es momento de compartir nuestras razones, escuchar otras perspectivas y descubrir si mantenemos nuestra postura o nos replanteamos la R.";
-function buildDebate(){ return h("div",{class:"debate"}, h("div",{class:"debate-t"}, "💬 " + DEBATE_TITLE), h("p", null, DEBATE_MSG)); }
+/* Composición de la socialización (misma pieza en la escena del docente y en el celular): sin preguntas, votos ni respuestas correctas */
+function buildDebateScene(idx, rec){
+  const step = (i, ico, b, sm) => { const el = h("div",{class:"dz-step"}, h("div",{class:"dz-ico","aria-hidden":"true"}, ico), h("b", null, b), h("small", null, sm)); el.style.setProperty("--i", i); return el; };
+  const hab = h("div",{class:"dz-hab"}, cookieSvg(null, null), h("span",{class:"k"}, `Galleta #${idx+1} ·`), h("span", null, rec ? rec.h : ""));
+  return h("div",{class:"dz"},
+    h("i",{class:"dz-float f1","aria-hidden":"true"}, "💬"), h("i",{class:"dz-float f2","aria-hidden":"true"}, "💭"),
+    h("i",{class:"dz-float f3","aria-hidden":"true"}, "🗨️"), h("i",{class:"dz-float f4","aria-hidden":"true"}, "✨"),
+    h("span",{class:"dz-chip"}, h("i"), "Socialización"),
+    h("div",{class:"dz-title"}, "💬 ¿Le damos la R… ", h("span", null, "o tiene razón?")),
+    h("p",{class:"dz-msg"}, DEBATE_MSG),
+    h("div",{class:"dz-steps"}, step(0, "🗣️", "Compartimos", "nuestras razones"), step(1, "👂", "Escuchamos", "otras perspectivas"), step(2, "💭", "Reflexionamos", "¿mantenemos o replanteamos la R?")),
+    hab);
+}
 
 function save(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){} }
 function load(){
@@ -1132,7 +1185,9 @@ function renderSlip(){
   const animate = state.phase === "revealed";
   box.classList.toggle("enter", animate && !reduced);
   const { paper, hab } = buildSlip(idx, rec, animate);
-  box.append(paper);
+  const inDebate = state.phase === "debate";
+  box.classList.toggle("is-debate", inDebate);
+  box.append(inDebate ? buildDebateScene(idx, rec) : paper);
   const conf = h("div",{class:"confetti",id:"confetti","aria-hidden":"true"});
   const colors = ["#FF6FA3","#E63E7E","#FF8C2E","#FFB347","#5BC236","#FFD166"];
   for (let i=0;i<18;i++){
@@ -1160,6 +1215,7 @@ function renderSlip(){
     res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean.`));
   }
   $("debateBox").hidden = !debate;
+  $("afterBox").classList.toggle("is-debate", debate);
   $("nextBtn").hidden = !debate;   // el docente avanza solo desde el debate
   renderPanel();
 }
@@ -1605,7 +1661,8 @@ function renderStudent(){
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
-  box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate).paper)));
+  if (t.phase === "debate") box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal is-debate"}, buildDebateScene(idx, rec))));
+  else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate).paper)));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.opt : null;
   if (t.phase === "revealed"){ clearInterval(live.ticker); box.append(h("p",{class:"note"}, "Lee el hábito. En un momento aparecen las tres opciones y empieza la cuenta regresiva.")); return; }
   if (t.phase === "advised"){ studentVoteUI(box, mine, live.voteEndsLocal, opt => studentVote(opt, t)); return; }
