@@ -473,6 +473,31 @@ dialog.invite-dlg .card-head{margin-bottom:14px}
 dialog.invite-dlg h2{font-family:var(--font-display);font-weight:400;font-size:1.35rem;letter-spacing:.03em;color:var(--rose)}
 body.is-student .teacher-note{display:none}
 .head-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+/* Panel de control del docente */
+.panel{padding:14px 18px}
+.panel-grid{display:grid;grid-template-columns:1.05fr 1.5fr 1.15fr;gap:12px}
+@media (max-width:900px){.panel-grid{grid-template-columns:1fr}}
+.pz{border:3px solid var(--line);border-radius:16px;padding:12px 14px;background:#FFF8FA;display:grid;gap:8px;align-content:start;min-width:0}
+.pz-title{font-family:var(--font-display);font-size:1rem;letter-spacing:.03em;color:var(--rose)}
+.pz .lab{font-family:var(--font-display);font-size:.8rem;letter-spacing:.04em;color:var(--tangerine)}
+.pz-code{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pz-code b{font-family:var(--font-display);font-weight:400;font-size:1.7rem;letter-spacing:.14em;color:var(--rose);line-height:1}
+.pz-people{font-size:.9rem;font-weight:700;color:var(--muted)}
+.pz-people.on{color:var(--green-dk)}
+.pz-meta,.pz-counter{font-size:.92rem;font-weight:700;color:var(--muted)}
+.pz-meta b,.pz-counter b{color:var(--ink)}
+.stepper{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.stepper li{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.82rem;font-weight:700;color:var(--muted);background:#fff;transition:background .3s,border-color .3s}
+.stepper li.done{border-color:var(--green);background:var(--mint);color:var(--green-dk)}
+.stepper li.now{border-color:var(--ink);background:var(--pinkt);color:var(--ink);box-shadow:0 3px 0 0 var(--ink)}
+.pz-now{font-weight:800;font-size:1.05rem;color:var(--ink)}
+.pz-now small{display:block;font-weight:600;font-size:.88rem;color:var(--muted)}
+.pz-next{font-size:.92rem;font-weight:600;color:var(--muted);display:grid;gap:2px}
+.pz-next .auto{display:inline-block;margin-left:6px;border:2px solid var(--line);border-radius:999px;padding:0 8px;font-size:.75rem;font-weight:800;color:var(--muted);background:#fff}
+.quick{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.quick .btn{justify-content:center;font-size:.92rem;padding:9px 10px;border-radius:12px;box-shadow:0 4px 0 0 var(--ink)}
+.quick .btn.main{background:linear-gradient(#FFB0A3,#FF7B6B);grid-column:1 / -1;font-size:1.05rem}
+.quick .btn:disabled{opacity:.45;box-shadow:0 4px 0 0 var(--line)}
 
 /* Instrucciones */
 details.howto summary{cursor:pointer;font-family:var(--font-display);font-size:1.35rem;letter-spacing:.03em;color:var(--rose);list-style:none;display:flex;justify-content:space-between;align-items:center}
@@ -552,6 +577,27 @@ details.howto[open] summary::after{content:"\2212"}
       <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala" autocapitalize="characters" spellcheck="false">
       <button class="btn btn-sm" type="submit">Entrar</button>
     </form>
+  </section>
+
+  <section class="card teacher-only panel" id="panelCard" hidden aria-label="Panel de control de la sesión">
+    <div class="panel-grid">
+      <div class="pz pz-session">
+        <div class="pz-title">🧑‍🏫 Sesión</div>
+        <div class="pz-code"><span class="lab">Sala</span><b id="pCode">····</b><span class="pz-people" id="pPeople">sin participantes</span></div>
+        <div class="pz-meta" id="pMeta"></div>
+        <div class="pz-counter" id="pCounter"></div>
+      </div>
+      <div class="pz pz-stage">
+        <div class="pz-title">📍 Etapa actual</div>
+        <ol class="stepper" id="pSteps"></ol>
+        <div class="pz-now" id="pNow"></div>
+        <div class="pz-next"><span class="lab">Siguiente</span><span id="pNext"></span></div>
+      </div>
+      <div class="pz pz-quick">
+        <div class="pz-title">⚡ Accesos rápidos</div>
+        <div class="quick" id="pQuick"></div>
+      </div>
+    </div>
   </section>
 
   <section class="card" id="teacherCard" hidden aria-labelledby="stageTitle">
@@ -771,7 +817,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 15:12</span>
+  <span class="ver">versión 2026-10-26 15:43</span>
 </footer>
 
 <script>
@@ -1028,6 +1074,7 @@ function renderStage(){
   say(bubbleFor());
   live.broadcast();
   if (live.mode === "teacher") renderSala();
+  renderPanel();
 }
 
 /* Galleta grande partida en dos con el hábito en el centro (misma pieza en la pantalla del docente y en el celular).
@@ -1102,6 +1149,7 @@ function renderSlip(){
     res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean.`));
     $("nextBtn").textContent = unopened().length ? "Siguiente galleta 🍪" : "Terminar la ronda 🏁";
   }
+  renderPanel();
 }
 
 function drawCookie(){
@@ -1112,9 +1160,9 @@ function drawCookie(){
   $("idleControls").hidden = true;
   $("breakBtn").disabled = true;
   clearTimers();
-  setScene("is-stirring"); say(bubbleFor()); live.broadcast();
+  setScene("is-stirring"); say(bubbleFor()); live.broadcast(); renderPanel();
   later(()=>{
-    state.phase = "lifting"; setScene("is-lifting"); say(bubbleFor()); live.broadcast();
+    state.phase = "lifting"; setScene("is-lifting"); say(bubbleFor()); live.broadcast(); renderPanel();
     later(()=>{
       setScene("is-lifting","is-open");
       later(()=>{
@@ -1244,6 +1292,74 @@ function renderReset(){
 }
 
 function renderAll(){ renderStage(); renderTray(); renderTable(); renderReset(); }
+
+/* ---------- Panel de control del docente ----------
+   Lee el estado y llama a las funciones que ya existen (no agrega lógica ni toca la sincronización).
+   STAGES es la lista ordenada de etapas: para una fase futura basta con agregar una entrada aquí. */
+const STAGES = [
+  { id:"sala",      icon:"👥", label:"Sala",      is: () => !state.playing },
+  { id:"sacar",     icon:"🍪", label:"Sacar",     is: () => state.playing && !state.finished && state.phase === "idle" && unopened().length > 0 },
+  { id:"revolver",  icon:"🥣", label:"Revolver",  is: () => state.phase === "stirring" || state.phase === "lifting" },
+  { id:"habito",    icon:"📜", label:"Hábito",    is: () => state.phase === "revealed" },
+  { id:"votacion",  icon:"⏱️", label:"Votación",  is: () => state.phase === "advised" },
+  { id:"resultado", icon:"📊", label:"Resultado", is: () => state.phase === "voted" },
+  { id:"final",     icon:"🏆", label:"Resumen",   is: () => state.playing && (state.finished || (state.phase === "idle" && unopened().length === 0 && state.opened.length > 0)) }
+];
+const stageIndex = () => { const i = STAGES.findIndex(st => st.is()); return i < 0 ? 0 : i; };
+/* Qué pasa después y quién lo dispara (auto = sin intervención del docente) */
+function nextStep(){
+  const st = STAGES[stageIndex()].id, left = unopened().length;
+  switch (st){
+    case "sala":      return { text: "Empezar la partida cuando todos hayan entrado.", auto: false };
+    case "sacar":     return { text: "i3sit@ revuelve el tazón y saca una galleta al azar; se revela el hábito.", auto: false };
+    case "revolver":  return { text: "Se revela el hábito.", auto: true };
+    case "habito":    return { text: `Se abre sola la votación de ${VOTE_SECS} s en los celulares.`, auto: true };
+    case "votacion":  return { text: "Al llegar a cero: cierre automático y resultados (votos y porcentaje).", auto: true };
+    case "resultado": return left ? { text: `Quedan ${left} galleta${left===1?"":"s"}: «Siguiente galleta» (los resultados desaparecen).`, auto: false }
+                                  : { text: "Era la última galleta: «Siguiente galleta» lleva al resumen final.", auto: false };
+    case "final":     return left ? { text: "Volver al juego para seguir con las galletas que quedan, u hornear otra ronda.", auto: false }
+                                  : { text: "Hornear otra ronda (las R se siguen sumando) o reiniciar.", auto: false };
+  }
+  return { text: "", auto: false };
+}
+function renderPanel(){
+  const card = $("panelCard"); if (!card || live.mode === "student") return;
+  const playing = state.started && state.playing;
+  card.hidden = !playing; if (!playing) return;
+  // Sesión
+  const code = (live.session && live.session.code) || live.code || "";
+  $("pCode").textContent = code || "····";
+  const n = live.students.length;
+  const pp = $("pPeople"); pp.textContent = n ? `${n} participante${n===1?"":"s"}` : "sin participantes"; pp.classList.toggle("on", n > 0);
+  const meta = $("pMeta"); meta.replaceChildren();
+  if (state.modulo || state.docente) meta.append("Módulo: ", h("b", null, state.modulo || "—"), " · Docente: ", h("b", null, state.docente || "—"));
+  const opened = state.opened.length, left = unopened().length;
+  const counter = $("pCounter"); counter.replaceChildren("Ronda ", h("b", null, state.round), " · ", h("b", null, opened), ` de ${RECS.length} abiertas · quedan `, h("b", null, left));
+  // Etapa actual
+  const idx = stageIndex(), steps = $("pSteps"); steps.replaceChildren();
+  STAGES.forEach((st, i) => steps.append(h("li",{class: i < idx ? "done" : i === idx ? "now" : "", "aria-current": i === idx ? "step" : null}, st.icon + " " + st.label)));
+  const now = $("pNow"); now.replaceChildren();
+  const cur = STAGES[idx];
+  const detail = state.current !== null && state.current !== undefined && ["revolver","habito","votacion","resultado"].includes(cur.id) ? `Galleta #${state.current+1}` : cur.id === "sacar" ? "Lista para sacar una galleta" : cur.id === "final" ? "Pantalla final con el resumen" : "";
+  now.append(cur.icon + " " + cur.label); if (detail) now.append(h("small", null, detail));
+  const nx = nextStep(); const pn = $("pNext"); pn.replaceChildren(nx.text); if (nx.auto) pn.append(h("span",{class:"auto"}, "automático"));
+  // Accesos rápidos: cada botón llama a la función existente y solo se activa cuando aplica
+  const q = $("pQuick"); q.replaceChildren();
+  const btn = (label, fn, ok, cls) => q.append(h("button",{class:"btn btn-sm" + (cls ? " " + cls : ""), type:"button", disabled: !ok, onclick: fn}, label));
+  const idle = state.phase === "idle" && !state.finished;
+  // Una sola acción principal según la etapa (el resto son secundarias)
+  switch (cur.id){
+    case "sacar":     btn("🍪 Sacar una galleta", drawCookie, true, "main"); break;
+    case "resultado": btn("➡️ Siguiente galleta", next, true, "main"); break;
+    case "final":     if (left) btn("🍪 Volver al juego", resumeGame, true, "main"); else btn("🔥 Hornear otra ronda", newRound, true, "main"); break;
+    default:          btn("⏳ " + cur.label + " en curso…", null, false, "main");
+  }
+  btn("👥 Invitar participantes", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
+  if (!state.finished) btn("🏁 Resumen final", finishGame, idle && opened > 0);
+  if (state.finished && left) btn("🔥 Hornear otra ronda", newRound, true);
+  btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = true; d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
+  btn("🔄 Reiniciar juego", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
+}
 function renderStart(){}
 
 /* La partida arranca (después de la pantalla de invitación). No toca la sala ni el código: los que ya entraron siguen conectados. */
@@ -1383,6 +1499,7 @@ function onStudentsChange(){
   $("roomPill").hidden = false; $("roomPill").classList.toggle("on", n > 0);
   $("roomText").textContent = (live.session ? "Sala " + live.session.code + " · " : "") + (n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
   renderInvitePeople();
+  if (typeof renderPanel === "function") renderPanel();
   if (state.phase === "advised" && state.current !== null) renderSlip();
 }
 
