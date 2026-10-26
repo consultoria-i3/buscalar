@@ -387,6 +387,15 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .opt-txt b{font-family:var(--font-display);font-weight:400;font-size:1.25rem;letter-spacing:.02em}
 .opt-txt small{font-family:var(--font-body);font-size:.9rem;font-weight:700;opacity:.92;text-transform:none;letter-spacing:0}
 .total .sub{font-size:.8rem;font-weight:600;color:var(--muted);text-align:center;line-height:1.2}
+.total .pct{font-family:var(--font-display);font-size:1.25rem;line-height:1;color:var(--muted);margin-top:-2px}
+.bar.share{width:min(100%,520px);height:16px;margin:2px auto 0}
+.bar.share:empty{display:none}
+.summary{display:grid;gap:10px;margin-bottom:14px;padding:14px;border:3px solid var(--ink);border-radius:16px;background:var(--cream)}
+.summary .lab{font-family:var(--font-display);font-size:1rem;letter-spacing:.03em;color:var(--rose)}
+.summary .totals{gap:10px}
+.summary .total{flex:1 1 120px;padding:10px;box-shadow:0 4px 0 0 var(--line);animation:none}
+.summary .total .big-n{font-size:2rem}
+.rtag small{font-family:var(--font-body);font-weight:700;font-size:.78rem;opacity:.85}
 .legend{display:grid;gap:4px;justify-items:center;text-align:center;font-size:.95rem;font-weight:700;color:var(--muted)}
 .legend b{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.02em}
 .legend .pro b{color:var(--green-dk)} .legend .con b{color:var(--rose)} .legend .re b{color:#B5461B}
@@ -635,6 +644,7 @@ details.howto[open] summary::after{content:"\2212"}
       <div class="idle-controls" id="idleControls">
         <button class="btn btn-coral btn-xl" id="breakBtn">🍪 Sacar una galleta</button>
         <p class="note" id="pickNote">i3sit@ mete las manos al tazón y saca una al azar.</p>
+        <button class="linklike" id="finishBtn" type="button" hidden>🏁 Terminar y ver el resumen final</button>
       </div>
 
       <div class="done-box" id="doneBox" hidden>
@@ -642,7 +652,7 @@ details.howto[open] summary::after{content:"\2212"}
         <p class="note" id="doneTop"></p>
         <div class="votebar">
           <button class="btn btn-coral btn-xl" id="newRoundBtn">🔥 Hornear otra ronda</button>
-          <a class="btn btn-xl" href="#resultados">🏆 Ver resultados</a>
+          <button class="btn btn-xl" id="finishBtn2" type="button">🏆 Ver el resumen final</button>
         </div>
       </div>
 
@@ -665,6 +675,7 @@ details.howto[open] summary::after{content:"\2212"}
         </div>
         <div class="after" id="afterBox" hidden>
           <div class="totals" id="totalsBox" hidden></div>
+          <div class="bar share" id="shareBar" aria-hidden="true"></div>
           <p class="result" id="resultText"></p>
           <button class="btn btn-coral btn-xl" id="nextBtn">Siguiente galleta 🍪</button>
         </div>
@@ -727,21 +738,16 @@ details.howto[open] summary::after{content:"\2212"}
     <p class="invite-steps">Quien entre ahora se incorpora a la sala tal como va: ve la galleta actual y responde en la votación que esté abierta o en la siguiente.</p>
   </dialog>
 
-  <section class="card teacher-only" id="resultados" aria-labelledby="tableTitle">
+  <section class="card teacher-only" id="resultados" hidden aria-labelledby="tableTitle">
     <div class="card-head">
-      <h2 id="tableTitle">Cuántas R tuvo cada recomendación</h2>
+      <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada hábito</h2>
       <span class="hint">Verde: reconocen la R · Rosa: la rechazan · Naranja: la replantean · Gris: sin responder.</span>
     </div>
+    <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
-  </section>
-
-  <section class="card teacher-only" aria-labelledby="logTitle">
-    <div class="card-head">
-      <h2 id="logTitle">Quién sacó qué</h2>
-      <span class="hint" id="logHint"></span>
-    </div>
-    <div id="log"></div>
     <div class="toolbar" style="margin-top:14px">
+      <button class="btn btn-sm" id="resumeBtn" type="button" hidden>🍪 Volver al juego</button>
+      <button class="btn btn-sm" id="newRoundBtn2" type="button" hidden>🔥 Hornear otra ronda</button>
       <span class="sep"></span>
       <div id="resetArea"></div>
     </div>
@@ -756,7 +762,7 @@ details.howto[open] summary::after{content:"\2212"}
         <li><strong>Tres opciones y 15 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico), «Rechazo la R» (no me pasa o no estoy de acuerdo) y «Replanteo la R» (puedo mejorar y hacerlo diferente) con una cuenta regresiva de 15 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
-        <li><strong>Siguiente galleta.</strong> Cada galleta sale una sola vez por ronda; cuando se acaban, se hornea otra ronda y las R se siguen sumando. La tabla muestra cuál convenció más.</li>
+        <li><strong>Siguiente galleta.</strong> Al pasar a la siguiente, los resultados desaparecen de la pantalla. Cada galleta sale una sola vez por ronda; cuando se acaban (o cuando el docente toca «Terminar y ver el resumen final») aparece la pantalla final con el acumulado de todas las galletas: votos y porcentajes de cada opción. Desde ahí se puede hornear otra ronda, y las R se siguen sumando.</li>
       </ol>
     </details>
   </section>
@@ -765,7 +771,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 14:51</span>
+  <span class="ver">versión 2026-10-26 15:02</span>
 </footer>
 
 <script>
@@ -813,7 +819,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const LS_KEY = "galleta-de-la-r-v3";
 const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* started: la sala ya existe (el docente llenó módulo y nombre). playing: la partida arrancó (en el sitio hay una pantalla de invitación entre ambas). */
-const fresh = () => ({ started:false, playing:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastVerdict:null, lastCounts:null, name:"", liveVotes:{}, voteEnds:null });
+const fresh = () => ({ started:false, playing:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastVerdict:null, lastCounts:null, name:"", liveVotes:{}, voteEnds:null, finished:false });
 let state = fresh();
 let timers = [];
 let returning = false;
@@ -837,9 +843,9 @@ const tallyOf = i => Object.assign({ pro:0, con:0, re:0, nr:0 }, state.tally[i] 
 /* Votación: tres opciones, 15 segundos, cierre automático. pro = Reconozco, con = Rechazo, re = Replanteo, nr = Sin responder */
 const VOTE_SECS = 15;
 const OPTS = [
-  { k:"reconozco", key:"pro", label:"Reconozco la R", desc:"Sí, me pasa o me identifico.",        verdict:"La clase reconoce la R",  cls:"btn-si", tone:"" },
-  { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" },
-  { k:"replanteo", key:"re",  label:"Replanteo la R", desc:"Puedo mejorar y hacerlo diferente.", verdict:"La clase replantea la R", cls:"btn-re", tone:"re" }
+  { k:"reconozco", key:"pro", label:"Reconozco la R", desc:"Sí, me pasa o me identifico.",        short:"De acuerdo",                       verdict:"La clase reconoce la R",  cls:"btn-si", tone:"" },
+  { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   short:"En desacuerdo",                    verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" },
+  { k:"replanteo", key:"re",  label:"Replanteo la R", desc:"Puedo mejorar y hacerlo diferente.", short:"Quiere reconsiderar su opinión",   verdict:"La clase replantea la R", cls:"btn-re", tone:"re" }
 ];
 const OPT = Object.fromEntries(OPTS.map(o => [o.k, o]));
 const normOpt = v => (typeof v === "string" && OPT[v]) ? v : (v === true ? "reconozco" : v === false ? "rechazo" : null);
@@ -851,11 +857,21 @@ function verdictOf(c){
   if (w.length > 1) return { k:"empate", label:"Empate: la clase se dividió", tone:"tie", stamp:"Empate" };
   return { k:w[0].k, label:w[0].verdict, tone:w[0].tone, stamp: w[0].k === "reconozco" ? "R" : w[0].k === "rechazo" ? "Rechazo" : "Replanteo" };
 }
+/* Porcentaje de cada opción sobre las respuestas recibidas (los «Sin responder» no entran en el reparto) */
+const pctOf = (n, total) => total ? Math.round(n / total * 100) : 0;
 function buildTotals(c){
+  const total = (c.pro || 0) + (c.con || 0) + (c.re || 0);
   const box = h("div",{class:"totals"});
-  OPTS.forEach((o, i) => box.append(h("div",{class:"total " + (o.key === "pro" ? "pro" : o.key === "con" ? "con" : "re"), style:`animation-delay:${i*.1}s`}, h("div",{class:"big-n"}, c[o.key]), h("div",{class:"lab"}, o.label), h("div",{class:"sub"}, o.desc))));
-  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), h("div",{class:"lab"}, "Sin responder"), h("div",{class:"sub"}, "No alcanzó a responder.")));
+  OPTS.forEach((o, i) => box.append(h("div",{class:"total " + (o.key === "pro" ? "pro" : o.key === "con" ? "con" : "re"), style:`animation-delay:${i*.1}s`},
+    h("div",{class:"big-n"}, c[o.key] || 0), h("div",{class:"pct"}, pctOf(c[o.key] || 0, total) + " %"), h("div",{class:"lab"}, o.label), h("div",{class:"sub"}, o.short))));
+  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), h("div",{class:"pct"}, "—"), h("div",{class:"lab"}, "Sin responder"), h("div",{class:"sub"}, "No alcanzó a responder.")));
   return box;
+}
+/* Barra apilada con el reparto de las respuestas */
+function buildShareBar(c){
+  const total = (c.pro || 0) + (c.con || 0) + (c.re || 0);
+  return h("div",{class:"bar share",role:"img","aria-label":`${pctOf(c.pro, total)} % reconocen, ${pctOf(c.con, total)} % rechazan, ${pctOf(c.re, total)} % replantean`},
+    h("span",{class:"pro",style:`width:${pctOf(c.pro, total)}%`}), h("span",{class:"re",style:`width:${pctOf(c.re, total)}%`}), h("span",{class:"con",style:`width:${pctOf(c.con, total)}%`}));
 }
 /* Cronómetro: actualiza los segundos y la barra de un elemento .timer hasta endsAt (ms); al llegar a cero llama onZero */
 function runTimer(el, endsAt, onZero){
@@ -895,7 +911,7 @@ function syncVoteClock(t){
 /* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
 function studentResultUI(box, t, mine){
   const c = { pro: t.pro || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
-  box.append(buildTotals(c));
+  box.append(buildTotals(c), buildShareBar(c));
   const v = verdictOf(c);
   box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine ? ` · tú: ${OPT[mine].label}` : " · tú quedaste sin responder")));
   box.append(h("p",{class:"note"}, "Espera la siguiente galleta."));
@@ -985,6 +1001,14 @@ function renderStage(){
     $("startCard").hidden = state.started; $("teacherCard").hidden = !playing;
     document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard)").forEach(el => el.hidden = !playing);
     const sala = $("salaCard"); if (sala) sala.hidden = !(state.started && !state.playing);
+    // El resumen acumulado solo se ve en la pantalla final (al terminar la ronda o cuando el docente la termina); durante el juego queda oculto
+    const roundOver = pool.length === 0 && state.phase === "idle" && state.opened.length > 0;
+    const finalScreen = playing && (state.finished || roundOver);
+    $("resultados").hidden = !finalScreen;
+    if (state.finished) $("teacherCard").hidden = true;
+    $("resumeBtn").hidden = !(state.finished && pool.length > 0);
+    $("newRoundBtn2").hidden = !(finalScreen && pool.length === 0);
+    $("finishBtn").hidden = !(state.opened.length > 0);
   }
   $("controls").hidden = !state.started;
   const si = $("sessionInfo"); si.replaceChildren();
@@ -997,7 +1021,7 @@ function renderStage(){
   const rb = $("revealBox"); rb.hidden = !showing; if (!showing){ rb.replaceChildren(); rb.classList.remove("enter"); }
   if (pool.length === 0 && state.phase === "idle"){
     const best = bestRec();
-    $("doneTop").textContent = best ? `Hasta ahora la que más R tiene es la #${best.i+1} con ${best.pro} R.` : "";
+    $("doneTop").textContent = best ? `La que más R reconocida tuvo es la #${best.i+1} con ${best.pro}. Abajo está el resumen de todas las galletas.` : "Abajo está el resumen de todas las galletas.";
   }
   if (showing) renderSlip();
   renderDesk();
@@ -1073,6 +1097,7 @@ function renderSlip(){
     const res = $("resultText"); res.replaceChildren();
     const tb = $("totalsBox"); tb.replaceChildren(); tb.hidden = false;
     tb.append(...buildTotals(c).childNodes);
+    $("shareBar").replaceChildren(...buildShareBar(c).childNodes);
     const who = c.total === 1 ? "1 estudiante respondió" : `${c.total} estudiantes respondieron`;
     res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean.`));
     $("nextBtn").textContent = unopened().length ? "Siguiente galleta 🍪" : "Terminar la ronda 🏁";
@@ -1123,7 +1148,7 @@ function closeVote(){
   state.log.push({ idx, v: v.k, r: v.k === "reconozco", pro: c.pro, con: c.con, re: c.re, nr: c.nr, t: Date.now() });
   state.lastVote = v.k === "reconozco"; state.lastVerdict = v.k; state.lastCounts = c; state.phase = "voted"; state.picked = null; state.voteEnds = null;
   save(); saveResult(idx, c);
-  renderSlip(); renderTray(); renderTable(); renderLog(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
+  renderSlip(); renderTray(); renderTable(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
   flashScene(v.k === "reconozco" ? "is-happy" : "is-meh", 1100);
   if (v.k === "reconozco"){ const cf = $("confetti"); if (cf){ cf.classList.remove("go"); void cf.offsetWidth; cf.classList.add("go"); } }
   $("nextBtn").focus({preventScroll:true});
@@ -1139,8 +1164,14 @@ function next(){
   if (unopened().length) $("breakBtn").focus({preventScroll:true});
 }
 
+function finishGame(){
+  if (state.phase !== "idle") return;
+  state.finished = true; save(); renderAll();
+  $("resultados").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+}
+function resumeGame(){ state.finished = false; save(); renderAll(); }
 function newRound(){
-  state.opened = []; state.round++; state.phase = "idle"; state.current = null; state.picked = null; state.lastVote = null;
+  state.opened = []; state.round++; state.phase = "idle"; state.current = null; state.picked = null; state.lastVote = null; state.finished = false;
   save(); renderAll();
   toast(`Ronda ${state.round} lista: 15 galletas nuevas 🔥`);
 }
@@ -1164,15 +1195,25 @@ function renderTable(){
   const box = $("table"); box.replaceChildren();
   const best = bestRec();
   const closed = [];
+  // Resumen global de la partida (todas las galletas abiertas, todas las rondas)
+  const all = { pro:0, con:0, re:0, nr:0 };
+  RECS.forEach((_, i)=>{ const t = tallyOf(i); all.pro += t.pro; all.con += t.con; all.re += t.re; all.nr += t.nr; });
+  const sum = $("tableSummary"); sum.replaceChildren();
+  const opened = state.opened.length, answered = all.pro + all.con + all.re;
+  if (opened || answered){
+    sum.append(h("div",{class:"lab"}, `Ronda ${state.round} · ${opened} galleta${opened===1?"":"s"} abierta${opened===1?"":"s"} en esta ronda · ${answered} respuesta${answered===1?"":"s"} en total`));
+    sum.append(buildTotals(all), buildShareBar(all));
+  }
   RECS.forEach((rec, i)=>{
     const t = tallyOf(i), total = t.pro + t.con + t.re;
     if (!total && !t.nr && !state.opened.includes(i)){ closed.push(i); return; }
-    const pc = k => total ? Math.round(t[k]/total*100) : 0;
+    const pc = k => pctOf(t[k], total);
+    const tag = (cls, title, sym, k) => h("span",{class:"rtag " + cls, title}, sym + " ", t[k], h("small", null, ` · ${pc(k)} %`));
     box.append(h("div",{class:"rrow" + (best && best.i === i && t.pro > 0 ? " top" : "")},
       h("div",{class:"n"}, i+1),
       h("div",{class:"txt"}, h("div",{class:"h"}, rec.h), h("div", null, rec.a)),
-      h("div",{class:"nums"}, h("span",{class:"rtag pro",title:"Reconozco la R"}, "R ", t.pro), h("span",{class:"rtag con",title:"Rechazo la R"}, "✗ ", t.con), h("span",{class:"rtag re",title:"Replanteo la R"}, "↻ ", t.re), t.nr ? h("span",{class:"rtag nr",title:"Sin responder"}, "– ", t.nr) : null),
-      h("div",{class:"bar",role:"img","aria-label":`${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean, ${t.nr} sin responder`}, h("span",{class:"pro",style:`width:${pc("pro")}%`}), h("span",{class:"re",style:`width:${pc("re")}%`}), h("span",{class:"con",style:`width:${pc("con")}%`}))));
+      h("div",{class:"nums"}, tag("pro","Reconozco la R","R","pro"), tag("con","Rechazo la R","✗","con"), tag("re","Replanteo la R","↻","re"), t.nr ? h("span",{class:"rtag nr",title:"Sin responder"}, "– ", t.nr) : null),
+      h("div",{class:"bar",role:"img","aria-label":`${t.pro} reconocen (${pc("pro")} %), ${t.con} rechazan (${pc("con")} %), ${t.re} replantean (${pc("re")} %), ${t.nr} sin responder`}, h("span",{class:"pro",style:`width:${pc("pro")}%`}), h("span",{class:"re",style:`width:${pc("re")}%`}), h("span",{class:"con",style:`width:${pc("con")}%`}))));
   });
   if (closed.length){
     const grid = h("div",{class:"closed-grid"});
@@ -1189,21 +1230,7 @@ function renderTable(){
   }
 }
 
-/* ---------- Participantes ---------- */
-function renderLog(){
-  const box = $("log"); box.replaceChildren();
-  const n = state.log.length;
-  $("logHint").textContent = n ? `${n} galleta${n===1?"":"s"} abierta${n===1?"":"s"} · ${state.log.filter(x=>x.r).length} con la R reconocida` : "";
-  if (!n){ box.append(h("div",{class:"empty"}, "Todavía nadie ha sacado una galleta. 🍪")); return; }
-  const chips = h("div",{class:"chips"});
-  [...state.log].reverse().forEach(e=>{
-    const k = e.v || (e.r ? "reconozco" : "rechazo"), tone = { reconozco:"pro", rechazo:"con", replanteo:"re" }[k] || "tie";
-    const counts = (e.pro !== undefined) ? h("span",{class:"cn", title:`${e.pro} reconocen · ${e.con} rechazan · ${e.re || 0} replantean · ${e.nr || 0} sin responder`}, `${e.pro}·${e.con}·${e.re || 0}`) : null;
-    chips.append(h("span",{class:"chip " + tone}, e.name ? h("span", null, e.name) : null, h("span",{class:"cn"}, "#" + (e.idx+1)), h("span",{class:"r " + ({pro:"",con:"no",re:"re"}[tone] || "tie")}, { reconozco:"R", rechazo:"✗", replanteo:"↻" }[k] || "="), counts));
-  });
-  box.append(chips);
-}
-
+/* ---------- Reinicio ---------- */
 function renderReset(){
   const area = $("resetArea"); area.replaceChildren();
   if (!state.log.length && state.round === 1 && state.phase === "idle") return;
@@ -1216,7 +1243,7 @@ function renderReset(){
   area.append(btn);
 }
 
-function renderAll(){ renderStage(); renderTray(); renderTable(); renderLog(); renderReset(); }
+function renderAll(){ renderStage(); renderTray(); renderTable(); renderReset(); }
 function renderStart(){}
 
 /* La partida arranca (después de la pantalla de invitación). No toca la sala ni el código: los que ya entraron siguen conectados. */
@@ -1308,7 +1335,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -1435,6 +1462,7 @@ function renderStudent(){
   if (t.playing === false){ box.append(wait("¡Ya estás en la sala!", "Espera a que el docente empiece la partida.")); return; }
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
+  if (t.finished){ box.append(wait("¡Gracias por participar!", "La ronda terminó. El docente está mostrando el resumen final.")); return; }
   if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", "El docente va a sacar una galleta." + who)); return; }
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
@@ -1537,6 +1565,10 @@ function start(){
   $("breakBtn").addEventListener("click", drawCookie);
   $("nextBtn").addEventListener("click", next);
   $("newRoundBtn").addEventListener("click", newRound);
+  $("newRoundBtn2").addEventListener("click", newRound);
+  $("finishBtn").addEventListener("click", finishGame);
+  $("finishBtn2").addEventListener("click", finishGame);
+  $("resumeBtn").addEventListener("click", resumeGame);
   initLive();
 }
 start();
