@@ -220,7 +220,6 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 @keyframes burst{0%{opacity:1;transform:translate(0,0) rotate(0) scale(1.2)}70%{opacity:1}100%{opacity:0;transform:translate(var(--dx),calc(var(--dy) + 70px)) rotate(var(--rot)) scale(.4)}}
 
 /* Bandeja */
-.tray{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 .mini{position:relative;border:3px solid var(--ink);border-radius:16px;background:var(--paper);width:78px;padding:8px 6px 4px;display:grid;justify-items:center;gap:2px;box-shadow:0 4px 0 0 var(--ink);transition:transform .12s ease,box-shadow .12s ease}
 .mini:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 0 0 var(--ink)}
 .mini:disabled{cursor:default}
@@ -232,8 +231,6 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .mini.opened::after{content:"✓";position:absolute;top:4px;right:6px;width:20px;height:20px;border-radius:50%;background:var(--green);border:2px solid var(--ink);font-size:.75rem;font-weight:800;display:grid;place-items:center}
 .mini.picked{background:var(--pinkt);border-color:var(--pink);box-shadow:0 4px 0 0 var(--pink)}
 .mini.picked::before{content:"elegida";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:1px 8px;border:2px solid var(--ink)}
-.tray-note{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-.tray-note .note{text-align:left;max-width:none}
 
 /* Tabla de R */
 .table{display:grid;gap:10px}
@@ -527,12 +524,8 @@ details.howto[open] summary::after{content:"\2212"}
 
     <div class="controls" id="controls" hidden>
       <div class="idle-controls" id="idleControls">
-        <div class="field">
-          <label for="nameInput">¿Quién saca la galleta?</label>
-          <input id="nameInput" type="text" maxlength="40" placeholder="Tu nombre (opcional)" autocomplete="nickname">
-        </div>
         <button class="btn btn-coral btn-xl" id="breakBtn">🍪 Sacar una galleta</button>
-        <p class="note" id="pickNote">i3sit@ mete las manos al tazón y saca una al azar. En la bandeja puedes elegir cuál.</p>
+        <p class="note" id="pickNote">i3sit@ mete las manos al tazón y saca una al azar.</p>
       </div>
 
       <div class="done-box" id="doneBox" hidden>
@@ -633,18 +626,6 @@ details.howto[open] summary::after{content:"\2212"}
     <p class="invite-steps">Quien entre ahora se incorpora a la sala tal como va: ve la galleta actual y vota en la votación que esté abierta o en la siguiente.</p>
   </dialog>
 
-  <section class="card teacher-only" aria-labelledby="trayTitle">
-    <div class="card-head">
-      <h2 id="trayTitle">Galletas en la mesa</h2>
-      <span class="hint">Toca una para elegirla. Si no eliges, i3sit@ saca una al azar.</span>
-    </div>
-    <div class="tray" id="tray"></div>
-    <div class="tray-note">
-      <p class="note" id="trayNote"></p>
-      <button class="btn btn-sm" id="unpickBtn" hidden>Quitar elección</button>
-    </div>
-  </section>
-
   <section class="card teacher-only" id="resultados" aria-labelledby="tableTitle">
     <div class="card-head">
       <h2 id="tableTitle">Cuántas R tuvo cada recomendación</h2>
@@ -684,7 +665,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 12:13</span>
+  <span class="ver">versión 2026-10-26 12:20</span>
 </footer>
 
 <script>
@@ -825,7 +806,6 @@ function bubbleFor(){
     case "voted": return state.lastVote ? "¡Esa es la R!" : "Bueno… ¿y por qué no?";
   }
   if (!pool.length) return "¡Se acabaron! ¿Otra ronda?";
-  if (state.picked !== null && pool.includes(state.picked)) return "¡Esa me gusta!";
   return ["¡Saca una galleta!","¿Quién sigue?","¡Dale, sin miedo!"][state.log.length % 3];
 }
 
@@ -848,9 +828,6 @@ function renderStage(){
   $("idleControls").hidden = !(state.phase === "idle" && pool.length > 0);
   $("doneBox").hidden = !(state.phase === "idle" && pool.length === 0);
   $("slip").hidden = !showing;
-  $("pickNote").textContent = state.picked !== null && pool.includes(state.picked)
-    ? `Elegiste la galleta #${state.picked+1}. i3sit@ va a sacar esa.`
-    : "i3sit@ mete las manos al tazón y saca una al azar. En la bandeja puedes elegir cuál.";
   if (pool.length === 0 && state.phase === "idle"){
     const best = bestRec();
     $("doneTop").textContent = best ? `Hasta ahora la que más R tiene es la #${best.i+1} con ${best.pro} R.` : "";
@@ -932,9 +909,8 @@ function renderSlip(){
 function drawCookie(){
   if (state.phase !== "idle") return;
   const pool = unopened(); if (!pool.length) return;
-  const idx = (state.picked !== null && pool.includes(state.picked)) ? state.picked : rnd(pool);
-  state.current = idx; state.phase = "stirring"; state.lastVote = null;
-  state.name = $("nameInput").value.trim();
+  const idx = rnd(pool);
+  state.current = idx; state.phase = "stirring"; state.lastVote = null; state.name = "";
   $("idleControls").hidden = true;
   $("breakBtn").disabled = true;
   clearTimers();
@@ -943,7 +919,7 @@ function drawCookie(){
     state.phase = "lifting"; setScene("is-lifting"); say(bubbleFor()); live.broadcast();
     later(()=>{
       setScene("is-lifting","is-open");
-      later(()=>{ state.phase = "revealed"; save(); renderStage(); renderTray(); $("breakBtn").disabled = false; $("showRecBtn").focus({preventScroll:true}); }, 650);
+      later(()=>{ state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; $("showRecBtn").focus({preventScroll:true}); }, 650);
     }, 950);
   }, 1350);
 }
@@ -996,8 +972,7 @@ function next(){
   returning = true; setScene("is-return");
   later(()=>{ returning = false; if (state.phase === "idle") setScene(); }, 750);
   renderStage();
-  $("nameInput").value = "";
-  if (unopened().length) $("nameInput").focus({preventScroll:true});
+  if (unopened().length) $("breakBtn").focus({preventScroll:true});
 }
 
 function newRound(){
@@ -1009,32 +984,11 @@ function newRound(){
 function resetGame(){
   const started = state.started, playing = state.playing, modulo = state.modulo, docente = state.docente;
   state = fresh(); state.started = started; state.playing = playing; state.modulo = modulo; state.docente = docente; save(); renderAll(); resetSessionRemote(); pushState();
-  $("nameInput").value = "";
   toast("Juego reiniciado");
 }
 
-/* ---------- Bandeja ---------- */
-function renderTray(){
-  const tray = $("tray"); tray.replaceChildren();
-  const canPick = state.phase === "idle";
-  RECS.forEach((_, i)=>{
-    const opened = state.opened.includes(i);
-    const picked = state.picked === i && !opened;
-    const b = h("button",{class:"mini" + (opened ? " opened" : "") + (picked ? " picked" : ""), type:"button",
-      "aria-label": opened ? `Galleta ${i+1}, ya abierta` : `Galleta ${i+1}` + (picked ? ", elegida" : ""),
-      "aria-pressed": picked ? "true" : "false", disabled: opened || !canPick,
-      onclick: ()=>{ state.picked = state.picked === i ? null : i; save(); renderTray(); renderStage(); }});
-    const svg = document.createElementNS(SVG_NS,"svg");
-    svg.setAttribute("viewBox","0 0 64 64"); svg.setAttribute("aria-hidden","true");
-    const use = document.createElementNS(SVG_NS,"use");
-    use.setAttribute("href","#fc"); svg.append(use);
-    b.append(svg, h("span",{class:"n"}, i+1));
-    tray.append(b);
-  });
-  const left = unopened().length;
-  $("trayNote").textContent = left ? `Quedan ${left} galleta${left===1?"":"s"} por abrir en esta ronda.` : "No quedan galletas en esta ronda. Hornea otra para seguir.";
-  $("unpickBtn").hidden = !(state.picked !== null && !state.opened.includes(state.picked));
-}
+/* ---------- Bandeja: ya no se muestra (i3sit@ siempre saca al azar) ---------- */
+function renderTray(){}
 
 /* ---------- Tabla de R ---------- */
 function bestRec(){
@@ -1080,7 +1034,7 @@ function renderLog(){
   const chips = h("div",{class:"chips"});
   [...state.log].reverse().forEach(e=>{
     const counts = (e.pro !== undefined) ? h("span",{class:"cn", title:`${e.pro} con R · ${e.con} sin R`}, `${e.pro}·${e.con}`) : null;
-    chips.append(h("span",{class:"chip " + (e.r ? "pro" : "con")}, h("span", null, e.name || "Alguien"), h("span",{class:"cn"}, "#" + (e.idx+1)), h("span",{class:"r" + (e.r ? "" : " no")}, "R"), counts));
+    chips.append(h("span",{class:"chip " + (e.r ? "pro" : "con")}, e.name ? h("span", null, e.name) : null, h("span",{class:"cn"}, "#" + (e.idx+1)), h("span",{class:"r" + (e.r ? "" : " no")}, "R"), counts));
   });
   box.append(chips);
 }
@@ -1104,7 +1058,7 @@ function renderStart(){}
 function beginGame(){
   if (!state.started || state.playing) return;
   state.playing = true; save(); renderAll(); flashScene("is-enter", 1000);
-  $("nameInput").focus({preventScroll:true});
+  $("breakBtn").focus({preventScroll:true});
 }
 
 /* ---------- Vista del estudiante (celular): solo su pantalla, nunca el panel del docente ---------- */
@@ -1424,7 +1378,6 @@ function start(){
     state.playing = !live.site; // en el sitio primero se muestra la invitación (código, QR y enlace); la partida arranca con «Empezar la partida»
     state.modulo = $("moduloInput").value.trim().slice(0,60); state.docente = $("docenteInput").value.trim().slice(0,40);
     save(); renderAll(); if (state.playing) flashScene("is-enter", 1000); live.onCreate();
-    if (state.playing) $("nameInput").focus({preventScroll:true});
   });
   const beginBtn = $("beginBtn"); if (beginBtn) beginBtn.addEventListener("click", beginGame);
   renderStart();
@@ -1441,13 +1394,11 @@ function start(){
   $("inviteBtn").addEventListener("click", openInvite);
   $("dlgClose").addEventListener("click", closeInvite);
   $("breakBtn").addEventListener("click", drawCookie);
-  $("nameInput").addEventListener("keydown", e=>{ if (e.key === "Enter"){ e.preventDefault(); drawCookie(); } });
   $("showRecBtn").addEventListener("click", showRec);
   $("yesBtn").addEventListener("click", ()=>vote(true));
   $("noBtn").addEventListener("click", ()=>vote(false));
   $("nextBtn").addEventListener("click", next);
   $("newRoundBtn").addEventListener("click", newRound);
-  $("unpickBtn").addEventListener("click", ()=>{ state.picked = null; save(); renderTray(); renderStage(); });
   $("closeVoteBtn").addEventListener("click", closeVote);
   $("manualVoteBtn").addEventListener("click", ()=>{ live.manual = true; renderSlip(); $("yesBtn").focus({preventScroll:true}); });
   initLive();
