@@ -663,7 +663,7 @@ details.howto[open] summary::after{content:"\2212"}
         </div>
         <div class="live" id="liveBox" hidden>
           <p class="ask" id="liveAsk">Los estudiantes responden desde su celular</p>
-          <div class="timer" id="timer"><div class="secs"><span id="timerSecs">15</span><small>s</small></div><div class="track"><span class="fill" id="timerBar"></span></div></div>
+          <div class="timer" id="timer"><div class="secs"><span id="timerSecs">12</span><small>s</small></div><div class="track"><span class="fill" id="timerBar"></span></div></div>
           <div class="count" id="liveCount">0 <small>de 0 respondieron</small></div>
           <div class="dots" id="liveDots"></div>
           <div class="legend" id="liveNote">
@@ -759,7 +759,7 @@ details.howto[open] summary::after{content:"\2212"}
       <ol>
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece el hábito.</li>
-        <li><strong>Tres opciones y 15 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico), «Rechazo la R» (no me pasa o no estoy de acuerdo) y «Replanteo la R» (puedo mejorar y hacerlo diferente) con una cuenta regresiva de 15 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
+        <li><strong>Tres opciones y 12 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico), «Rechazo la R» (no me pasa o no estoy de acuerdo) y «Replanteo la R» (puedo mejorar y hacerlo diferente) con una cuenta regresiva de 12 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Siguiente galleta.</strong> Al pasar a la siguiente, los resultados desaparecen de la pantalla. Cada galleta sale una sola vez por ronda; cuando se acaban (o cuando el docente toca «Terminar y ver el resumen final») aparece la pantalla final con el acumulado de todas las galletas: votos y porcentajes de cada opción. Desde ahí se puede hornear otra ronda, y las R se siguen sumando.</li>
@@ -771,7 +771,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 15:11</span>
+  <span class="ver">versión 2026-10-26 15:12</span>
 </footer>
 
 <script>
@@ -840,8 +840,8 @@ function h(tag, attrs, ...kids){
 const rnd = arr => arr[Math.floor(Math.random()*arr.length)];
 const unopened = () => RECS.map((_,i)=>i).filter(i => !state.opened.includes(i));
 const tallyOf = i => Object.assign({ pro:0, con:0, re:0, nr:0 }, state.tally[i] || {});
-/* Votación: tres opciones, 15 segundos, cierre automático. pro = Reconozco, con = Rechazo, re = Replanteo, nr = Sin responder */
-const VOTE_SECS = 15;
+/* Votación: tres opciones, 12 segundos, cierre automático. pro = Reconozco, con = Rechazo, re = Replanteo, nr = Sin responder */
+const VOTE_SECS = 12;
 const OPTS = [
   { k:"reconozco", key:"pro", label:"Reconozco la R", desc:"Sí, me pasa o me identifico.",        short:"De acuerdo",                       verdict:"La clase reconoce la R",  cls:"btn-si", tone:"" },
   { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   short:"En desacuerdo",                    verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" },
@@ -984,7 +984,7 @@ function bubbleFor(){
     case "stirring": return "Mmm… ¿cuál será?";
     case "lifting": return "¡Esta!";
     case "revealed": return "¿Qué harías tú?";
-    case "advised": return "¡15 segundos!";
+    case "advised": return "¡12 segundos!";
     case "voted": return { reconozco:"¡Esa es la R!", rechazo:"Bueno… ¿y por qué no?", replanteo:"¡A replantearla!", empate:"¡Empate!", nadie:"¿Nadie? ¡Atentos!" }[state.lastVerdict] || "¡Listo!";
   }
   if (!pool.length) return "¡Se acabaron! ¿Otra ronda?";
@@ -1125,7 +1125,7 @@ function drawCookie(){
   }, 1600);
 }
 
-/* Se abre la votación sin que el docente toque nada: 15 segundos desde ahora, en todas las pantallas */
+/* Se abre la votación sin que el docente toque nada: 12 segundos desde ahora, en todas las pantallas */
 function openVote(){
   if (state.phase !== "revealed") return;
   state.phase = "advised"; state.liveVotes = {}; state.voteEnds = Date.now() + VOTE_SECS * 1000; save();
