@@ -107,24 +107,18 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .is-stirring #photo{animation:shakePhoto 1.6s ease-in-out both}
 @keyframes shakePhoto{0%,100%{transform:translate(0,0) rotate(0)}12%{transform:translate(-4px,2px) rotate(-.6deg)}25%{transform:translate(4px,-1px) rotate(.6deg)}38%{transform:translate(-4px,1px) rotate(-.5deg)}50%{transform:translate(4px,2px) rotate(.5deg)}62%{transform:translate(-3px,-1px) rotate(-.4deg)}75%{transform:translate(3px,1px) rotate(.4deg)}88%{transform:translate(-2px,0) rotate(-.2deg)}}
 .is-lifting #photo{animation:none}
-/* Brazos recortados de la ilustración: giran sobre el hombro. El derecho se mete al tazón a revolver y sube con la galleta. */
+/* Manos recortadas de la ilustración (las dos ya están dentro del tazón): se hunden y giran para revolver; la derecha empuja la galleta hacia arriba. */
 .arm{transform-box:view-box}
-#armR{transform-origin:547.7px 264.7px}
-#handR{transform-origin:606.0px 272.6px}
-#armL{transform-origin:329.7px 251.7px}
-/* La manga baja desde el hombro hacia el tazón y la mano (pieza aparte) gira sobre el puño para meterse entre las galletas: sin codo doblado. */
-.is-stirring #armR{animation:armDip 1.6s cubic-bezier(.45,0,.2,1) both}
-@keyframes armDip{0%{transform:none}30%{transform:translate(-2px,6px) rotate(72deg)}45%{transform:translate(-3px,7px) rotate(77deg)}60%{transform:translate(-1px,5px) rotate(68deg)}75%{transform:translate(-3px,7px) rotate(76deg)}90%{transform:translate(-1px,5px) rotate(69deg)}100%{transform:translate(-2px,6px) rotate(72deg)}}
-.is-stirring #handR{animation:handDip 1.6s cubic-bezier(.45,0,.2,1) both}
-@keyframes handDip{0%{transform:none}30%{transform:rotate(-205deg)}45%{transform:rotate(-218deg)}60%{transform:rotate(-196deg)}75%{transform:rotate(-216deg)}90%{transform:rotate(-198deg)}100%{transform:rotate(-205deg)}}
-.is-lifting #armR{animation:armLift .95s cubic-bezier(.3,1.25,.4,1) both}
-@keyframes armLift{0%{transform:translate(-2px,6px) rotate(72deg)}65%{transform:translate(2px,-6px) rotate(-6deg)}100%{transform:none}}
-.is-lifting #handR{animation:handLift .95s cubic-bezier(.3,1.25,.4,1) both}
-@keyframes handLift{0%{transform:rotate(-205deg)}65%{transform:rotate(9deg)}100%{transform:none}}
-.is-stirring #armL{animation:armStir .46s ease-in-out infinite alternate}
-@keyframes armStir{from{transform:rotate(-4deg) translate(-4px,3px)}to{transform:rotate(7deg) translate(6px,-7px)}}
-.is-lifting #armL{animation:armSettle .6s cubic-bezier(.3,1.3,.4,1) both}
-@keyframes armSettle{0%{transform:rotate(4deg) translate(2px,-4px)}100%{transform:none}}
+#handL2{transform-origin:368.2px 294.1px}
+#handR2{transform-origin:559.0px 304.3px}
+.is-stirring #handL2{animation:stirL 1.6s ease-in-out both}
+@keyframes stirL{0%{transform:none}18%{transform:translate(-7px,9px) rotate(-7deg)}36%{transform:translate(9px,15px) rotate(6deg)}54%{transform:translate(-9px,12px) rotate(-8deg)}72%{transform:translate(7px,16px) rotate(6deg)}90%{transform:translate(-5px,11px) rotate(-5deg)}100%{transform:translate(-3px,9px) rotate(-3deg)}}
+.is-stirring #handR2{animation:stirR 1.6s ease-in-out both}
+@keyframes stirR{0%{transform:none}18%{transform:translate(8px,11px) rotate(7deg)}36%{transform:translate(-9px,16px) rotate(-6deg)}54%{transform:translate(9px,12px) rotate(8deg)}72%{transform:translate(-8px,17px) rotate(-6deg)}90%{transform:translate(5px,11px) rotate(5deg)}100%{transform:translate(3px,9px) rotate(3deg)}}
+.is-lifting #handL2{animation:settleL .7s cubic-bezier(.3,1.3,.4,1) both}
+@keyframes settleL{0%{transform:translate(-3px,9px) rotate(-3deg)}100%{transform:none}}
+.is-lifting #handR2{animation:liftR .95s cubic-bezier(.3,1.2,.4,1) both}
+@keyframes liftR{0%{transform:translate(3px,9px) rotate(3deg)}40%{transform:translate(-5px,-20px) rotate(-12deg)}70%{transform:translate(-2px,-6px) rotate(-4deg)}100%{transform:none}}
 .is-happy #photo{animation:jumpPhoto .7s cubic-bezier(.3,1.3,.4,1) both}
 @keyframes jumpPhoto{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-14px) scale(1.03)}}
 .is-meh #photo{animation:mehPhoto .8s ease-in-out both}
@@ -137,11 +131,11 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .is-stirring .ck:nth-child(4n){animation-delay:.14s}
 @keyframes jig{from{transform:rotate(-14deg) translateY(-2px)}to{transform:rotate(14deg) translateY(-7px)}}
 @keyframes hop{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-24px) rotate(14deg)}}
-#drawn{transform-box:view-box;transform-origin:601px 183px;opacity:0;transform:scale(.5)}
-/* La galleta elegida "crece" en la mano cuando el brazo termina de subir; al partirse, se desvanece mientras aparece la grande */
-.is-lifting #drawn{animation:cookieShow .95s ease-out both}
-@keyframes cookieShow{0%,60%{opacity:0;transform:scale(.7)}80%{opacity:1;transform:scale(1.32) rotate(-9deg)}100%{opacity:1;transform:scale(1.15) rotate(0)}}
-.is-lifting.is-open #drawn{animation:cookieShow .95s ease-out both,drawnFade .45s ease-in .8s both}
+#drawn{transform-box:view-box;transform-origin:575px 225px;opacity:0;transform:scale(.5)}
+/* La galleta elegida sale del tazón empujada por la mano derecha y sube hasta quedar en el aire; al partirse, se desvanece mientras aparece la grande */
+.is-lifting #drawn{animation:cookieRise .95s cubic-bezier(.3,1.1,.4,1) both}
+@keyframes cookieRise{0%{opacity:0;transform:translate(-16px,79px) scale(.45) rotate(-40deg)}22%{opacity:1;transform:translate(-14px,52px) scale(.8) rotate(-24deg)}70%{opacity:1;transform:translate(4px,-12px) scale(1.28) rotate(8deg)}100%{opacity:1;transform:translate(0,0) scale(1.15) rotate(0)}}
+.is-lifting.is-open #drawn{animation:cookieRise .95s cubic-bezier(.3,1.1,.4,1) both,drawnFade .45s ease-in .8s both}
 @keyframes drawnFade{to{opacity:0;transform:scale(1.5)}}
 .is-return #drawn{animation:cookieAway .5s ease-in both}
 @keyframes cookieAway{0%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(.4) translateY(-30px)}}
@@ -185,7 +179,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .scene-reveal .paper .label{font-size:clamp(.7rem,1.3cqw,.85rem)}
 .scene-reveal.enter{animation:revealFade .5s ease-out both}
 @keyframes revealFade{from{opacity:0}to{opacity:1}}
-.scene-reveal.enter .slip-paper{animation:slipGrow .95s cubic-bezier(.2,1.15,.3,1) both;transform-origin:68% 22%}
+.scene-reveal.enter .slip-paper{animation:slipGrow .95s cubic-bezier(.2,1.15,.3,1) both;transform-origin:64% 42%}
 @keyframes slipGrow{0%{transform:translate(20%,-18%) scale(.1);opacity:0}40%{opacity:1}100%{transform:none;opacity:1}}
 .scene-reveal.enter .cookie-slip.break .half-svg.left,.scene-reveal.enter .cookie-slip.break .half-svg.right,.scene-reveal.enter .cookie-slip.break .paper.hab{animation-delay:.55s}
 .scene-reveal.enter .cookie-slip.break .crac-h{animation-delay:1.05s}
@@ -518,40 +512,39 @@ details.howto[open] summary::after{content:"\2212"}
       <svg class="scene" id="scene" viewBox="0 0 900 536" aria-labelledby="sceneDesc" role="img">
         <title id="sceneDesc">i3sit@ en su oficina, con un tazón de galletas rosadas con R y una galleta en la mano</title>
         <defs>
-          <clipPath id="inBowl"><rect x="292" y="268" width="330" height="92" rx="40"/></clipPath>
+          <clipPath id="inBowl"><rect x="292" y="262" width="330" height="104" rx="40"/></clipPath>
         </defs>
         <g id="photo">
-          <!-- Fondo: la oficina sin los brazos (se rellenó el fondo detrás). Los brazos van aparte para poder moverlos. -->
+          <!-- Fondo: la oficina con i3sit@ (las manos van en capas aparte para poder moverlas; detrás se rellenó con galletas) -->
           <image id="officeImg" href="/mascota/oficina2.webp" x="-10" y="-6" width="920" height="548" preserveAspectRatio="xMidYMid slice"/>
-          <image id="armL" class="arm" href="/mascota/brazo-i.webp" x="295.7" y="227.4" width="113.2" height="104.2"/>
-          <g id="armR" class="arm">
-            <g id="handR" class="arm"><image href="/mascota/mano-d.webp" x="531.9" y="146.9" width="126.3" height="154.0"/></g>
-            <image id="sleeveR" href="/mascota/manga-d.webp" x="524.5" y="252.8" width="132.5" height="70.2"/>
-          </g>
-          <!-- Galletas que se revuelven en el tazón (aparecen al revolver; van sobre las manos para que se vean metidas) -->
+          <!-- Galletas que saltan en el tazón mientras revuelve: la mayoría detrás de las manos, unas pocas delante -->
           <g id="bowl" class="bowl" clip-path="url(#inBowl)">
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(304 296) rotate(-18 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(346 282) rotate(14 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(390 276) rotate(-6 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(434 274) rotate(20 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(478 276) rotate(-12 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(522 282) rotate(8 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(562 294) rotate(26 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(328 314) rotate(28 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(372 310) rotate(-22 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(416 308) rotate(10 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(460 310) rotate(-16 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(504 312) rotate(24 23 23)"/>
-            <use href="#fc" class="ck" width="46" height="46" transform="translate(546 318) rotate(-30 23 23)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(300 300) rotate(-18 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(340 286) rotate(14 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(392 278) rotate(-6 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(438 274) rotate(20 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(484 278) rotate(-12 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(528 286) rotate(8 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(574 298) rotate(26 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(420 300) rotate(-22 20 20)"/>
+            <use href="#fc" class="ck" width="40" height="40" transform="translate(462 304) rotate(10 20 20)"/>
           </g>
-          <!-- Frente del tazón: tapa la mano cuando entra a revolver -->
-          <image id="bowlFront" href="/mascota/tazon.webp" x="288.9" y="340.6" width="336.3" height="137.1"/>
-          <!-- La galleta que saca y muestra en la mano -->
+          <image id="handL2" class="arm" href="/mascota/mano-i.webp" x="319.0" y="256.7" width="98.0" height="73.6"/>
+          <image id="handR2" class="arm" href="/mascota/mano-d.webp" x="510.3" y="261.2" width="99.1" height="82.7"/>
+          <g id="bowlOver" class="bowl" clip-path="url(#inBowl)">
+            <use href="#fc" class="ck" width="34" height="34" transform="translate(352 318) rotate(24 17 17)"/>
+            <use href="#fc" class="ck" width="34" height="34" transform="translate(404 326) rotate(-16 17 17)"/>
+            <use href="#fc" class="ck" width="34" height="34" transform="translate(498 322) rotate(18 17 17)"/>
+            <use href="#fc" class="ck" width="34" height="34" transform="translate(556 328) rotate(-28 17 17)"/>
+          </g>
+          <!-- Frente del tazón: tapa las manos cuando se hunden a revolver -->
+          <image id="bowlFront" href="/mascota/tazon.webp" x="292.4" y="337.1" width="338.6" height="150.6"/>
+          <!-- La galleta que sale del tazón y se parte en el aire -->
           <g id="drawn">
-            <g transform="translate(569 151)">
+            <g transform="translate(543 193)">
               <path class="flash" d="M32 14 l4 12 l12 -4 l-8 10 l8 10 l-12 -4 l-4 12 l-4 -12 l-12 4 l8 -10 l-8 -10 l12 4z" fill="#FFF6E5" stroke="#FFB347" stroke-width="2"/>
-              <use class="half half-l" href="#fc" clip-path="url(#clipL)"/>
-              <use class="half half-r" href="#fc" clip-path="url(#clipR)"/>
+              <use class="half half-l" href="#fc" width="64" height="64" clip-path="url(#clipL)"/>
+              <use class="half half-r" href="#fc" width="64" height="64" clip-path="url(#clipR)"/>
               <g fill="#F8857A" stroke="#3B2238" stroke-width="1.2">
                 <circle class="crumb" cx="32" cy="32" r="3" style="--dx:-26px;--dy:-30px;--rot:120deg"/>
                 <circle class="crumb" cx="32" cy="32" r="2.4" style="--dx:24px;--dy:-34px;--rot:-90deg"/>
@@ -572,8 +565,8 @@ details.howto[open] summary::after{content:"\2212"}
             <path class="spark" style="--d:.36s" d="M470 246 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#E63E7E"/>
             <path class="spark" style="--d:.27s" d="M380 240 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF8C2E"/>
             <path class="spark" style="--d:.09s" d="M656 150 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FFB347"/>
-            <path class="spark hand" style="--d:.2s" d="M650 120 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF6FA3"/>
-            <path class="spark hand" style="--d:.5s" d="M672 170 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z" fill="#E63E7E"/>
+            <path class="spark hand" style="--d:.2s" d="M626 184 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF6FA3"/>
+            <path class="spark hand" style="--d:.5s" d="M520 246 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z" fill="#E63E7E"/>
             <path class="spark" style="--d:.45s" d="M560 130 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF6FA3"/>
           </g>
           <g id="deskCookies"></g>
@@ -732,7 +725,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 13:09</span>
+  <span class="ver">versión 2026-10-26 13:19</span>
 </footer>
 
 <script>
