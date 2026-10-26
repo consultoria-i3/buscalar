@@ -104,9 +104,21 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.012)}}
 .is-enter #photo{animation:enterPhoto .9s cubic-bezier(.3,1.4,.4,1) both}
 @keyframes enterPhoto{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
-.is-stirring #photo{animation:shakePhoto 1.35s ease-in-out both}
+.is-stirring #photo{animation:shakePhoto 1.6s ease-in-out both}
 @keyframes shakePhoto{0%,100%{transform:translate(0,0) rotate(0)}12%{transform:translate(-4px,2px) rotate(-.6deg)}25%{transform:translate(4px,-1px) rotate(.6deg)}38%{transform:translate(-4px,1px) rotate(-.5deg)}50%{transform:translate(4px,2px) rotate(.5deg)}62%{transform:translate(-3px,-1px) rotate(-.4deg)}75%{transform:translate(3px,1px) rotate(.4deg)}88%{transform:translate(-2px,0) rotate(-.2deg)}}
 .is-lifting #photo{animation:none}
+/* Brazos recortados de la ilustración: giran sobre el hombro. El derecho se mete al tazón a revolver y sube con la galleta. */
+.arm{transform-box:view-box}
+#armR{transform-origin:547.7px 264.7px}
+#armL{transform-origin:329.7px 251.7px}
+.is-stirring #armR{animation:armDip 1.6s cubic-bezier(.45,0,.2,1) both}
+@keyframes armDip{0%{transform:none}30%{transform:translate(-48px,-3px) rotate(112deg)}45%{transform:translate(-52px,0) rotate(120deg)}60%{transform:translate(-44px,-5px) rotate(103deg)}75%{transform:translate(-52px,1px) rotate(119deg)}90%{transform:translate(-45px,-4px) rotate(105deg)}100%{transform:translate(-48px,-3px) rotate(112deg)}}
+.is-lifting #armR{animation:armLift .95s cubic-bezier(.3,1.25,.4,1) both}
+@keyframes armLift{0%{transform:translate(-48px,-3px) rotate(112deg)}65%{transform:translate(3px,-7px) rotate(-7deg)}100%{transform:none}}
+.is-stirring #armL{animation:armStir .46s ease-in-out infinite alternate}
+@keyframes armStir{from{transform:rotate(-4deg) translate(-4px,3px)}to{transform:rotate(7deg) translate(6px,-7px)}}
+.is-lifting #armL{animation:armSettle .6s cubic-bezier(.3,1.3,.4,1) both}
+@keyframes armSettle{0%{transform:rotate(4deg) translate(2px,-4px)}100%{transform:none}}
 .is-happy #photo{animation:jumpPhoto .7s cubic-bezier(.3,1.3,.4,1) both}
 @keyframes jumpPhoto{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-14px) scale(1.03)}}
 .is-meh #photo{animation:mehPhoto .8s ease-in-out both}
@@ -120,8 +132,11 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 @keyframes jig{from{transform:rotate(-14deg) translateY(-2px)}to{transform:rotate(14deg) translateY(-7px)}}
 @keyframes hop{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-24px) rotate(14deg)}}
 #drawn{transform-box:view-box;transform-origin:601px 183px;opacity:0;transform:scale(.5)}
-.is-lifting #drawn{animation:flyCookie .95s cubic-bezier(.3,.9,.4,1) both}
-@keyframes flyCookie{0%{opacity:1;transform:translate(-147px,132px) scale(.55) rotate(-150deg)}55%{opacity:1;transform:translate(-40px,-30px) scale(1.25) rotate(-40deg)}100%{opacity:1;transform:translate(0,0) scale(1.15) rotate(0)}}
+/* La galleta elegida "crece" en la mano cuando el brazo termina de subir; al partirse, se desvanece mientras aparece la grande */
+.is-lifting #drawn{animation:cookieShow .95s ease-out both}
+@keyframes cookieShow{0%,60%{opacity:0;transform:scale(.7)}80%{opacity:1;transform:scale(1.32) rotate(-9deg)}100%{opacity:1;transform:scale(1.15) rotate(0)}}
+.is-lifting.is-open #drawn{animation:cookieShow .95s ease-out both,drawnFade .45s ease-in .8s both}
+@keyframes drawnFade{to{opacity:0;transform:scale(1.5)}}
 .is-return #drawn{animation:cookieAway .5s ease-in both}
 @keyframes cookieAway{0%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(.4) translateY(-30px)}}
 .half{transform-box:fill-box;transform-origin:center}
@@ -138,15 +153,53 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .flash{transform-box:fill-box;transform-origin:center;opacity:0}
 .is-open .flash{animation:flashPop .5s ease-out both;animation-delay:.42s}
 @keyframes flashPop{0%{opacity:0;transform:scale(.2)}30%{opacity:.9;transform:scale(1.1)}100%{opacity:0;transform:scale(1.6)}}
-.slipmini{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .55s cubic-bezier(.2,1.4,.3,1) .55s}
-.is-open .slipmini{transform:translateY(-54px) scale(1)}
 .spark{opacity:0;transform-box:fill-box;transform-origin:center}
 .is-stirring .spark,.is-lifting .spark,.is-happy .spark{animation:twinkle .55s ease-in-out infinite;animation-delay:var(--d,0s)}
+.spark.hand{display:none}
+.is-open .spark.hand{display:block;animation:twinkle .7s ease-in-out infinite;animation-delay:var(--d,0s)}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(25deg)}}
 .dk{transition:opacity .4s,filter .4s}
 #bubble{transform-box:fill-box;transform-origin:left bottom}
 #bubble.pop{animation:pop .45s cubic-bezier(.2,1.4,.3,1) both}
 @keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* Galleta grande partida con el hábito, sobre la escena (docente) o sobre la foto de la oficina (estudiante) */
+.scene-wrap{container-type:inline-size}
+.scene-reveal{position:absolute;inset:0;display:grid;place-items:center;padding:3% 5%;pointer-events:none;overflow:hidden;
+  background:radial-gradient(ellipse 60% 72% at 50% 52%,rgba(255,255,255,.95) 0%,rgba(255,245,249,.9) 36%,rgba(255,236,243,.55) 64%,rgba(255,236,243,0) 100%)}
+.scene-reveal .slip-paper{width:min(100%,780px);pointer-events:auto}
+.scene-reveal .slip-head{font-size:clamp(.8rem,1.8cqw,1rem)}
+.scene-reveal .slip-head .eyebrow{font-size:clamp(.95rem,2.2cqw,1.3rem)}
+.scene-reveal .half-svg{width:clamp(64px,19cqw,190px);height:clamp(64px,19cqw,190px)}
+.scene-reveal .half-svg.left{margin-right:clamp(-40px,-4.5cqw,-14px)}
+.scene-reveal .half-svg.right{margin-left:clamp(-40px,-4.5cqw,-14px)}
+.scene-reveal .paper{padding:clamp(8px,1.6cqw,16px) clamp(14px,2.6cqw,26px) clamp(10px,1.8cqw,18px);box-shadow:0 8px 0 0 var(--line),0 18px 40px rgba(181,20,110,.14)}
+.scene-reveal .paper.hab{padding-right:clamp(64px,10cqw,96px)}
+.scene-reveal .paper.hab .big{font-size:clamp(1rem,3.1cqw,1.9rem);line-height:1.3}
+.scene-reveal .paper .label{font-size:clamp(.7rem,1.3cqw,.85rem)}
+.scene-reveal.enter{animation:revealFade .5s ease-out both}
+@keyframes revealFade{from{opacity:0}to{opacity:1}}
+.scene-reveal.enter .slip-paper{animation:slipGrow .95s cubic-bezier(.2,1.15,.3,1) both;transform-origin:68% 22%}
+@keyframes slipGrow{0%{transform:translate(20%,-18%) scale(.1);opacity:0}40%{opacity:1}100%{transform:none;opacity:1}}
+.scene-reveal.enter .cookie-slip.break .half-svg.left,.scene-reveal.enter .cookie-slip.break .half-svg.right,.scene-reveal.enter .cookie-slip.break .paper.hab{animation-delay:.55s}
+.scene-reveal.enter .cookie-slip.break .crac-h{animation-delay:1.05s}
+.scene-reveal.enter .cookie-slip.break .crumb-h{animation-delay:1.07s}
+@media (max-width:560px){.scene-reveal{padding:2% 3%}}
+/* Estudiante: la oficina de fondo con el mismo efecto */
+.s-scene{position:relative;width:100%;justify-self:stretch;box-sizing:border-box;border:3px solid var(--ink);border-radius:16px;overflow:hidden;background:#FBE7EE url(/mascota/oficina-m.webp) center/cover no-repeat;min-height:150px;display:grid;container-type:inline-size}
+.s-scene .scene-reveal{position:relative;inset:auto;padding:12px 10px 14px}
+.s-scene .scene-reveal .slip-paper{width:100%}
+.s-scene .scene-reveal .half-svg{width:clamp(52px,17cqw,88px);height:clamp(52px,17cqw,88px)}
+.s-scene .scene-reveal .paper.hab .big{font-size:clamp(1rem,4.6cqw,1.25rem)}
+.s-stir{position:relative;min-height:170px;display:grid;align-content:end;justify-items:center;gap:6px;padding:14px 10px;text-align:center;background:linear-gradient(to top,rgba(255,255,255,.96) 0%,rgba(255,245,249,.85) 55%,rgba(255,236,243,0) 100%)}
+.s-stir .t{font-family:var(--font-display);font-size:1.35rem;color:var(--pink)}
+.s-stir .row{display:flex;gap:4px;justify-content:center}
+.s-stir .row svg{width:40px;height:40px;overflow:visible;animation:jig .3s ease-in-out infinite alternate;animation-delay:calc(var(--i) * .07s)}
+.s-stir .row svg:nth-child(2n){animation-name:hop;animation-duration:.45s}
+.s-stir.lift .row svg{animation:none;opacity:.6}
+.s-stir.lift .row svg:nth-child(3){opacity:1;animation:cookieShowH .7s ease-out both}
+@keyframes cookieShowH{0%{transform:scale(.7) translateY(10px)}70%{transform:scale(1.5) translateY(-16px) rotate(-8deg)}100%{transform:scale(1.35) translateY(-12px)}}
+@media (prefers-reduced-motion:reduce){.s-stir .row svg,.scene-reveal.enter,.scene-reveal.enter .slip-paper{animation:none!important}}
 
 /* Controles bajo la escena */
 .controls{display:grid;gap:16px;justify-items:center;margin-top:16px}
@@ -165,7 +218,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .half-svg.left{transform:rotate(-16deg) translateY(6px);margin-right:-18px}
 .half-svg.right{transform:rotate(16deg) translateY(6px);margin-left:-18px}
 .paper{flex:1 1 auto;min-width:0;position:relative;background:#fff;border:3px solid var(--ink);border-radius:5px;padding:14px 22px 16px;box-shadow:0 7px 0 0 var(--line);
-  background-image:repeating-linear-gradient(to bottom,transparent 0 1.6em,rgba(243,201,211,.85) 1.6em calc(1.6em + 2px));background-origin:content-box;background-clip:content-box;transform:rotate(-1deg)}
+  background-image:repeating-linear-gradient(to bottom,transparent 0 1.6em,rgba(243,201,211,.85) 1.6em calc(1.6em + 2px)),linear-gradient(#fff,#fff);background-origin:content-box,border-box;background-clip:content-box,border-box;transform:rotate(-1deg)}
 .paper.hab{padding-right:92px}
 .paper .label{font-family:var(--font-display);font-weight:400;font-size:.8rem;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:8px}
 .paper .label .letter{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);font-size:.85rem;letter-spacing:0;color:var(--ink);background:var(--pinkt)}
@@ -462,8 +515,11 @@ details.howto[open] summary::after{content:"\2212"}
           <clipPath id="inBowl"><rect x="292" y="268" width="330" height="92" rx="40"/></clipPath>
         </defs>
         <g id="photo">
-          <image id="officeImg" href="/mascota/oficina.webp" x="-10" y="-6" width="920" height="548" preserveAspectRatio="xMidYMid slice"/>
-          <!-- Galletas que se revuelven en el tazón (aparecen al revolver) -->
+          <!-- Fondo: la oficina sin los brazos (se rellenó el fondo detrás). Los brazos van aparte para poder moverlos. -->
+          <image id="officeImg" href="/mascota/oficina2.webp" x="-10" y="-6" width="920" height="548" preserveAspectRatio="xMidYMid slice"/>
+          <image id="armL" class="arm" href="/mascota/brazo-i.webp" x="295.7" y="227.4" width="113.2" height="104.2"/>
+          <image id="armR" class="arm" href="/mascota/brazo-d.webp" x="523.3" y="131.1" width="137" height="193.7"/>
+          <!-- Galletas que se revuelven en el tazón (aparecen al revolver; van sobre las manos para que se vean metidas) -->
           <g id="bowl" class="bowl" clip-path="url(#inBowl)">
             <use href="#fc" class="ck" width="46" height="46" transform="translate(304 296) rotate(-18 23 23)"/>
             <use href="#fc" class="ck" width="46" height="46" transform="translate(346 282) rotate(14 23 23)"/>
@@ -479,14 +535,14 @@ details.howto[open] summary::after{content:"\2212"}
             <use href="#fc" class="ck" width="46" height="46" transform="translate(504 312) rotate(24 23 23)"/>
             <use href="#fc" class="ck" width="46" height="46" transform="translate(546 318) rotate(-30 23 23)"/>
           </g>
+          <!-- Frente del tazón: tapa la mano cuando entra a revolver -->
+          <image id="bowlFront" href="/mascota/tazon.webp" x="288.9" y="340.6" width="336.3" height="137.1"/>
           <!-- La galleta que saca y muestra en la mano -->
           <g id="drawn">
             <g transform="translate(569 151)">
               <path class="flash" d="M32 14 l4 12 l12 -4 l-8 10 l8 10 l-12 -4 l-4 12 l-4 -12 l-12 4 l8 -10 l-8 -10 l12 4z" fill="#FFF6E5" stroke="#FFB347" stroke-width="2"/>
               <use class="half half-l" href="#fc" clip-path="url(#clipL)"/>
               <use class="half half-r" href="#fc" clip-path="url(#clipR)"/>
-              <rect class="slipmini" x="-2" y="24" width="68" height="22" rx="3" fill="#FFFFFF" stroke="#3B2238" stroke-width="2"/>
-              <path d="M8 31 h52 M8 38 h40" stroke="#F3C9D3" stroke-width="1.8" class="slipmini"/>
               <g fill="#F8857A" stroke="#3B2238" stroke-width="1.2">
                 <circle class="crumb" cx="32" cy="32" r="3" style="--dx:-26px;--dy:-30px;--rot:120deg"/>
                 <circle class="crumb" cx="32" cy="32" r="2.4" style="--dx:24px;--dy:-34px;--rot:-90deg"/>
@@ -507,6 +563,8 @@ details.howto[open] summary::after{content:"\2212"}
             <path class="spark" style="--d:.36s" d="M470 246 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#E63E7E"/>
             <path class="spark" style="--d:.27s" d="M380 240 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF8C2E"/>
             <path class="spark" style="--d:.09s" d="M656 150 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FFB347"/>
+            <path class="spark hand" style="--d:.2s" d="M650 120 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF6FA3"/>
+            <path class="spark hand" style="--d:.5s" d="M672 170 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z" fill="#E63E7E"/>
             <path class="spark" style="--d:.45s" d="M560 130 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4z" fill="#FF6FA3"/>
           </g>
           <g id="deskCookies"></g>
@@ -519,7 +577,8 @@ details.howto[open] summary::after{content:"\2212"}
           <text id="bubbleText" x="608" y="52" font-size="19" fill="#3B2238"></text>
         </g>
       </svg>
-
+      <!-- La galleta grande partida en dos con el hábito: aparece sobre la escena, con el fondo visible a través de un degradado -->
+      <div class="scene-reveal" id="revealBox" hidden></div>
     </div>
 
     <div class="controls" id="controls" hidden>
@@ -538,7 +597,6 @@ details.howto[open] summary::after{content:"\2212"}
       </div>
 
       <div class="slip" id="slip" hidden aria-live="polite">
-        <div class="slip-paper" id="slipPaper"></div>
         <div class="teacher-box" id="teacherBox">
           <span class="who">🧑‍🏫 Turno del participante</span>
           <p class="note">Quien sacó la galleta cuenta qué haría. Cuando termine, el docente abre la votación.</p>
@@ -665,7 +723,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 12:20</span>
+  <span class="ver">versión 2026-10-26 13:00</span>
 </footer>
 
 <script>
@@ -828,6 +886,7 @@ function renderStage(){
   $("idleControls").hidden = !(state.phase === "idle" && pool.length > 0);
   $("doneBox").hidden = !(state.phase === "idle" && pool.length === 0);
   $("slip").hidden = !showing;
+  const rb = $("revealBox"); rb.hidden = !showing; if (!showing){ rb.replaceChildren(); rb.classList.remove("enter"); }
   if (pool.length === 0 && state.phase === "idle"){
     const best = bestRec();
     $("doneTop").textContent = best ? `Hasta ahora la que más R tiene es la #${best.i+1} con ${best.pro} R.` : "";
@@ -839,33 +898,51 @@ function renderStage(){
   if (live.mode === "teacher") renderSala();
 }
 
-function renderSlip(){
-  const idx = state.current, rec = RECS[idx];
-  const paper = $("slipPaper"); paper.replaceChildren();
-  paper.className = "slip-paper" + (state.phase === "revealed" ? " reveal" : "");
-  const who = state.name ? h("span", null, "para ", h("b", null, state.name)) : null;
-  paper.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1))), who));
-  const halfSvg = side => {
-    const svg = document.createElementNS(SVG_NS,"svg");
-    svg.setAttribute("viewBox","0 0 64 64"); svg.setAttribute("aria-hidden","true"); svg.setAttribute("class","half-svg " + side);
-    const use = document.createElementNS(SVG_NS,"use");
-    use.setAttribute("href","#fc"); use.setAttribute("clip-path", side === "left" ? "url(#clipL)" : "url(#clipR)");
-    svg.append(use); return svg;
-  };
+/* Galleta grande partida en dos con el hábito en el centro (misma pieza en la pantalla del docente y en el celular).
+   animate=true: entra creciendo desde la mano, las mitades se separan y el papel se abre. */
+function cookieSvg(cls, side){
+  const svg = document.createElementNS(SVG_NS,"svg");
+  svg.setAttribute("viewBox","0 0 64 64"); svg.setAttribute("aria-hidden","true"); if (cls) svg.setAttribute("class", cls);
+  const use = document.createElementNS(SVG_NS,"use");
+  use.setAttribute("href","#fc"); if (side) use.setAttribute("clip-path", side === "left" ? "url(#clipL)" : "url(#clipR)");
+  svg.append(use); return svg;
+}
+function buildSlip(idx, rec, animate){
+  const paper = h("div",{class:"slip-paper"});
+  paper.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1)))));
   const hab = h("div",{class:"paper hab"}, h("div",{class:"label"}, h("span",{class:"letter"},"H"), "El hábito"), h("p",{class:"big"}, rec.h));
-  const row = h("div",{class:"cookie-slip"}, halfSvg("left"), hab, halfSvg("right"), h("div",{class:"crac-h","aria-hidden":"true"}, "¡CRAC!"));
+  const row = h("div",{class:"cookie-slip"}, cookieSvg("half-svg left","left"), hab, cookieSvg("half-svg right","right"), h("div",{class:"crac-h","aria-hidden":"true"}, "¡CRAC!"));
   for (let i=0;i<8;i++){
     const a = (i/8)*Math.PI*2, r = 60 + Math.random()*70;
     row.append(h("i",{class:"crumb-h","aria-hidden":"true",style:`--dx:${Math.round(Math.cos(a)*r)}px;--dy:${Math.round(Math.sin(a)*r-50)}px;--rot:${Math.round(Math.random()*360-180)}deg`}));
   }
   paper.append(row);
-  if (state.phase === "revealed" && !reduced){
+  if (animate && !reduced){
     requestAnimationFrame(()=>{
       const gap = Math.max(hab.offsetWidth/2 - 24, 0);
       row.style.setProperty("--gap", gap + "px"); row.style.setProperty("--gapn", -gap + "px");
       row.classList.add("break");
     });
   }
+  return { paper, hab, row };
+}
+/* Escena mini del estudiante mientras i3sit@ revuelve y saca la galleta */
+function stirScene(phase){
+  const row = h("div",{class:"row"});
+  for (let i=0;i<5;i++){ const c = cookieSvg(null, null); c.style.setProperty("--i", i); row.append(c); }
+  const lift = phase === "lifting";
+  return h("div",{class:"s-scene"}, h("div",{class:"s-stir" + (lift ? " lift" : "")}, row,
+    h("div",{class:"t"}, lift ? "¡Esta!" : "Revolviendo el tazón…"),
+    h("div",{class:"note"}, lift ? "i3sit@ levanta la galleta y la va a partir." : "i3sit@ metió las manos al tazón. Atentos a cuál sale.")));
+}
+
+function renderSlip(){
+  const idx = state.current, rec = RECS[idx];
+  const box = $("revealBox"); box.replaceChildren(); box.hidden = false;
+  const animate = state.phase === "revealed";
+  box.classList.toggle("enter", animate && !reduced);
+  const { paper, hab } = buildSlip(idx, rec, animate);
+  box.append(paper);
   const whoAsk = state.name ? `¿Le das la razón a ${state.name}? Ponle la R` : "¿Le das la razón? Ponle la R";
   $("voteAsk").textContent = whoAsk;
   $("liveAsk").textContent = state.name ? `Votación en vivo: ¿le dan la razón a ${state.name}?` : "Votación en vivo: ¿le dan la razón?";
@@ -921,7 +998,7 @@ function drawCookie(){
       setScene("is-lifting","is-open");
       later(()=>{ state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; $("showRecBtn").focus({preventScroll:true}); }, 650);
     }, 950);
-  }, 1350);
+  }, 1600);
 }
 
 function showRec(){
@@ -1118,7 +1195,7 @@ const cleanCode = v => String(v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").s
 
 const live = {
   site: true, mode: "local", session: null, code: null, channel: null, students: [], manual: false, registered: false, missing: false,
-  teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: {},
+  teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: {}, shownKey: null,
   broadcast(){ pushState(); },
   onCreate(){ this.session = null; this.students = []; try { localStorage.removeItem(SESSION_KEY); } catch(e){} teacherConnect(); },
   onResume(){ teacherConnect(); }
@@ -1277,11 +1354,11 @@ function renderStudent(){
   if (t.playing === false){ box.append(wait("¡Ya estás en la sala!", "Espera a que el docente empiece la partida.")); return; }
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
-  if (!rec || ["idle","stirring","lifting"].includes(t.phase)){
-    box.append(wait(t.phase === "idle" ? "¡Atentos!" : "Sacando una galleta…", (t.phase === "idle" ? "El docente va a sacar una galleta." : "i3sit@ está revolviendo el tazón.") + who));
-    return;
-  }
-  box.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1))), t.name ? h("span", null, "sacada por ", h("b", null, t.name)) : null));
+  if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", "El docente va a sacar una galleta." + who)); return; }
+  if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
+  // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
+  const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
+  box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate).paper)));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.r : null;
   if (t.phase === "advised"){
     box.append(h("p",{class:"ask", style:"font-family:var(--font-display);color:var(--rose);font-size:1.25rem;text-align:center"}, t.name ? `¿Le das la razón a ${t.name}? Ponle la R` : "¿Le das la razón? Ponle la R"));
@@ -1291,7 +1368,6 @@ function renderStudent(){
     if (mine !== null) box.append(h("p",{class:"s-done" + (mine ? "" : " no")}, mine ? "✅ Listo: le pusiste la R. Puedes cambiar hasta que cierren la votación." : "Listo: no le pusiste la R. Puedes cambiar hasta que cierren la votación."));
     else box.append(h("p",{class:"note"}, "Tu voto se cuenta cuando todos respondan."));
   }
-  box.append(h("div",{class:"paper hab"}, h("div",{class:"label"}, h("span",{class:"letter"},"H"), "El hábito"), h("p",{class:"big"}, rec.h)));
   if (t.phase === "revealed"){
     box.append(h("p",{class:"note"}, "Escucha a quien sacó la galleta. Cuando el docente abra la votación, aquí aparecerán los botones."));
     return;
