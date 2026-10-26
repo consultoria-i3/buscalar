@@ -372,7 +372,14 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .timer.low .fill{background:var(--red)}
 .timer.over .secs{color:var(--muted)}
 .opts{display:grid;gap:10px;width:100%}
-.opts .btn{width:100%;justify-content:center}
+.opts .btn.opt{width:100%;justify-content:flex-start;text-align:left;gap:14px;padding:12px 18px;min-height:64px}
+.opt-txt{display:grid;gap:2px;line-height:1.15;min-width:0}
+.opt-txt b{font-family:var(--font-display);font-weight:400;font-size:1.25rem;letter-spacing:.02em}
+.opt-txt small{font-family:var(--font-body);font-size:.9rem;font-weight:700;opacity:.92;text-transform:none;letter-spacing:0}
+.total .sub{font-size:.8rem;font-weight:600;color:var(--muted);text-align:center;line-height:1.2}
+.legend{display:grid;gap:4px;justify-items:center;text-align:center;font-size:.95rem;font-weight:700;color:var(--muted)}
+.legend b{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.02em}
+.legend .pro b{color:var(--green-dk)} .legend .con b{color:var(--rose)} .legend .re b{color:#B5461B}
 .stamp.tie{border-color:#9A8FB0;color:#6F6A8E;border-style:dotted;font-size:1rem;letter-spacing:.06em}
 .linklike{background:none;border:0;padding:0;color:var(--rose);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:.9rem}
 .notice{border:3px solid var(--pink);background:var(--pinkt);border-radius:14px;padding:10px 14px;font-size:.95rem;font-weight:600}
@@ -639,7 +646,12 @@ details.howto[open] summary::after{content:"\2212"}
           <div class="timer" id="timer"><div class="secs"><span id="timerSecs">15</span><small>s</small></div><div class="track"><span class="fill" id="timerBar"></span></div></div>
           <div class="count" id="liveCount">0 <small>de 0 respondieron</small></div>
           <div class="dots" id="liveDots"></div>
-          <p class="note" id="liveNote">Reconozco la R · Rechazo la R · Replanteo la R. Al llegar a cero se cierra sola; quien no respondió queda «Sin responder».</p>
+          <div class="legend" id="liveNote">
+            <span class="pro"><b>Reconozco la R</b> · Sí, me pasa o me identifico.</span>
+            <span class="con"><b>Rechazo la R</b> · No me pasa o no estoy de acuerdo.</span>
+            <span class="re"><b>Replanteo la R</b> · Puedo mejorar y hacerlo diferente.</span>
+          </div>
+          <p class="note">Al llegar a cero se cierra sola; quien no respondió queda «Sin responder».</p>
         </div>
         <div class="after" id="afterBox" hidden>
           <div class="totals" id="totalsBox" hidden></div>
@@ -731,7 +743,7 @@ details.howto[open] summary::after{content:"\2212"}
       <ol>
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece el hábito.</li>
-        <li><strong>Tres opciones y 15 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R», «Rechazo la R» y «Replanteo la R» con una cuenta regresiva de 15 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
+        <li><strong>Tres opciones y 15 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico), «Rechazo la R» (no me pasa o no estoy de acuerdo) y «Replanteo la R» (puedo mejorar y hacerlo diferente) con una cuenta regresiva de 15 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Siguiente galleta.</strong> Cada galleta sale una sola vez por ronda; cuando se acaban, se hornea otra ronda y las R se siguen sumando. La tabla muestra cuál convenció más.</li>
@@ -743,7 +755,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 13:42</span>
+  <span class="ver">versión 2026-10-26 14:37</span>
 </footer>
 
 <script>
@@ -815,9 +827,9 @@ const tallyOf = i => Object.assign({ pro:0, con:0, re:0, nr:0 }, state.tally[i] 
 /* Votación: tres opciones, 15 segundos, cierre automático. pro = Reconozco, con = Rechazo, re = Replanteo, nr = Sin responder */
 const VOTE_SECS = 15;
 const OPTS = [
-  { k:"reconozco", key:"pro", label:"Reconozco la R", verdict:"La clase reconoce la R", cls:"btn-si", tone:"" },
-  { k:"rechazo",   key:"con", label:"Rechazo la R",   verdict:"La clase rechaza la R",  cls:"btn-no", tone:"no" },
-  { k:"replanteo", key:"re",  label:"Replanteo la R", verdict:"La clase replantea la R", cls:"btn-re", tone:"re" }
+  { k:"reconozco", key:"pro", label:"Reconozco la R", desc:"Sí, me pasa o me identifico.",        verdict:"La clase reconoce la R",  cls:"btn-si", tone:"" },
+  { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" },
+  { k:"replanteo", key:"re",  label:"Replanteo la R", desc:"Puedo mejorar y hacerlo diferente.", verdict:"La clase replantea la R", cls:"btn-re", tone:"re" }
 ];
 const OPT = Object.fromEntries(OPTS.map(o => [o.k, o]));
 const normOpt = v => (typeof v === "string" && OPT[v]) ? v : (v === true ? "reconozco" : v === false ? "rechazo" : null);
@@ -831,10 +843,8 @@ function verdictOf(c){
 }
 function buildTotals(c){
   const box = h("div",{class:"totals"});
-  box.append(h("div",{class:"total pro"}, h("div",{class:"big-n"}, c.pro), h("div",{class:"lab"}, "Reconozco la R")),
-             h("div",{class:"total con", style:"animation-delay:.1s"}, h("div",{class:"big-n"}, c.con), h("div",{class:"lab"}, "Rechazo la R")),
-             h("div",{class:"total re", style:"animation-delay:.2s"}, h("div",{class:"big-n"}, c.re), h("div",{class:"lab"}, "Replanteo la R")));
-  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), h("div",{class:"lab"}, "Sin responder")));
+  OPTS.forEach((o, i) => box.append(h("div",{class:"total " + (o.key === "pro" ? "pro" : o.key === "con" ? "con" : "re"), style:`animation-delay:${i*.1}s`}, h("div",{class:"big-n"}, c[o.key]), h("div",{class:"lab"}, o.label), h("div",{class:"sub"}, o.desc))));
+  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), h("div",{class:"lab"}, "Sin responder"), h("div",{class:"sub"}, "No alcanzó a responder.")));
   return box;
 }
 /* Cronómetro: actualiza los segundos y la barra de un elemento .timer hasta endsAt (ms); al llegar a cero llama onZero */
@@ -857,7 +867,7 @@ function studentVoteUI(box, mine, endsAt, onVote){
   box.append(h("p",{class:"s-ask"}, "¿Qué haces con esta R?"));
   const timer = buildTimer(); box.append(timer);
   const bar = h("div",{class:"opts"});
-  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: over, onclick: ()=>onVote(o.k)}, h("span",{class:"rb"},"R"), " " + o.label)));
+  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: over, onclick: ()=>onVote(o.k)}, h("span",{class:"rb"},"R"), h("span",{class:"opt-txt"}, h("b", null, o.label), h("small", null, o.desc)))));
   box.append(bar);
   if (over) box.append(h("p",{class:"note"}, mine ? "Se acabó el tiempo. Tu respuesta quedó registrada." : "Se acabó el tiempo: quedas como «Sin responder»."));
   else if (mine) box.append(h("p",{class:"s-done " + OPT[mine].tone}, "✅ " + OPT[mine].label + ". Puedes cambiar hasta que el tiempo llegue a cero."));
