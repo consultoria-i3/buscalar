@@ -866,7 +866,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 16:30</span>
+  <span class="ver">versión 2026-10-26 16:35</span>
 </footer>
 
 <script>
@@ -1426,17 +1426,11 @@ function renderPanel(){
   const q = $("pQuick"); q.replaceChildren();
   const btn = (label, fn, ok, cls) => q.append(h("button",{class:"btn btn-sm" + (cls ? " " + cls : ""), type:"button", disabled: !ok, onclick: fn}, label));
   const idle = state.phase === "idle" && !state.finished;
-  // Una sola acción principal según la etapa (el resto son secundarias)
-  switch (cur.id){
-    case "sacar":     btn("🏁 Terminar y ver el resumen final", finishGame, opened > 0, "main"); break;
-    case "debate":    btn("💬 Cerrar debate y continuar", next, true, "main"); break;
-    case "final":     if (left) btn("🍪 Volver al juego", resumeGame, true, "main"); else btn("🔥 Hornear otra ronda", newRound, true, "main"); break;
-    default:          btn("⏳ " + cur.label + " en curso…", null, false, "main");
-  }
+  // Accesos rápidos fijos: solo estas cuatro opciones (avanzar el juego se hace desde la escena)
+  btn("🏁 Terminar y ver resultados finales", finishGame, state.phase === "idle" && !state.finished && opened > 0, "main");
   btn("👥 Invitar participantes", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
-  if (state.finished && left) btn("🔥 Hornear otra ronda", newRound, true);
-  btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = true; d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
   btn("🔄 Reiniciar juego", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
+  btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = true; d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
 }
 function renderStart(){}
 
