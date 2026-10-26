@@ -669,7 +669,6 @@ details.howto[open] summary::after{content:"\2212"}
       <div class="idle-controls" id="idleControls">
         <button class="btn btn-coral btn-xl" id="breakBtn">🍪 Sacar una galleta</button>
         <p class="note" id="pickNote">i3sit@ mete las manos al tazón y saca una al azar.</p>
-        <button class="linklike" id="finishBtn" type="button" hidden>🏁 Terminar y ver el resumen final</button>
       </div>
 
       <div class="done-box" id="doneBox" hidden>
@@ -817,7 +816,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 16:00</span>
+  <span class="ver">versión 2026-10-26 16:06</span>
 </footer>
 
 <script>
@@ -1054,7 +1053,6 @@ function renderStage(){
     if (state.finished) $("teacherCard").hidden = true;
     $("resumeBtn").hidden = !(state.finished && pool.length > 0);
     $("newRoundBtn2").hidden = !(finalScreen && pool.length === 0);
-    $("finishBtn").hidden = !(state.opened.length > 0);
   }
   $("controls").hidden = !state.started;
   const si = $("sessionInfo"); si.replaceChildren();
@@ -1349,13 +1347,12 @@ function renderPanel(){
   const idle = state.phase === "idle" && !state.finished;
   // Una sola acción principal según la etapa (el resto son secundarias)
   switch (cur.id){
-    case "sacar":     btn("🍪 Sacar una galleta", drawCookie, true, "main"); break;
+    case "sacar":     btn("🏁 Terminar y ver el resumen final", finishGame, opened > 0, "main"); break;
     case "resultado": btn("➡️ Siguiente galleta", next, true, "main"); break;
     case "final":     if (left) btn("🍪 Volver al juego", resumeGame, true, "main"); else btn("🔥 Hornear otra ronda", newRound, true, "main"); break;
     default:          btn("⏳ " + cur.label + " en curso…", null, false, "main");
   }
   btn("👥 Invitar participantes", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
-  if (!state.finished) btn("🏁 Resumen final", finishGame, idle && opened > 0);
   if (state.finished && left) btn("🔥 Hornear otra ronda", newRound, true);
   btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = true; d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
   btn("🔄 Reiniciar juego", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
@@ -1682,7 +1679,6 @@ function start(){
   $("nextBtn").addEventListener("click", next);
   $("newRoundBtn").addEventListener("click", newRound);
   $("newRoundBtn2").addEventListener("click", newRound);
-  $("finishBtn").addEventListener("click", finishGame);
   $("finishBtn2").addEventListener("click", finishGame);
   $("resumeBtn").addEventListener("click", resumeGame);
   initLive();
