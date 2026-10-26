@@ -458,7 +458,8 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 /* Debate en el docente: título arriba y regla al centro */
 .dz-stack{display:grid;grid-template-rows:auto 1fr;justify-items:center;align-items:center;gap:clamp(6px,1.6cqw,16px);width:100%;height:100%}
 .dz-top{display:grid;justify-items:center;gap:6px;background:rgba(255,255,255,.97);border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 0 var(--ink);padding:clamp(6px,1.2cqw,12px) clamp(14px,3cqw,30px);pointer-events:auto}
-.dz-top .dz-title{font-size:clamp(1.2rem,3.8cqw,2.4rem)}
+.dz-top .dz-title{font-size:clamp(1.1rem,3.3cqw,2.1rem)}
+.dz-top .dz-hab{font-size:clamp(.8rem,1.8cqw,1.1rem)}
 .dz-stack .dz-regla{width:min(100%,clamp(300px,62cqw,600px))}
 .dz-stack .dz-regla .regla-glass{height:clamp(110px,19cqw,190px)}
 /* (anterior) escena dividida */
@@ -479,23 +480,23 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .dz-float{display:none}
 .regla-seg span{white-space:nowrap}
 .dz-regla .regla{padding:clamp(8px,1.4cqw,14px);gap:6px;box-shadow:0 5px 0 0 var(--ink);background:rgba(255,255,255,.96)}
-.dz-regla .regla-head{font-size:clamp(.8rem,1.6cqw,1.05rem)}
-.dz-regla .regla-body{grid-template-columns:auto 1fr;gap:clamp(6px,1.2cqw,12px)}
+.dz-regla .regla-head{font-size:clamp(.95rem,1.9cqw,1.25rem)}
+.dz-regla .regla-body{grid-template-columns:auto 1fr;gap:clamp(8px,1.6cqw,16px)}
 .dz-regla .regla-ticks{display:none}
-.dz-regla .regla-glass{width:clamp(30px,4.6cqw,44px);height:clamp(110px,21cqw,200px);border-radius:24px 24px 0 0}
+.dz-regla .regla-glass{width:clamp(34px,5cqw,48px);height:clamp(100px,17cqw,170px);border-radius:24px 24px 0 0}
 .dz-regla .regla-glass::after{left:5px;width:5px}
-.dz-regla .regla-bulb{width:clamp(42px,6.4cqw,60px);height:clamp(42px,6.4cqw,60px)}
+.dz-regla .regla-bulb{width:clamp(46px,6.6cqw,62px);height:clamp(46px,6.6cqw,62px)}
 .dz-regla .regla-bulb b{font-size:clamp(1.1rem,2.4cqw,1.6rem)}
-.dz-regla .regla-seg span{font-size:clamp(.55rem,1.1cqw,.72rem);padding:0 4px}
+.dz-regla .regla-seg span{display:none}
 .dz-regla .regla-legend{gap:6px}
-.dz-regla .regla-legend li{grid-template-columns:auto 1fr;padding:5px 8px;gap:2px 8px}
-.dz-regla .regla-legend .sw{width:12px;height:12px;grid-row:span 2}
-.dz-regla .regla-legend .tx b{font-size:clamp(.7rem,1.35cqw,.9rem)}
-.dz-regla .regla-legend .tx small{font-size:clamp(.58rem,1.1cqw,.74rem);line-height:1.15}
-.dz-regla .regla-legend .nm{grid-column:2;justify-items:start;display:flex;gap:6px;align-items:baseline}
-.dz-regla .regla-legend .nm .p{font-size:clamp(.95rem,2cqw,1.35rem)}
-.dz-regla .regla-legend .nm small{font-size:clamp(.6rem,1.1cqw,.75rem)}
-.dz-regla .regla-foot{font-size:clamp(.6rem,1.15cqw,.8rem)}
+.dz-regla .regla-legend li{grid-template-columns:auto 1fr auto;padding:6px 10px;gap:2px 10px}
+.dz-regla .regla-legend .sw{width:16px;height:16px}
+.dz-regla .regla-legend .tx b{font-size:clamp(.9rem,1.8cqw,1.15rem)}
+.dz-regla .regla-legend .tx small{font-size:clamp(.75rem,1.45cqw,.95rem);line-height:1.2;color:#5E4A5C}
+.dz-regla .regla-legend .nm{display:grid;justify-items:end;align-self:start;text-align:right}
+.dz-regla .regla-legend .nm .p{font-size:clamp(1.3rem,2.8cqw,1.9rem)}
+.dz-regla .regla-legend .nm small{font-size:clamp(.7rem,1.3cqw,.85rem)}
+.dz-regla .regla-foot{font-size:clamp(.72rem,1.4cqw,.92rem)}
 .after.is-debate #totalsBox{display:none}
 /* Debajo de la escena: resultados compactos + acción principal del docente */
 .after.is-debate .totals .total{padding:10px;animation:none}
@@ -946,7 +947,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 17:10</span>
+  <span class="ver">versión 2026-10-26 17:16</span>
 </footer>
 
 <script>
@@ -1305,7 +1306,8 @@ function renderSlip(){
   // En el debate, la socialización y «La Regla de la R» comparten la escena para que ambas se vean a la vez
   // Debate en el docente: arriba solo el título de la socialización; en el centro, «La Regla de la R»
   box.append(inDebate ? h("div",{class:"dz-stack"},
-      h("div",{class:"dz-top"}, h("span",{class:"dz-chip"}, h("i"), "Socialización"), h("div",{class:"dz-title"}, "💬 ¿Le damos la R… ", h("span", null, "o tiene razón?"))),
+      h("div",{class:"dz-top"}, h("span",{class:"dz-chip"}, h("i"), "Socialización"), h("div",{class:"dz-title"}, "💬 ¿Le damos la R… ", h("span", null, "o tiene razón?")),
+        h("div",{class:"dz-hab"}, cookieSvg(null, null), h("span",{class:"k"}, `Galleta #${idx+1} ·`), h("span", null, rec ? rec.h : ""))),
       h("div",{class:"dz-regla"}, buildRegla(state.lastCounts || { pro:0, con:0, re:0, nr:0 }))) : paper);
   const conf = h("div",{class:"confetti",id:"confetti","aria-hidden":"true"});
   const colors = ["#FF6FA3","#E63E7E","#FF8C2E","#FFB347","#5BC236","#FFD166"];
@@ -1386,7 +1388,7 @@ function closeVote(){
   renderSlip(); renderTray(); renderTable(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
   flashScene(v.k === "reconozco" ? "is-happy" : "is-meh", 1100);
   if (v.k === "reconozco"){ const cf = $("confetti"); if (cf){ cf.classList.remove("go"); void cf.offsetWidth; cf.classList.add("go"); } }
-  later(openDebate, 4000);   // los resultados se ven solos unos segundos y luego se abre la socialización
+  openDebate();   // los resultados aparecen directamente dentro de la socialización
 }
 
 /* Socialización: conversación oral y libre moderada por el docente; sin preguntas ni votaciones nuevas */
