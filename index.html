@@ -993,7 +993,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 17:44</span>
+  <span class="ver">versión 2026-10-26 17:49</span>
 </footer>
 
 <script>
@@ -1579,7 +1579,9 @@ function nextStep(){
 function renderPanel(){
   const card = $("panelCard"); if (!card || live.mode === "student") return;
   const playing = state.started && state.playing;
-  card.hidden = !playing; if (!playing) return;
+  // En la pantalla final (resumen) el panel no se muestra
+  const isFinal = playing && STAGES[stageIndex()].id === "final";
+  card.hidden = !playing || isFinal; if (card.hidden) return;
   // Sesión
   const code = (live.session && live.session.code) || live.code || "";
   $("pCode").textContent = code || "····";
