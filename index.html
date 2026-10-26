@@ -418,7 +418,8 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .scene-reveal.is-debate .dz{animation:debateIn .6s cubic-bezier(.2,1.1,.3,1) both}
 @keyframes debateIn{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
 /* Debajo de la escena: resultados compactos + acción principal del docente */
-.after.is-debate .totals{display:none}
+.after.is-debate .totals .total{padding:10px;animation:none}
+.after.is-debate .totals .total .big-n{font-size:2.2rem}
 .after.is-debate .result{font-size:.95rem;opacity:.85}
 .debate-cta{display:grid;justify-items:center;gap:8px;width:min(100%,560px);padding:14px 16px;border:3px solid #9B4DCA;border-radius:20px;background:linear-gradient(#FBF3FF,#F4E6FB)}
 .dz-live{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.9rem;color:#7A3E8E}
@@ -865,7 +866,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 16:24</span>
+  <span class="ver">versión 2026-10-26 16:30</span>
 </footer>
 
 <script>
@@ -953,12 +954,12 @@ function verdictOf(c){
 }
 /* Porcentaje de cada opción sobre las respuestas recibidas (los «Sin responder» no entran en el reparto) */
 const pctOf = (n, total) => total ? Math.round(n / total * 100) : 0;
-function buildTotals(c){
+function buildTotals(c, noPct){
   const total = (c.pro || 0) + (c.con || 0) + (c.re || 0);
   const box = h("div",{class:"totals"});
   OPTS.forEach((o, i) => box.append(h("div",{class:"total " + (o.key === "pro" ? "pro" : o.key === "con" ? "con" : "re"), style:`animation-delay:${i*.1}s`},
-    h("div",{class:"big-n"}, c[o.key] || 0), h("div",{class:"pct"}, pctOf(c[o.key] || 0, total) + " %"), h("div",{class:"lab"}, o.label), h("div",{class:"sub"}, o.short))));
-  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), h("div",{class:"pct"}, "—"), h("div",{class:"lab"}, "Sin responder"), h("div",{class:"sub"}, "No alcanzó a responder.")));
+    h("div",{class:"big-n"}, c[o.key] || 0), noPct ? null : h("div",{class:"pct"}, pctOf(c[o.key] || 0, total) + " %"), h("div",{class:"lab"}, o.label), h("div",{class:"sub"}, o.short))));
+  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), noPct ? null : h("div",{class:"pct"}, "—"), h("div",{class:"lab"}, "Sin responder"), h("div",{class:"sub"}, "No alcanzó a responder.")));
   return box;
 }
 /* Barra apilada con el reparto de las respuestas */
@@ -1005,8 +1006,8 @@ function syncVoteClock(t){
 /* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
 function studentResultUI(box, t, mine, debate){
   const c = { pro: t.pro || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
-  if (debate) box.append(h("div",{class:"s-debate-res"}, h("span",{class:"lab"}, "Resultado de esta galleta"), buildShareBar(c)));
-  else box.append(buildTotals(c), buildShareBar(c));
+  // En el celular no se muestran porcentajes (solo en la pantalla del docente)
+  if (!debate) box.append(buildTotals(c, true));
   const v = verdictOf(c);
   box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine ? ` · tú: ${OPT[mine].label}` : " · tú quedaste sin responder")));
   if (!debate) box.append(h("p",{class:"note"}, "En un momento abrimos la conversación."));
