@@ -408,8 +408,9 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .regla-seg.re{background:linear-gradient(90deg,#FF9F3A,#FFC069)}
 .regla-seg.con{background:linear-gradient(90deg,#E63E7E,#FF7FB0)}
 @keyframes reglaGrow{from{height:0}to{height:var(--h)}}
-.regla-bulb{width:78px;height:78px;margin-top:-6px;border:3px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:conic-gradient(from 200deg,#7B5CFF,#3FA9F5,#2ED3B7,#FFD23F,#FF8C2E,#FF5FA2,#7B5CFF);box-shadow:0 5px 0 0 var(--ink);position:relative;z-index:1;animation:bulbPulse 2.4s ease-in-out infinite}
+.regla-bulb{width:78px;height:78px;margin-top:-6px;border:3px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:#FFF3E2;overflow:visible;box-shadow:0 5px 0 0 var(--ink);position:relative;z-index:1;animation:bulbPulse 2.4s ease-in-out infinite}
 .regla-bulb b{font-family:var(--font-display);font-weight:400;font-size:2rem;color:#fff;-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill}
+.regla-bulb svg{width:112%;height:112%;overflow:visible;filter:drop-shadow(0 2px 0 rgba(59,34,56,.35))}
 @keyframes bulbPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .regla-legend{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .regla-legend li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:8px 12px;background:#FFF8FA;animation:popIn .45s cubic-bezier(.2,.9,.3,1.3) both}
@@ -939,7 +940,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 17:00</span>
+  <span class="ver">versión 2026-10-26 17:02</span>
 </footer>
 
 <script>
@@ -1052,7 +1053,7 @@ function buildRegla(c){
   const fill = h("div",{class:"regla-fill"});
   order.forEach((o, i) => { if (!vals[i]) return; const seg = h("div",{class:"regla-seg " + cls[o.key], title:`${o.label}: ${pcts[i]} % (${vals[i]})`}, pcts[i] >= 12 ? h("span", null, pcts[i] + " %") : null); seg.style.setProperty("--h", pcts[i] + "%"); seg.style.setProperty("--d", (i * .45) + "s"); fill.append(seg); });
   const ticks = h("div",{class:"regla-ticks","aria-hidden":"true"}); [100, 75, 50, 25, 0].forEach(t => ticks.append(h("span", null, t)));
-  const tube = h("div",{class:"regla-tube","aria-hidden":"true"}, h("div",{class:"regla-glass"}, fill), h("div",{class:"regla-bulb"}, h("b", null, "R")));
+  const tube = h("div",{class:"regla-tube","aria-hidden":"true"}, h("div",{class:"regla-glass"}, fill), h("div",{class:"regla-bulb"}, cookieSvg(null, null)));
   const legend = h("ul",{class:"regla-legend"});
   [OPT.reconozco, OPT.rechazo, OPT.replanteo].forEach(o => {
     const i = order.indexOf(o), n = vals[i];
