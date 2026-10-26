@@ -455,7 +455,13 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 @keyframes floaty{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-10px) rotate(6deg)}}
 .scene-reveal.is-debate .dz{animation:debateIn .6s cubic-bezier(.2,1.1,.3,1) both}
 @keyframes debateIn{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
-/* Debate en el docente: escena dividida (socialización | regla) */
+/* Debate en el docente: título arriba y regla al centro */
+.dz-stack{display:grid;grid-template-rows:auto 1fr;justify-items:center;align-items:center;gap:clamp(6px,1.6cqw,16px);width:100%;height:100%}
+.dz-top{display:grid;justify-items:center;gap:6px;background:rgba(255,255,255,.97);border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 0 var(--ink);padding:clamp(6px,1.2cqw,12px) clamp(14px,3cqw,30px);pointer-events:auto}
+.dz-top .dz-title{font-size:clamp(1.2rem,3.8cqw,2.4rem)}
+.dz-stack .dz-regla{width:min(100%,clamp(300px,62cqw,600px))}
+.dz-stack .dz-regla .regla-glass{height:clamp(110px,19cqw,190px)}
+/* (anterior) escena dividida */
 .dz-split{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(8px,2cqw,22px);align-items:center;width:100%;height:100%}
 .dz-split .dz{width:100%}
 .dz-split .dz-title{font-size:clamp(1.1rem,3.6cqw,2.3rem)}
@@ -940,7 +946,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 17:02</span>
+  <span class="ver">versión 2026-10-26 17:08</span>
 </footer>
 
 <script>
@@ -1297,7 +1303,10 @@ function renderSlip(){
   const inDebate = state.phase === "debate";
   box.classList.toggle("is-debate", inDebate);
   // En el debate, la socialización y «La Regla de la R» comparten la escena para que ambas se vean a la vez
-  box.append(inDebate ? h("div",{class:"dz-split"}, buildDebateScene(idx, rec), h("div",{class:"dz-regla"}, buildRegla(state.lastCounts || { pro:0, con:0, re:0, nr:0 }))) : paper);
+  // Debate en el docente: arriba solo el título de la socialización; en el centro, «La Regla de la R»
+  box.append(inDebate ? h("div",{class:"dz-stack"},
+      h("div",{class:"dz-top"}, h("span",{class:"dz-chip"}, h("i"), "Socialización"), h("div",{class:"dz-title"}, "💬 ¿Le damos la R… ", h("span", null, "o tiene razón?"))),
+      h("div",{class:"dz-regla"}, buildRegla(state.lastCounts || { pro:0, con:0, re:0, nr:0 }))) : paper);
   const conf = h("div",{class:"confetti",id:"confetti","aria-hidden":"true"});
   const colors = ["#FF6FA3","#E63E7E","#FF8C2E","#FFB347","#5BC236","#FFD166"];
   for (let i=0;i<18;i++){
