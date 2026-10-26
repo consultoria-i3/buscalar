@@ -341,7 +341,6 @@ body.is-start .float-cookies{display:block}
 .s-join input{text-transform:uppercase;letter-spacing:.18em;font-family:var(--font-display);font-size:1.4rem;text-align:center;max-width:220px}
 .s-join .note{max-width:none;text-align:left}
 .s-missing{border:3px solid var(--pink);background:var(--pinkt);border-radius:14px;padding:10px 14px;font-weight:700;margin-bottom:10px}
-.student .s-leave{text-align:center;margin-top:6px}
 
 /* Invitación: código, QR y enlace (en la sala recién creada y en el diálogo «Invitar participantes») */
 .invite{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center}
@@ -426,7 +425,6 @@ details.howto[open] summary::after{content:"\2212"}
     </form>
     <div class="s-hello" id="sHello" hidden><span id="sHelloText"></span> <button class="linklike" type="button" id="changeNickBtn">Cambiar nombre</button></div>
     <div class="s-stage" id="sStage" hidden></div>
-    <p class="s-leave" id="sLeave" hidden><button class="linklike" type="button" id="leaveRoomBtn">Cambiar de sala</button></p>
   </section>
 
   <section class="card teacher-only" id="startCard" aria-labelledby="startTitle">
@@ -686,7 +684,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 11:47</span>
+  <span class="ver">versión 2026-10-26 12:13</span>
 </footer>
 
 <script>
@@ -1128,7 +1126,6 @@ function renderStudentShell(){
   $("nickForm").hidden = askCode || live.registered;
   $("sHello").hidden = askCode || !live.registered;
   $("sStage").hidden = askCode || !live.registered;
-  $("sLeave").hidden = !(live.site && live.code && !live.missing);
   if (live.registered) $("sHelloText").textContent = `¡Hola, ${live.nick}! Ya estás participando.`;
   if (askCode && live.code) $("codeInput").value = live.code;
 }
@@ -1371,7 +1368,6 @@ function wireCodeForm(){
   input.addEventListener("input", ()=>{ const c = cleanCode(input.value); if (input.value !== c) input.value = c; btn.disabled = !valid(); });
   btn.disabled = !valid();
   $("codeForm").addEventListener("submit", e=>{ e.preventDefault(); if (!valid()){ input.focus(); return; } location.href = "/sala/" + cleanCode(input.value); });
-  $("leaveRoomBtn").addEventListener("click", ()=>{ location.href = "/sala"; });
 }
 /* Pantalla del estudiante sin código: pide el código y nada más */
 function studentAsk(){
