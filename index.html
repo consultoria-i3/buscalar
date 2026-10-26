@@ -324,6 +324,39 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .cbox-tag b{font-family:var(--font-display);font-weight:400;font-size:1.2rem;margin-right:2px}
 .cbox-note{position:relative;z-index:2;justify-self:center;margin-top:22px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 16px;font-weight:800;font-size:.88rem;color:var(--ink);text-align:center}
 @media (prefers-reduced-motion:reduce){.cbox-ck{animation:none}}
+/* ---------- Resumen final ---------- */
+#resultados .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;padding:0;border:0;background:none}
+@media (max-width:640px){#resultados .summary{grid-template-columns:1fr}}
+.kpi{border:3px solid var(--ink);border-radius:20px;padding:16px 14px;display:grid;justify-items:center;gap:2px;box-shadow:0 6px 0 0 var(--ink);text-align:center}
+.kpi.k1{background:linear-gradient(#FFE4EC,#FFD0DF)}.kpi.k2{background:linear-gradient(#EAF8E6,#D5F2C8)}.kpi.k3{background:linear-gradient(#FFF1DD,#FFE0B8)}
+.kpi-ico{font-size:1.6rem}
+.kpi-n{font-family:var(--font-display);font-size:3.2rem;line-height:1;color:var(--ink)}
+.kpi-l{font-weight:800;font-size:.95rem;color:var(--muted)}
+.fcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:18px}
+.fcard{border:3px solid var(--ink);border-radius:22px;background:#fff;box-shadow:0 6px 0 0 var(--line);padding:16px 18px;display:grid;gap:10px;align-content:start}
+.fcard.top{border-color:var(--green-dk);box-shadow:0 6px 0 0 var(--green)}
+.fhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.fnum{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:999px;padding:2px 12px 2px 4px;background:var(--pinkt)}
+.fnum svg{width:30px;height:30px;overflow:visible}
+.fnum b{font-family:var(--font-display);font-weight:400;font-size:1.1rem}
+.fbadge{border:2px solid var(--green-dk);border-radius:999px;padding:2px 10px;background:var(--mint);color:var(--green-dk);font-weight:800;font-size:.82rem}
+.fhab{margin:0;font-weight:800;font-size:1.15rem;line-height:1.35;color:#B5146E}
+.frec{margin:0;font-size:.9rem;line-height:1.4;color:var(--muted);font-weight:600}
+.frec b{color:var(--ink)}
+.fbars{display:grid;gap:10px;margin-top:4px}
+.fbar{display:grid;grid-template-columns:1fr auto;grid-template-areas:"l p" "t t" "v v";gap:2px 10px;align-items:end}
+.fbar .fl{grid-area:l;font-weight:800;font-size:.95rem;color:var(--ink)}
+.fbar .fp{grid-area:p;font-family:var(--font-display);font-size:2rem;line-height:1;font-variant-numeric:tabular-nums}
+.fbar .track{grid-area:t;height:18px;border:2px solid var(--ink);border-radius:999px;background:#F6F1F4;overflow:hidden}
+.fbar .fill{display:block;height:100%;width:var(--w);border-radius:999px;animation:fbarGrow .9s cubic-bezier(.3,.8,.3,1) both}
+@keyframes fbarGrow{from{width:0}to{width:var(--w)}}
+.fbar .fv{grid-area:v;font-size:.8rem;font-weight:700;color:var(--muted)}
+.fbar.pro .fill{background:linear-gradient(90deg,#6FCF3A,#9BE35E)}.fbar.pro .fp{color:var(--green-dk)}
+.fbar.con .fill{background:linear-gradient(90deg,#E53935,#FF6B6B)}.fbar.con .fp{color:#D32F2F}
+.fbar.re .fill{background:linear-gradient(90deg,#FF8C2E,#FFB347)}.fbar.re .fp{color:#C2560F}
+.ffoot{font-size:.82rem;font-weight:700;color:var(--muted);border-top:2px dashed var(--line);padding-top:8px}
+#resultados .cbox{margin-top:48px}
+@media (prefers-reduced-motion:reduce){.fbar .fill{animation:none}}
 .closed-wrap{display:grid;gap:10px;margin-top:4px;padding:14px;border:3px dashed #F3C9D3;border-radius:16px;background:#FFF8FA}
 .closed-wrap .lab{font-family:var(--font-display);font-size:.95rem;letter-spacing:.04em;color:var(--muted)}
 .closed-wrap .lab b{color:var(--rose);font-weight:400}
@@ -929,7 +962,7 @@ details.howto[open] summary::after{content:"\2212"}
   <section class="card teacher-only" id="resultados" hidden aria-labelledby="tableTitle">
     <div class="card-head">
       <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada hábito</h2>
-      <span class="hint">Verde: reconocen la R · Rosa: la rechazan · Naranja: la replantean · Gris: sin responder.</span>
+      <span class="hint">Verde: Reconozco la R · Rojo: Rechazo la R · Naranja: Replanteo la R</span>
     </div>
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
@@ -960,7 +993,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 17:22</span>
+  <span class="ver">versión 2026-10-26 17:44</span>
 </footer>
 
 <script>
@@ -1396,6 +1429,7 @@ function closeVote(){
   if (!state.opened.includes(idx)) state.opened.push(idx);
   const v = verdictOf(c);
   state.log.push({ idx, v: v.k, r: v.k === "reconozco", pro: c.pro, con: c.con, re: c.re, nr: c.nr, t: Date.now() });
+  state.voters = state.voters || {}; Object.keys(state.liveVotes || {}).forEach(id => { state.voters[id] = 1; });
   state.lastVote = v.k === "reconozco"; state.lastVerdict = v.k; state.lastCounts = c; state.phase = "voted"; state.picked = null; state.voteEnds = null;
   save(); saveResult(idx, c);
   renderSlip(); renderTray(); renderTable(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
@@ -1452,27 +1486,34 @@ function bestRec(){
 function renderTable(){
   const box = $("table"); box.replaceChildren();
   const best = bestRec();
-  const closed = [];
-  // Resumen global de la partida (todas las galletas abiertas, todas las rondas)
-  const all = { pro:0, con:0, re:0, nr:0 };
-  RECS.forEach((_, i)=>{ const t = tallyOf(i); all.pro += t.pro; all.con += t.con; all.re += t.re; all.nr += t.nr; });
+  const closed = [], worked = [];
+  RECS.forEach((rec, i)=>{ const t = tallyOf(i); if (!(t.pro + t.con + t.re) && !t.nr && !state.opened.includes(i)) closed.push(i); else worked.push(i); });
+  // Encabezado: tres indicadores
   const sum = $("tableSummary"); sum.replaceChildren();
-  const opened = state.opened.length, answered = all.pro + all.con + all.re;
-  if (opened || answered){
-    sum.append(h("div",{class:"lab"}, `Ronda ${state.round} · ${opened} galleta${opened===1?"":"s"} abierta${opened===1?"":"s"} en esta ronda · ${answered} respuesta${answered===1?"":"s"} en total`));
-    sum.append(buildTotals(all), buildShareBar(all));
-  }
-  RECS.forEach((rec, i)=>{
-    const t = tallyOf(i), total = t.pro + t.con + t.re;
-    if (!total && !t.nr && !state.opened.includes(i)){ closed.push(i); return; }
-    const pc = k => pctOf(t[k], total);
-    const tag = (cls, title, sym, k) => h("span",{class:"rtag " + cls, title}, sym + " ", t[k], h("small", null, ` · ${pc(k)} %`));
-    box.append(h("div",{class:"rrow" + (best && best.i === i && t.pro > 0 ? " top" : "")},
-      h("div",{class:"n"}, i+1),
-      h("div",{class:"txt"}, h("div",{class:"h"}, rec.h), h("div", null, rec.a)),
-      h("div",{class:"nums"}, tag("pro","Reconozco la R","R","pro"), tag("con","Rechazo la R","✗","con"), tag("re","Replanteo la R","↻","re"), t.nr ? h("span",{class:"rtag nr",title:"Sin responder"}, "– ", t.nr) : null),
-      h("div",{class:"bar",role:"img","aria-label":`${t.pro} reconocen (${pc("pro")} %), ${t.con} rechazan (${pc("con")} %), ${t.re} replantean (${pc("re")} %), ${t.nr} sin responder`}, h("span",{class:"pro",style:`width:${pc("pro")}%`}), h("span",{class:"re",style:`width:${pc("re")}%`}), h("span",{class:"con",style:`width:${pc("con")}%`}))));
+  const voters = Object.keys(state.voters || {}).length;
+  const kpi = (cls, ico, n, lab) => h("div",{class:"kpi " + cls}, h("div",{class:"kpi-ico","aria-hidden":"true"}, ico), h("div",{class:"kpi-n"}, n), h("div",{class:"kpi-l"}, lab));
+  sum.append(kpi("k1", "🍪", worked.length, `galleta${worked.length===1?"":"s"} trabajada${worked.length===1?"":"s"}`),
+             kpi("k2", "🙋", voters, voters === 1 ? "participante votó" : "participantes votaron"),
+             kpi("k3", "📦", closed.length, `galleta${closed.length===1?"":"s"} pendiente${closed.length===1?"":"s"}`));
+  // Una tarjeta por galleta trabajada, con tres barras horizontales
+  const grid = h("div",{class:"fcards"});
+  worked.forEach(i=>{
+    const rec = RECS[i], t = tallyOf(i), vals = [t.pro, t.con, t.re], valid = vals[0] + vals[1] + vals[2], pcts = pct100(vals);
+    const rows = h("div",{class:"fbars"});
+    [["pro", "Reconozco la R", 0], ["con", "Rechazo la R", 1], ["re", "Replanteo la R", 2]].forEach(([cls, lab, k]) => {
+      const fill = h("span",{class:"fill"}); fill.style.setProperty("--w", pcts[k] + "%");
+      rows.append(h("div",{class:"fbar " + cls, role:"img", "aria-label":`${lab}: ${pcts[k]} %, ${vals[k]} voto${vals[k]===1?"":"s"}`},
+        h("div",{class:"fl"}, lab), h("div",{class:"track"}, fill), h("div",{class:"fp"}, pcts[k] + "%"), h("div",{class:"fv"}, `${vals[k]} voto${vals[k]===1?"":"s"}`)));
+    });
+    const top = best && best.i === i && t.pro > 0;
+    grid.append(h("article",{class:"fcard" + (top ? " top" : "")},
+      h("header",{class:"fhead"}, h("div",{class:"fnum"}, cookieSvg(null, null), h("b", null, "#" + (i+1))), top ? h("span",{class:"fbadge"}, "🏆 La más reconocida") : null),
+      h("p",{class:"fhab"}, rec.h),
+      h("p",{class:"frec"}, h("b", null, "Recomendación: "), rec.a),
+      rows,
+      h("div",{class:"ffoot"}, valid ? `${valid} voto${valid===1?"":"s"} válido${valid===1?"":"s"}` + (t.nr ? ` · ${t.nr} sin responder` : "") : "Sin votos registrados")));
   });
+  if (worked.length) box.append(grid);
   if (closed.length){
     // Las galletas que faltan por abrir van guardadas en una caja de pastelería
     const pile = h("div",{class:"cbox-pile"});
