@@ -373,6 +373,8 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .timer.over .secs{color:var(--muted)}
 .opts{display:grid;gap:10px;width:100%}
 .opts .btn.opt{width:100%;justify-content:flex-start;text-align:left;gap:14px;padding:12px 18px;min-height:64px}
+.opts.answered .btn.opt:disabled{opacity:.35}
+.opts.answered .btn.opt.chosen:disabled{opacity:1}
 .opt-txt{display:grid;gap:2px;line-height:1.15;min-width:0}
 .opt-txt b{font-family:var(--font-display);font-weight:400;font-size:1.25rem;letter-spacing:.02em}
 .opt-txt small{font-family:var(--font-body);font-size:.9rem;font-weight:700;opacity:.92;text-transform:none;letter-spacing:0}
@@ -755,7 +757,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 14:37</span>
+  <span class="ver">versión 2026-10-26 14:48</span>
 </footer>
 
 <script>
@@ -861,17 +863,17 @@ function runTimer(el, endsAt, onZero){
   return iv;
 }
 function buildTimer(){ return h("div",{class:"timer"}, h("div",{class:"secs"}, h("span",{class:"n"}, String(VOTE_SECS)), h("small", null, "s")), h("div",{class:"track"}, h("span",{class:"fill"}))); }
-/* Pantalla del estudiante durante la votación: las tres opciones + cronómetro. mine = opción elegida; endsAt en reloj local */
+/* Pantalla del estudiante durante la votación: las tres opciones + cronómetro. mine = opción elegida (la primera que toca es la que queda); endsAt en reloj local */
 function studentVoteUI(box, mine, endsAt, onVote){
-  const over = endsAt - Date.now() <= 0;
+  const over = endsAt - Date.now() <= 0, locked = over || !!mine;
   box.append(h("p",{class:"s-ask"}, "¿Qué haces con esta R?"));
   const timer = buildTimer(); box.append(timer);
-  const bar = h("div",{class:"opts"});
-  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: over, onclick: ()=>onVote(o.k)}, h("span",{class:"rb"},"R"), h("span",{class:"opt-txt"}, h("b", null, o.label), h("small", null, o.desc)))));
+  const bar = h("div",{class:"opts" + (mine ? " answered" : "")});
+  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: locked, "aria-pressed": mine === o.k ? "true" : "false", onclick: ()=>onVote(o.k)}, h("span",{class:"rb"},"R"), h("span",{class:"opt-txt"}, h("b", null, o.label), h("small", null, o.desc)))));
   box.append(bar);
-  if (over) box.append(h("p",{class:"note"}, mine ? "Se acabó el tiempo. Tu respuesta quedó registrada." : "Se acabó el tiempo: quedas como «Sin responder»."));
-  else if (mine) box.append(h("p",{class:"s-done " + OPT[mine].tone}, "✅ " + OPT[mine].label + ". Puedes cambiar hasta que el tiempo llegue a cero."));
-  else box.append(h("p",{class:"note"}, "Responde antes de que el tiempo llegue a cero."));
+  if (mine) box.append(h("p",{class:"s-done " + OPT[mine].tone}, "✅ " + OPT[mine].label + ". Tu respuesta quedó registrada."));
+  else if (over) box.append(h("p",{class:"note"}, "Se acabó el tiempo: quedas como «Sin responder»."));
+  else box.append(h("p",{class:"note"}, "Elige con calma: la primera opción que toques es la que queda."));
   clearInterval(live.ticker);
   if (over){ timer.classList.add("over"); timer.querySelector(".n").textContent = "0"; timer.querySelector(".fill").style.width = "0%"; }
   else live.ticker = runTimer(timer, endsAt, ()=> renderStudent());   // al llegar a cero se vuelve a pintar con las respuestas bloqueadas
@@ -1328,14 +1330,14 @@ function absorbVote(v){
   if (state.phase !== "advised" || !v) return;
   if (v.round !== state.round || v.cookie_idx !== state.current) return;
   const opt = normOpt(v.opt !== undefined && v.opt !== null ? v.opt : v.r); if (!opt) return;
-  if (state.liveVotes[v.device_id] !== opt){ state.liveVotes[v.device_id] = opt; save(); }
+  if (state.liveVotes[v.device_id] === undefined){ state.liveVotes[v.device_id] = opt; save(); }   // se conserva la primera respuesta
   onStudentsChange();
 }
 async function fetchVotes(){
   if (!live.session || !sb || state.phase !== "advised" || state.current === null) return;
   try {
     const { data } = await sb.from("buscalar_votes").select("device_id,r,opt").eq("session_code", live.session.code).eq("round", state.round).eq("cookie_idx", state.current);
-    if (data){ let changed = false; data.forEach(v => { const opt = normOpt(v.opt !== undefined && v.opt !== null ? v.opt : v.r); if (opt && state.liveVotes[v.device_id] !== opt){ state.liveVotes[v.device_id] = opt; changed = true; } }); if (changed) save(); onStudentsChange(); }
+    if (data){ let changed = false; data.forEach(v => { const opt = normOpt(v.opt !== undefined && v.opt !== null ? v.opt : v.r); if (opt && state.liveVotes[v.device_id] === undefined){ state.liveVotes[v.device_id] = opt; changed = true; } }); if (changed) save(); onStudentsChange(); }
   } catch(e){}
 }
 /* Cada vez que cambia la lista de conectados (entra o sale alguien, también en mitad de una ronda) o llega un voto:
@@ -1438,11 +1440,13 @@ function renderStudent(){
 }
 function studentVote(opt, t){
   if (live.voteEndsLocal - Date.now() <= 0) return;   // se acabó el tiempo: las respuestas quedan bloqueadas
+  if (live.myVote && live.myVote.round === t.round && live.myVote.idx === t.idx) return;   // ya respondió: la primera opción es la que queda
   live.myVote = { round: t.round, idx: t.idx, opt, r: opt === "reconozco", t: Date.now() };
   renderStudent();
   if (!sb || !live.code) return;
-  sb.from("buscalar_votes").upsert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r: opt === "reconozco", opt, nick: live.nick }, { onConflict: "session_code,device_id,round,cookie_idx" })
-    .then(({ error }) => { if (error) toast("No se pudo enviar tu respuesta. Intenta otra vez."); });
+  // insert (no upsert): si ya existe una respuesta de este celular para esta galleta, la base la conserva
+  sb.from("buscalar_votes").insert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r: opt === "reconozco", opt, nick: live.nick })
+    .then(({ error }) => { if (error && !/duplicate|unique|23505/i.test(error.message || "")) toast("No se pudo enviar tu respuesta. Intenta otra vez."); });
 }
 /* Formulario del código (pantalla /sala sin código, o código que no existe) */
 function wireCodeForm(){
