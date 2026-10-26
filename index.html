@@ -585,7 +585,7 @@ details.howto[open] summary::after{content:"\2212"}
       <span class="hint" id="stageHint">0 de 15 galletas abiertas · Ronda 1</span>
       <div class="head-actions">
         <span class="pill" id="roomPill" hidden><span class="dot"></span><span id="roomText">Sala</span></span>
-        <button class="btn btn-sm" id="inviteBtn" type="button" hidden>👥 Invitar participantes</button>
+        
       </div>
     </div>
     <p class="session-info" id="sessionInfo"></p>
@@ -817,7 +817,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 15:55</span>
+  <span class="ver">versión 2026-10-26 16:00</span>
 </footer>
 
 <script>
@@ -1677,7 +1677,6 @@ function start(){
   $("dlgCopyCode").addEventListener("click", ()=> copyText(live.session ? live.session.code : "", "Código copiado"));
   $("salaCopyLink").addEventListener("click", ()=> copyText(salaUrl(), "Enlace copiado"));
   $("dlgCopyLink").addEventListener("click", ()=> copyText(salaUrl(), "Enlace copiado"));
-  $("inviteBtn").addEventListener("click", openInvite);
   $("dlgClose").addEventListener("click", closeInvite);
   $("breakBtn").addEventListener("click", drawCookie);
   $("nextBtn").addEventListener("click", next);
