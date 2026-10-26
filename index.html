@@ -76,6 +76,9 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .btn-play{background:linear-gradient(#FFC46B,#FF8C2E);font-size:1.6rem;padding:16px 56px}
 .btn-si{background:linear-gradient(#B6EE7A,#6FCF3A)}
 .btn-no{background:linear-gradient(#FF8FB8,#E63E7E);color:#fff}
+.btn-re{background:linear-gradient(#FFE0B8,#FFB347)}
+.btn-re .rb{color:#B5461B}
+.btn:disabled{opacity:.55;cursor:default;transform:none}
 .btn-coral{background:linear-gradient(#FFB0A3,#FF7B6B)}
 .btn-teacher{background:linear-gradient(#FFE0B8,#FFB347)}
 .btn-sm{padding:8px 16px;font-size:.95rem;border-radius:12px;box-shadow:0 4px 0 0 var(--ink)}
@@ -254,6 +257,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .teacher-box .who{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:1rem;letter-spacing:.03em;color:var(--tangerine)}
 .stamp{position:absolute;right:6px;top:-14px;width:82px;height:82px;border-radius:50%;border:5px solid var(--green);color:var(--green-dk);display:grid;place-items:center;font-family:var(--font-display);font-size:2.8rem;line-height:1;transform:rotate(-14deg);background:transparent;mix-blend-mode:multiply;pointer-events:none;animation:stampIn .5s cubic-bezier(.2,1.2,.3,1) both;z-index:1}
 .stamp.no{border-color:var(--rose);color:var(--rose);border-style:dashed;font-size:1rem;letter-spacing:.06em;text-align:center;line-height:1.05}
+.stamp.re{border-color:var(--tangerine);color:#B5461B;border-style:double;font-size:.9rem;letter-spacing:.05em;text-align:center;line-height:1.05}
 @keyframes stampIn{0%{opacity:0;transform:rotate(-14deg) scale(2.6)}60%{opacity:1;transform:rotate(-14deg) scale(.9)}100%{opacity:1;transform:rotate(-14deg) scale(1)}}
 .vote{display:grid;gap:10px;justify-items:center}
 .vote .ask{font-family:var(--font-display);font-weight:400;font-size:1.3rem;letter-spacing:.03em;text-align:center;color:var(--rose)}
@@ -261,6 +265,8 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .after .result{font-weight:700;font-size:1.1rem;max-width:46ch}
 .after .result b{color:var(--green-dk);font-family:var(--font-display);font-weight:400;font-size:1.4rem}
 .after .result b.no{color:var(--rose)}
+.after .result b.re{color:#B5461B}
+.after .result b.tie{color:#6F6A8E}
 .after .result .cn{display:block;font-size:.92rem;color:var(--muted);font-weight:600;margin-top:2px}
 .reveal{animation:popIn .55s cubic-bezier(.2,.9,.3,1.3) both}
 @keyframes popIn{0%{opacity:0;transform:translateY(18px) scale(.94)}100%{opacity:1;transform:none}}
@@ -296,9 +302,12 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .rtag{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-family:var(--font-display);font-size:1rem;font-variant-numeric:tabular-nums}
 .rtag.pro{background:var(--green)}
 .rtag.con{background:var(--rose);color:#fff}
+.rtag.re{background:var(--peach)}
+.rtag.nr{background:#EEE9F2;color:#6F6A8E}
 .bar{height:12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;display:flex;grid-column:2 / -1}
 .bar span{display:block;height:100%;transition:width .5s ease}
 .bar .pro{background:var(--green)}
+.bar .re{background:var(--peach)}
 .bar .con{background:var(--rose)}
 @media (max-width:520px){.rrow{grid-template-columns:36px minmax(0,1fr)}.rrow .nums{grid-column:1 / -1;justify-content:flex-start}}
 .closed-wrap{display:grid;gap:10px;margin-top:4px;padding:14px;border:3px dashed #F3C9D3;border-radius:16px;background:#FFF8FA}
@@ -316,9 +325,13 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:22ch}
 .chip.pro{background:var(--mint)}
 .chip.con{background:var(--rosewater)}
+.chip.re{background:var(--peacht)}
+.chip.tie{background:#F4F1F6}
 .chip .cn{font-family:var(--font-display);font-weight:400;color:var(--muted)}
 .chip .r{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);font-family:var(--font-display);font-size:.85rem;background:var(--green)}
 .chip .r.no{background:var(--rose);color:#fff;text-decoration:line-through}
+.chip .r.re{background:var(--peach)}
+.chip .r.tie{background:#DDD6E6}
 .empty{color:var(--muted);text-align:center;padding:18px;border:3px dashed #F3C9D3;border-radius:16px;font-weight:600}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .toolbar .sep{flex:1 1 10px}
@@ -345,6 +358,21 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .total.con{background:var(--rosewater);border-color:var(--rose)}
 .total.con .big-n{color:var(--rose)}
 .total.pro .big-n{color:var(--green-dk)}
+.total.re{background:var(--peacht);border-color:var(--tangerine)}
+.total.re .big-n{color:#B5461B}
+.total.nr{background:#F4F1F6;border-color:#9A8FB0}
+.total.nr .big-n{color:#6F6A8E}
+/* Cronómetro de la votación: barra que se vacía y segundos restantes (docente y estudiantes) */
+.timer{display:grid;gap:6px;justify-items:center;width:min(100%,460px)}
+.timer .secs{font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--rose);font-variant-numeric:tabular-nums}
+.timer .secs small{font-family:var(--font-body);font-size:1rem;font-weight:800;color:var(--muted);margin-left:4px}
+.timer .track{width:100%;height:16px;border:3px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.timer .fill{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--pink),var(--tangerine))}
+.timer.low .secs{color:var(--red)}
+.timer.low .fill{background:var(--red)}
+.timer.over .secs{color:var(--muted)}
+.opts{display:grid;gap:10px;width:100%}
+.opts .btn{width:100%;justify-content:center}
 .stamp.tie{border-color:#9A8FB0;color:#6F6A8E;border-style:dotted;font-size:1rem;letter-spacing:.06em}
 .linklike{background:none;border:0;padding:0;color:var(--rose);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:.9rem}
 .notice{border:3px solid var(--pink);background:var(--pinkt);border-radius:14px;padding:10px 14px;font-size:.95rem;font-weight:600}
@@ -363,6 +391,9 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .student .btn.chosen{outline:4px solid var(--ink);outline-offset:-4px}
 .student .s-done{font-weight:800;text-align:center;color:var(--green-dk)}
 .student .s-done.no{color:var(--rose)}
+.student .s-done.re{color:#B5461B}
+.student .s-done.tie{color:#6F6A8E}
+.student .s-ask{font-family:var(--font-display);color:var(--rose);font-size:1.25rem;text-align:center;margin:0}
 
 /* Inicio del docente: desfile de galletas y galletas flotando */
 .cookie-parade{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 16px}
@@ -600,27 +631,15 @@ details.howto[open] summary::after{content:"\2212"}
 
       <div class="slip" id="slip" hidden aria-live="polite">
         <div class="teacher-box" id="teacherBox">
-          <span class="who">🧑‍🏫 Turno del participante</span>
-          <p class="note">Quien sacó la galleta cuenta qué haría. Cuando termine, el docente abre la votación.</p>
-          <button class="btn btn-teacher btn-xl" id="showRecBtn">Abrir la votación</button>
+          <span class="who">🍪 Hábito revelado</span>
+          <p class="note">En un momento aparecen las tres opciones en los celulares.</p>
         </div>
         <div class="live" id="liveBox" hidden>
-          <p class="ask" id="liveAsk">Votación en vivo: ¿le ponen la R?</p>
+          <p class="ask" id="liveAsk">Los estudiantes responden desde su celular</p>
+          <div class="timer" id="timer"><div class="secs"><span id="timerSecs">15</span><small>s</small></div><div class="track"><span class="fill" id="timerBar"></span></div></div>
           <div class="count" id="liveCount">0 <small>de 0 respondieron</small></div>
-          <div class="progress"><span id="liveBar" style="width:0%"></span></div>
           <div class="dots" id="liveDots"></div>
-          <p class="note" id="liveNote">Los estudiantes responden desde su celular. Cuando todos respondan, se muestran los totales.</p>
-          <div class="votebar">
-            <button class="btn btn-teacher btn-xl" id="closeVoteBtn">Cerrar votación y ver totales</button>
-          </div>
-          <button class="linklike" id="manualVoteBtn" type="button">Registrar el voto del grupo a mano</button>
-        </div>
-        <div class="vote" id="voteBox" hidden>
-          <p class="ask" id="voteAsk">¿Le das la razón? Ponle la R</p>
-          <div class="votebar">
-            <button class="btn btn-si btn-xl" id="yesBtn"><span class="rb">R</span> Sí, le pongo la R</button>
-            <button class="btn btn-no btn-xl" id="noBtn"><span class="rb">R</span> No le pongo la R</button>
-          </div>
+          <p class="note" id="liveNote">Reconozco la R · Rechazo la R · Replanteo la R. Al llegar a cero se cierra sola; quien no respondió queda «Sin responder».</p>
         </div>
         <div class="after" id="afterBox" hidden>
           <div class="totals" id="totalsBox" hidden></div>
@@ -683,13 +702,13 @@ details.howto[open] summary::after{content:"\2212"}
       </div>
     </div>
     <div class="invite-people" id="dlgPeople"></div>
-    <p class="invite-steps">Quien entre ahora se incorpora a la sala tal como va: ve la galleta actual y vota en la votación que esté abierta o en la siguiente.</p>
+    <p class="invite-steps">Quien entre ahora se incorpora a la sala tal como va: ve la galleta actual y responde en la votación que esté abierta o en la siguiente.</p>
   </dialog>
 
   <section class="card teacher-only" id="resultados" aria-labelledby="tableTitle">
     <div class="card-head">
       <h2 id="tableTitle">Cuántas R tuvo cada recomendación</h2>
-      <span class="hint">Verde: le pusieron la R. Rosa: no se la pusieron.</span>
+      <span class="hint">Verde: reconocen la R · Rosa: la rechazan · Naranja: la replantean · Gris: sin responder.</span>
     </div>
     <div class="table" id="table"></div>
   </section>
@@ -710,11 +729,10 @@ details.howto[open] summary::after{content:"\2212"}
     <details class="howto">
       <summary>¿Cómo se juega?</summary>
       <ol>
-        <li><strong>Pasa al frente.</strong> Un estudiante escribe su nombre (o no) y toca «Sacar una galleta».</li>
+        <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece el hábito.</li>
-        <li><strong>Turno del participante.</strong> Lee el hábito en voz alta y cuenta qué haría en esa situación.</li>
-        <li><strong>El docente abre la votación.</strong> Cuando el participante termina, el docente toca «Abrir la votación».</li>
-        <li><strong>Ponle la R.</strong> El grupo decide si le da la razón al participante. Si hay estudiantes conectados desde su celular, cada uno vota «Sí, le pongo la R» o «No» en su pantalla; cuando todos responden, aparecen los totales en la pantalla del docente. Si no hay sala, el docente registra el voto del grupo con los botones. La recomendación del material queda en la tabla de resultados, para el cierre.</li>
+        <li><strong>Tres opciones y 15 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R», «Rechazo la R» y «Replanteo la R» con una cuenta regresiva de 15 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
+        <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Siguiente galleta.</strong> Cada galleta sale una sola vez por ronda; cuando se acaban, se hornea otra ronda y las R se siguen sumando. La tabla muestra cuál convenció más.</li>
       </ol>
@@ -725,7 +743,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 13:24</span>
+  <span class="ver">versión 2026-10-26 13:42</span>
 </footer>
 
 <script>
@@ -773,7 +791,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const LS_KEY = "galleta-de-la-r-v3";
 const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* started: la sala ya existe (el docente llenó módulo y nombre). playing: la partida arrancó (en el sitio hay una pantalla de invitación entre ambas). */
-const fresh = () => ({ started:false, playing:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastCounts:null, name:"", liveVotes:{} });
+const fresh = () => ({ started:false, playing:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastVerdict:null, lastCounts:null, name:"", liveVotes:{}, voteEnds:null });
 let state = fresh();
 let timers = [];
 let returning = false;
@@ -793,7 +811,75 @@ function h(tag, attrs, ...kids){
 }
 const rnd = arr => arr[Math.floor(Math.random()*arr.length)];
 const unopened = () => RECS.map((_,i)=>i).filter(i => !state.opened.includes(i));
-const tallyOf = i => state.tally[i] || { pro:0, con:0 };
+const tallyOf = i => Object.assign({ pro:0, con:0, re:0, nr:0 }, state.tally[i] || {});
+/* Votación: tres opciones, 15 segundos, cierre automático. pro = Reconozco, con = Rechazo, re = Replanteo, nr = Sin responder */
+const VOTE_SECS = 15;
+const OPTS = [
+  { k:"reconozco", key:"pro", label:"Reconozco la R", verdict:"La clase reconoce la R", cls:"btn-si", tone:"" },
+  { k:"rechazo",   key:"con", label:"Rechazo la R",   verdict:"La clase rechaza la R",  cls:"btn-no", tone:"no" },
+  { k:"replanteo", key:"re",  label:"Replanteo la R", verdict:"La clase replantea la R", cls:"btn-re", tone:"re" }
+];
+const OPT = Object.fromEntries(OPTS.map(o => [o.k, o]));
+const normOpt = v => (typeof v === "string" && OPT[v]) ? v : (v === true ? "reconozco" : v === false ? "rechazo" : null);
+function countVotes(votes){ const c = { pro:0, con:0, re:0 }; Object.values(votes || {}).forEach(v => { const o = OPT[normOpt(v)]; if (o) c[o.key]++; }); c.total = c.pro + c.con + c.re; return c; }
+function verdictOf(c){
+  const m = Math.max(c.pro, c.con, c.re);
+  if (!m) return { k:"nadie", label:"Nadie respondió", tone:"tie", stamp:"Sin votos" };
+  const w = OPTS.filter(o => c[o.key] === m);
+  if (w.length > 1) return { k:"empate", label:"Empate: la clase se dividió", tone:"tie", stamp:"Empate" };
+  return { k:w[0].k, label:w[0].verdict, tone:w[0].tone, stamp: w[0].k === "reconozco" ? "R" : w[0].k === "rechazo" ? "Rechazo" : "Replanteo" };
+}
+function buildTotals(c){
+  const box = h("div",{class:"totals"});
+  box.append(h("div",{class:"total pro"}, h("div",{class:"big-n"}, c.pro), h("div",{class:"lab"}, "Reconozco la R")),
+             h("div",{class:"total con", style:"animation-delay:.1s"}, h("div",{class:"big-n"}, c.con), h("div",{class:"lab"}, "Rechazo la R")),
+             h("div",{class:"total re", style:"animation-delay:.2s"}, h("div",{class:"big-n"}, c.re), h("div",{class:"lab"}, "Replanteo la R")));
+  if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), h("div",{class:"lab"}, "Sin responder")));
+  return box;
+}
+/* Cronómetro: actualiza los segundos y la barra de un elemento .timer hasta endsAt (ms); al llegar a cero llama onZero */
+function runTimer(el, endsAt, onZero){
+  const n = el.querySelector(".n, #timerSecs"), fill = el.querySelector(".fill");
+  let done = false;
+  const tick = ()=>{
+    const ms = Math.max(0, endsAt - Date.now());
+    n.textContent = Math.ceil(ms/1000); fill.style.width = (ms/(VOTE_SECS*1000)*100).toFixed(1) + "%";
+    el.classList.toggle("low", ms > 0 && ms <= 5000); el.classList.toggle("over", ms <= 0);
+    if (ms <= 0 && !done){ done = true; clearInterval(iv); if (onZero) onZero(); }
+  };
+  const iv = setInterval(tick, 100); tick();
+  return iv;
+}
+function buildTimer(){ return h("div",{class:"timer"}, h("div",{class:"secs"}, h("span",{class:"n"}, String(VOTE_SECS)), h("small", null, "s")), h("div",{class:"track"}, h("span",{class:"fill"}))); }
+/* Pantalla del estudiante durante la votación: las tres opciones + cronómetro. mine = opción elegida; endsAt en reloj local */
+function studentVoteUI(box, mine, endsAt, onVote){
+  const over = endsAt - Date.now() <= 0;
+  box.append(h("p",{class:"s-ask"}, "¿Qué haces con esta R?"));
+  const timer = buildTimer(); box.append(timer);
+  const bar = h("div",{class:"opts"});
+  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: over, onclick: ()=>onVote(o.k)}, h("span",{class:"rb"},"R"), " " + o.label)));
+  box.append(bar);
+  if (over) box.append(h("p",{class:"note"}, mine ? "Se acabó el tiempo. Tu respuesta quedó registrada." : "Se acabó el tiempo: quedas como «Sin responder»."));
+  else if (mine) box.append(h("p",{class:"s-done " + OPT[mine].tone}, "✅ " + OPT[mine].label + ". Puedes cambiar hasta que el tiempo llegue a cero."));
+  else box.append(h("p",{class:"note"}, "Responde antes de que el tiempo llegue a cero."));
+  clearInterval(live.ticker);
+  if (over){ timer.classList.add("over"); timer.querySelector(".n").textContent = "0"; timer.querySelector(".fill").style.width = "0%"; }
+  else live.ticker = runTimer(timer, endsAt, ()=> renderStudent());   // al llegar a cero se vuelve a pintar con las respuestas bloqueadas
+}
+/* El reloj de la votación en el celular: el docente manda cuánto falta (voteEnds - sent) y se cuenta desde que llega */
+function syncVoteClock(t){
+  if (!t || t.phase !== "advised" || !t.voteEnds){ live.voteKey = null; return; }
+  const key = t.round + ":" + t.idx + ":" + t.voteEnds;
+  if (live.voteKey !== key){ live.voteKey = key; live.voteEndsLocal = Date.now() + Math.max(0, t.voteEnds - (t.sent || t.voteEnds - VOTE_SECS * 1000)); }
+}
+/* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
+function studentResultUI(box, t, mine){
+  const c = { pro: t.pro || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
+  box.append(buildTotals(c));
+  const v = verdictOf(c);
+  box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine ? ` · tú: ${OPT[mine].label}` : " · tú quedaste sin responder")));
+  box.append(h("p",{class:"note"}, "Espera la siguiente galleta."));
+}
 const later = (fn, ms) => { timers.push(setTimeout(fn, reduced ? 0 : ms)); };
 function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 const SHOWING = ["revealed","advised","voted"];
@@ -862,8 +948,8 @@ function bubbleFor(){
     case "stirring": return "Mmm… ¿cuál será?";
     case "lifting": return "¡Esta!";
     case "revealed": return "¿Qué harías tú?";
-    case "advised": return "¿Le dan la razón?";
-    case "voted": return state.lastVote ? "¡Esa es la R!" : "Bueno… ¿y por qué no?";
+    case "advised": return "¡15 segundos!";
+    case "voted": return { reconozco:"¡Esa es la R!", rechazo:"Bueno… ¿y por qué no?", replanteo:"¡A replantearla!", empate:"¡Empate!", nadie:"¿Nadie? ¡Atentos!" }[state.lastVerdict] || "¡Listo!";
   }
   if (!pool.length) return "¡Se acabaron! ¿Otra ronda?";
   return ["¡Saca una galleta!","¿Quién sigue?","¡Dale, sin miedo!"][state.log.length % 3];
@@ -945,9 +1031,6 @@ function renderSlip(){
   box.classList.toggle("enter", animate && !reduced);
   const { paper, hab } = buildSlip(idx, rec, animate);
   box.append(paper);
-  const whoAsk = state.name ? `¿Le das la razón a ${state.name}? Ponle la R` : "¿Le das la razón? Ponle la R";
-  $("voteAsk").textContent = whoAsk;
-  $("liveAsk").textContent = state.name ? `Votación en vivo: ¿le dan la razón a ${state.name}?` : "Votación en vivo: ¿le dan la razón?";
   const conf = h("div",{class:"confetti",id:"confetti","aria-hidden":"true"});
   const colors = ["#FF6FA3","#E63E7E","#FF8C2E","#FFB347","#5BC236","#FFD166"];
   for (let i=0;i<18;i++){
@@ -956,31 +1039,22 @@ function renderSlip(){
   }
   hab.append(conf);
   const voted = state.phase === "voted";
-  if (voted){
-    const c = state.lastCounts, tie = c && c.pro === c.con;
-    const yes = state.lastVote === true;
-    hab.append(h("div",{class:"stamp" + (tie ? " tie" : yes ? "" : " no"),"aria-label": tie ? "Empate" : yes ? "Le puso la R" : "No le puso la R"}, tie ? "Empate" : yes ? "R" : "Sin R"));
+  if (voted && state.lastCounts){
+    const v = verdictOf(state.lastCounts);
+    hab.append(h("div",{class:"stamp " + v.tone,"aria-label": v.label}, v.stamp));
   }
   $("teacherBox").hidden = state.phase !== "revealed";
-  const liveMode = state.phase === "advised" && live.students.length > 0 && !live.manual;
-  $("liveBox").hidden = !liveMode;
-  $("voteBox").hidden = !(state.phase === "advised" && !liveMode);
-  if (liveMode) renderLive();
+  $("liveBox").hidden = state.phase !== "advised";
+  if (state.phase === "advised") renderLive();
   $("afterBox").hidden = !voted;
   if (voted){
-    const c = state.lastCounts, name = state.name || "Quien sacó la galleta";
-    const t = tallyOf(idx);
+    const c = state.lastCounts || { pro:0, con:0, re:0, nr:0, total:0 };
+    const t = tallyOf(idx), v = verdictOf(c);
     const res = $("resultText"); res.replaceChildren();
-    const tb = $("totalsBox"); tb.replaceChildren(); tb.hidden = !c;
-    if (c){
-      tb.append(h("div",{class:"total pro"}, h("div",{class:"big-n"}, c.pro), h("div",{class:"lab"}, "le ponen la R")),
-                h("div",{class:"total con", style:"animation-delay:.12s"}, h("div",{class:"big-n"}, c.con), h("div",{class:"lab"}, "no le ponen la R")));
-      const verdict = c.pro > c.con ? "La clase le puso la R" : c.pro < c.con ? "La clase no le puso la R" : "Empate: la clase se dividió";
-      res.append(h("b",{class: c.pro > c.con ? "" : "no"}, verdict), (state.name ? ` a ${state.name}` : "") + ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${c.total === 1 ? "1 estudiante respondió" : c.total + " estudiantes respondieron"}. Acumulado: ${t.pro} con R y ${t.con} sin R.`));
-    } else {
-      const yes = state.lastVote === true;
-      res.append("El grupo", yes ? " le puso la " : " no le puso la ", h("b",{class: yes ? "" : "no"}, "R"), (state.name ? ` a ${state.name}` : "") + ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `Va ${t.pro} con R y ${t.con} sin R.`));
-    }
+    const tb = $("totalsBox"); tb.replaceChildren(); tb.hidden = false;
+    tb.append(...buildTotals(c).childNodes);
+    const who = c.total === 1 ? "1 estudiante respondió" : `${c.total} estudiantes respondieron`;
+    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean.`));
     $("nextBtn").textContent = unopened().length ? "Siguiente galleta 🍪" : "Terminar la ronda 🏁";
   }
 }
@@ -998,55 +1072,46 @@ function drawCookie(){
     state.phase = "lifting"; setScene("is-lifting"); say(bubbleFor()); live.broadcast();
     later(()=>{
       setScene("is-lifting","is-open");
-      later(()=>{ state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; $("showRecBtn").focus({preventScroll:true}); }, 650);
+      later(()=>{
+        state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false;
+        later(openVote, 2600);   // cuando termina la animación del hábito, se abre sola la votación en los celulares
+      }, 650);
     }, 950);
   }, 1600);
 }
 
-function showRec(){
+/* Se abre la votación sin que el docente toque nada: 15 segundos desde ahora, en todas las pantallas */
+function openVote(){
   if (state.phase !== "revealed") return;
-  state.phase = "advised"; state.liveVotes = {}; live.manual = false; save();
+  state.phase = "advised"; state.liveVotes = {}; state.voteEnds = Date.now() + VOTE_SECS * 1000; save();
   renderSlip(); say(bubbleFor()); live.broadcast(); fetchVotes();
-  if (!$("voteBox").hidden) $("yesBtn").focus({preventScroll:true});
+  clearInterval(live.ticker);
+  live.ticker = runTimer($("timer"), state.voteEnds, ()=>{ if (state.phase === "advised") closeVote(); });
 }
 
-function vote(yes){
-  if (state.phase !== "advised") return;
-  const idx = state.current;
-  const t = tallyOf(idx);
-  if (yes) t.pro++; else t.con++;
-  state.tally[idx] = t;
-  if (!state.opened.includes(idx)) state.opened.push(idx);
-  state.log.push({ name: state.name, idx, r: yes, t: Date.now() });
-  state.lastVote = yes; state.lastCounts = null; state.phase = "voted"; state.picked = null;
-  save();
-  renderSlip(); renderTray(); renderTable(); renderLog(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
-  flashScene(yes ? "is-happy" : "is-meh", 1100);
-  if (yes){ const c = $("confetti"); if (c){ c.classList.remove("go"); void c.offsetWidth; c.classList.add("go"); } }
-  $("nextBtn").focus({preventScroll:true});
-}
-
+/* Cierre automático al llegar a cero: se guardan los votos recibidos; los conectados que no respondieron quedan «Sin responder» */
 function closeVote(){
   if (state.phase !== "advised") return;
+  clearInterval(live.ticker);
   const idx = state.current;
-  const votes = Object.values(state.liveVotes || {});
-  const pro = votes.filter(v => v === true).length, con = votes.filter(v => v === false).length;
-  if (!pro && !con) return;
-  const t = tallyOf(idx); t.pro += pro; t.con += con; state.tally[idx] = t;
+  const c = countVotes(state.liveVotes);
+  const studs = live.students;
+  c.nr = Math.max(0, studs.filter(st => state.liveVotes[st.id !== undefined ? st.id : (st.by || st.peer)] === undefined).length);
+  const t = tallyOf(idx); t.pro += c.pro; t.con += c.con; t.re += c.re; t.nr += c.nr; state.tally[idx] = t;
   if (!state.opened.includes(idx)) state.opened.push(idx);
-  const yes = pro > con;
-  state.log.push({ name: state.name, idx, r: yes, pro, con, t: Date.now() });
-  state.lastVote = yes; state.lastCounts = { pro, con, total: pro + con }; state.phase = "voted"; state.picked = null;
-  save(); saveResult(idx, pro, con);
+  const v = verdictOf(c);
+  state.log.push({ idx, v: v.k, r: v.k === "reconozco", pro: c.pro, con: c.con, re: c.re, nr: c.nr, t: Date.now() });
+  state.lastVote = v.k === "reconozco"; state.lastVerdict = v.k; state.lastCounts = c; state.phase = "voted"; state.picked = null; state.voteEnds = null;
+  save(); saveResult(idx, c);
   renderSlip(); renderTray(); renderTable(); renderLog(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
-  flashScene(pro === con ? "is-meh" : yes ? "is-happy" : "is-meh", 1100);
-  if (yes){ const c = $("confetti"); if (c){ c.classList.remove("go"); void c.offsetWidth; c.classList.add("go"); } }
+  flashScene(v.k === "reconozco" ? "is-happy" : "is-meh", 1100);
+  if (v.k === "reconozco"){ const cf = $("confetti"); if (cf){ cf.classList.remove("go"); void cf.offsetWidth; cf.classList.add("go"); } }
   $("nextBtn").focus({preventScroll:true});
 }
 
 function next(){
   if (state.phase !== "voted") return;
-  state.phase = "idle"; state.current = null; state.lastVote = null; state.lastCounts = null; state.name = ""; state.liveVotes = {}; live.manual = false;
+  state.phase = "idle"; state.current = null; state.lastVote = null; state.lastVerdict = null; state.lastCounts = null; state.name = ""; state.liveVotes = {}; state.voteEnds = null; clearInterval(live.ticker);
   save();
   returning = true; setScene("is-return");
   later(()=>{ returning = false; if (state.phase === "idle") setScene(); }, 750);
@@ -1080,14 +1145,14 @@ function renderTable(){
   const best = bestRec();
   const closed = [];
   RECS.forEach((rec, i)=>{
-    const t = tallyOf(i), total = t.pro + t.con;
-    if (!total){ closed.push(i); return; }
-    const pct = Math.round(t.pro/total*100);
+    const t = tallyOf(i), total = t.pro + t.con + t.re;
+    if (!total && !t.nr && !state.opened.includes(i)){ closed.push(i); return; }
+    const pc = k => total ? Math.round(t[k]/total*100) : 0;
     box.append(h("div",{class:"rrow" + (best && best.i === i && t.pro > 0 ? " top" : "")},
       h("div",{class:"n"}, i+1),
       h("div",{class:"txt"}, h("div",{class:"h"}, rec.h), h("div", null, rec.a)),
-      h("div",{class:"nums"}, h("span",{class:"rtag pro",title:"Le pusieron la R"}, "R ", t.pro), h("span",{class:"rtag con",title:"No le pusieron la R"}, "Sin R ", t.con)),
-      h("div",{class:"bar",role:"img","aria-label":`${t.pro} le pusieron la R, ${t.con} no`}, h("span",{class:"pro",style:`width:${pct}%`}), h("span",{class:"con",style:`width:${100-pct}%`}))));
+      h("div",{class:"nums"}, h("span",{class:"rtag pro",title:"Reconozco la R"}, "R ", t.pro), h("span",{class:"rtag con",title:"Rechazo la R"}, "✗ ", t.con), h("span",{class:"rtag re",title:"Replanteo la R"}, "↻ ", t.re), t.nr ? h("span",{class:"rtag nr",title:"Sin responder"}, "– ", t.nr) : null),
+      h("div",{class:"bar",role:"img","aria-label":`${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean, ${t.nr} sin responder`}, h("span",{class:"pro",style:`width:${pc("pro")}%`}), h("span",{class:"re",style:`width:${pc("re")}%`}), h("span",{class:"con",style:`width:${pc("con")}%`}))));
   });
   if (closed.length){
     const grid = h("div",{class:"closed-grid"});
@@ -1108,12 +1173,13 @@ function renderTable(){
 function renderLog(){
   const box = $("log"); box.replaceChildren();
   const n = state.log.length;
-  $("logHint").textContent = n ? `${n} galleta${n===1?"":"s"} abierta${n===1?"":"s"} · ${state.log.filter(x=>x.r).length} con R` : "";
+  $("logHint").textContent = n ? `${n} galleta${n===1?"":"s"} abierta${n===1?"":"s"} · ${state.log.filter(x=>x.r).length} con la R reconocida` : "";
   if (!n){ box.append(h("div",{class:"empty"}, "Todavía nadie ha sacado una galleta. 🍪")); return; }
   const chips = h("div",{class:"chips"});
   [...state.log].reverse().forEach(e=>{
-    const counts = (e.pro !== undefined) ? h("span",{class:"cn", title:`${e.pro} con R · ${e.con} sin R`}, `${e.pro}·${e.con}`) : null;
-    chips.append(h("span",{class:"chip " + (e.r ? "pro" : "con")}, e.name ? h("span", null, e.name) : null, h("span",{class:"cn"}, "#" + (e.idx+1)), h("span",{class:"r" + (e.r ? "" : " no")}, "R"), counts));
+    const k = e.v || (e.r ? "reconozco" : "rechazo"), tone = { reconozco:"pro", rechazo:"con", replanteo:"re" }[k] || "tie";
+    const counts = (e.pro !== undefined) ? h("span",{class:"cn", title:`${e.pro} reconocen · ${e.con} rechazan · ${e.re || 0} replantean · ${e.nr || 0} sin responder`}, `${e.pro}·${e.con}·${e.re || 0}`) : null;
+    chips.append(h("span",{class:"chip " + tone}, e.name ? h("span", null, e.name) : null, h("span",{class:"cn"}, "#" + (e.idx+1)), h("span",{class:"r " + ({pro:"",con:"no",re:"re"}[tone] || "tie")}, { reconozco:"R", rechazo:"✗", replanteo:"↻" }[k] || "="), counts));
   });
   box.append(chips);
 }
@@ -1197,7 +1263,7 @@ const cleanCode = v => String(v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").s
 
 const live = {
   site: true, mode: "local", session: null, code: null, channel: null, students: [], manual: false, registered: false, missing: false,
-  teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: {}, shownKey: null,
+  teacher: null, myVote: null, nick: "", closeTimer: null, pushTimer: null, pollTimer: null, device: deviceId(), qrFor: {}, shownKey: null, ticker: null, voteKey: null, voteEndsLocal: 0,
   broadcast(){ pushState(); },
   onCreate(){ this.session = null; this.students = []; try { localStorage.removeItem(SESSION_KEY); } catch(e){} teacherConnect(); },
   onResume(){ teacherConnect(); }
@@ -1222,7 +1288,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -1251,30 +1317,26 @@ async function teacherConnect(){
 function absorbVote(v){
   if (state.phase !== "advised" || !v) return;
   if (v.round !== state.round || v.cookie_idx !== state.current) return;
-  if (state.liveVotes[v.device_id] !== v.r){ state.liveVotes[v.device_id] = v.r; save(); }
+  const opt = normOpt(v.opt !== undefined && v.opt !== null ? v.opt : v.r); if (!opt) return;
+  if (state.liveVotes[v.device_id] !== opt){ state.liveVotes[v.device_id] = opt; save(); }
   onStudentsChange();
 }
 async function fetchVotes(){
   if (!live.session || !sb || state.phase !== "advised" || state.current === null) return;
   try {
-    const { data } = await sb.from("buscalar_votes").select("device_id,r").eq("session_code", live.session.code).eq("round", state.round).eq("cookie_idx", state.current);
-    if (data){ let changed = false; data.forEach(v => { if (state.liveVotes[v.device_id] !== v.r){ state.liveVotes[v.device_id] = v.r; changed = true; } }); if (changed) save(); onStudentsChange(); }
+    const { data } = await sb.from("buscalar_votes").select("device_id,r,opt").eq("session_code", live.session.code).eq("round", state.round).eq("cookie_idx", state.current);
+    if (data){ let changed = false; data.forEach(v => { const opt = normOpt(v.opt !== undefined && v.opt !== null ? v.opt : v.r); if (opt && state.liveVotes[v.device_id] !== opt){ state.liveVotes[v.device_id] = opt; changed = true; } }); if (changed) save(); onStudentsChange(); }
   } catch(e){}
 }
-/* Cada vez que cambia la lista de conectados (entra o sale alguien, también en mitad de una ronda): se actualiza el
-   contador, la lista de la invitación y, si hay votación abierta, el cierre automático cuando todos los conectados respondieron. */
+/* Cada vez que cambia la lista de conectados (entra o sale alguien, también en mitad de una ronda) o llega un voto:
+   se actualiza el contador y la lista de la invitación. La votación la cierra el cronómetro, no la cantidad de respuestas. */
 function onStudentsChange(){
   if (live.mode !== "teacher") return;
   const n = live.students.length;
   $("roomPill").hidden = false; $("roomPill").classList.toggle("on", n > 0);
   $("roomText").textContent = (live.session ? "Sala " + live.session.code + " · " : "") + (n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
   renderInvitePeople();
-  if (state.phase === "advised" && state.current !== null){
-    renderSlip();
-    const answered = live.students.filter(st => state.liveVotes[st.id] !== undefined).length;
-    clearTimeout(live.closeTimer);
-    if (n && answered >= n && !live.manual) live.closeTimer = setTimeout(()=>{ if (state.phase === "advised") closeVote(); }, reduced ? 0 : 900);
-  }
+  if (state.phase === "advised" && state.current !== null) renderSlip();
 }
 
 /* --- invitación: código, QR y enlace (misma información en la sala recién creada y en el diálogo «Invitar participantes») --- */
@@ -1320,9 +1382,9 @@ function copyText(text, okMsg){
   const done = ()=> toast(okMsg);
   try { navigator.clipboard.writeText(text).then(done, ()=>{ window.prompt("Copia este texto:", text); }); } catch(e){ window.prompt("Copia este texto:", text); }
 }
-async function saveResult(idx, pro, con){
+async function saveResult(idx, c){
   if (!sb || !live.session) return;
-  try { await sb.rpc("buscalar_save_result", { p_code: live.session.code, p_secret: live.session.secret, p_round: state.round, p_idx: idx, p_pro: pro, p_con: con, p_participant: state.name || "" }); } catch(e){}
+  try { await sb.rpc("buscalar_save_result", { p_code: live.session.code, p_secret: live.session.secret, p_round: state.round, p_idx: idx, p_pro: c.pro, p_con: c.con, p_participant: state.name || "", p_re: c.re, p_nr: c.nr }); } catch(e){}
 }
 async function resetSessionRemote(){
   if (!sb || !live.session) return;
@@ -1336,11 +1398,8 @@ function renderLive(){
   const total = Object.keys(state.liveVotes || {}).length;
   const extra = total > answered ? ` · ${total} voto${total===1?"":"s"} en total` : "";
   $("liveCount").replaceChildren(String(answered), " ", h("small", null, `de ${studs.length} conectado${studs.length===1?"":"s"} respondieron${extra}`));
-  $("liveBar").style.width = studs.length ? Math.min(100, Math.round(answered/studs.length*100)) + "%" : "0%";
   const dots = $("liveDots"); dots.replaceChildren();
   studs.forEach(st => dots.append(h("i",{class: state.liveVotes[st.id] !== undefined ? "done" : "", title: st.nick || "Estudiante"})));
-  $("closeVoteBtn").disabled = !total;
-  $("closeVoteBtn").textContent = (studs.length && answered >= studs.length) ? "Ver totales" : "Cerrar votación y ver totales";
 }
 
 function renderStudent(){
@@ -1361,37 +1420,19 @@ function renderStudent(){
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
   box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate).paper)));
-  const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.r : null;
-  if (t.phase === "advised"){
-    box.append(h("p",{class:"ask", style:"font-family:var(--font-display);color:var(--rose);font-size:1.25rem;text-align:center"}, t.name ? `¿Le das la razón a ${t.name}? Ponle la R` : "¿Le das la razón? Ponle la R"));
-    const yes = h("button",{class:"btn btn-si btn-xl" + (mine === true ? " chosen" : ""), type:"button", onclick: ()=>studentVote(true, t)}, h("span",{class:"rb"},"R"), " Sí, le pongo la R");
-    const no = h("button",{class:"btn btn-no btn-xl" + (mine === false ? " chosen" : ""), type:"button", onclick: ()=>studentVote(false, t)}, h("span",{class:"rb"},"R"), " No le pongo la R");
-    box.append(h("div",{class:"votebar"}, yes, no));
-    if (mine !== null) box.append(h("p",{class:"s-done" + (mine ? "" : " no")}, mine ? "✅ Listo: le pusiste la R. Puedes cambiar hasta que cierren la votación." : "Listo: no le pusiste la R. Puedes cambiar hasta que cierren la votación."));
-    else box.append(h("p",{class:"note"}, "Tu voto se cuenta cuando todos respondan."));
-  }
-  if (t.phase === "revealed"){
-    box.append(h("p",{class:"note"}, "Escucha a quien sacó la galleta. Cuando el docente abra la votación, aquí aparecerán los botones."));
-    return;
-  }
-  if (t.phase === "advised") return;
-  if (t.phase === "voted"){
-    if (t.pro !== null && t.pro !== undefined){
-      box.append(h("div",{class:"totals"}, h("div",{class:"total pro"}, h("div",{class:"big-n"}, t.pro), h("div",{class:"lab"}, "le ponen la R")), h("div",{class:"total con"}, h("div",{class:"big-n"}, t.con), h("div",{class:"lab"}, "no le ponen la R"))));
-      const verdict = t.pro > t.con ? "La clase le puso la R" : t.pro < t.con ? "La clase no le puso la R" : "Empate";
-      box.append(h("p",{class:"s-done" + (t.pro >= t.con ? "" : " no")}, verdict + (mine === null ? "" : mine ? " · tú le pusiste la R" : " · tú no le pusiste la R")));
-    } else {
-      box.append(h("p",{class:"note"}, "El docente registró el voto del grupo."));
-    }
-    box.append(h("p",{class:"note"}, "Espera la siguiente galleta."));
-  }
+  const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.opt : null;
+  if (t.phase === "revealed"){ clearInterval(live.ticker); box.append(h("p",{class:"note"}, "Lee el hábito. En un momento aparecen las tres opciones y empieza la cuenta regresiva.")); return; }
+  if (t.phase === "advised"){ studentVoteUI(box, mine, live.voteEndsLocal, opt => studentVote(opt, t)); return; }
+  clearInterval(live.ticker);
+  if (t.phase === "voted") studentResultUI(box, t, mine);
 }
-function studentVote(r, t){
-  live.myVote = { round: t.round, idx: t.idx, r, t: Date.now() };
+function studentVote(opt, t){
+  if (live.voteEndsLocal - Date.now() <= 0) return;   // se acabó el tiempo: las respuestas quedan bloqueadas
+  live.myVote = { round: t.round, idx: t.idx, opt, r: opt === "reconozco", t: Date.now() };
   renderStudent();
   if (!sb || !live.code) return;
-  sb.from("buscalar_votes").upsert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r, nick: live.nick }, { onConflict: "session_code,device_id,round,cookie_idx" })
-    .then(({ error }) => { if (error) toast("No se pudo enviar tu voto. Intenta otra vez."); });
+  sb.from("buscalar_votes").upsert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r: opt === "reconozco", opt, nick: live.nick }, { onConflict: "session_code,device_id,round,cookie_idx" })
+    .then(({ error }) => { if (error) toast("No se pudo enviar tu respuesta. Intenta otra vez."); });
 }
 /* Formulario del código (pantalla /sala sin código, o código que no existe) */
 function wireCodeForm(){
@@ -1418,7 +1459,7 @@ async function studentConnect(code){
   wireNick(track);
   renderStudent();
   if (!sb){ $("sPillText").textContent = "Sin conexión"; return; }
-  const applyState = st => { const t = (st && st.phase) ? st : null; if (JSON.stringify(t) !== JSON.stringify(live.teacher)){ live.teacher = t; renderStudent(); } };
+  const applyState = st => { const t = (st && st.phase) ? st : null; if (JSON.stringify(t) !== JSON.stringify(live.teacher)){ live.teacher = t; syncVoteClock(t); renderStudent(); } };
   try {
     const { data } = await sb.from("buscalar_sessions").select("state").eq("code", code).maybeSingle();
     if (!data){ live.missing = true; renderStudent(); $("codeInput").focus({preventScroll:true}); return; }
@@ -1472,13 +1513,8 @@ function start(){
   $("inviteBtn").addEventListener("click", openInvite);
   $("dlgClose").addEventListener("click", closeInvite);
   $("breakBtn").addEventListener("click", drawCookie);
-  $("showRecBtn").addEventListener("click", showRec);
-  $("yesBtn").addEventListener("click", ()=>vote(true));
-  $("noBtn").addEventListener("click", ()=>vote(false));
   $("nextBtn").addEventListener("click", next);
   $("newRoundBtn").addEventListener("click", newRound);
-  $("closeVoteBtn").addEventListener("click", closeVote);
-  $("manualVoteBtn").addEventListener("click", ()=>{ live.manual = true; renderSlip(); $("yesBtn").focus({preventScroll:true}); });
   initLive();
 }
 start();
