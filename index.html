@@ -371,6 +371,8 @@ dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
 .hist-res .r b{color:#B5146E}
 .hist-res .r .n{font-size:.85rem;font-weight:700;color:var(--muted)}
 .hist-res .r details{font-size:.85rem}
+.hist-danger{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-top:8px;padding-top:12px;border-top:2px dashed var(--line)}
+.btn-del{background:linear-gradient(#FF8A80,#E53935);color:#fff}
 /* ---------- Resumen final ---------- */
 #resultados .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;padding:0;border:0;background:none}
 @media (max-width:640px){#resultados .summary{grid-template-columns:1fr}}
@@ -1103,7 +1105,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 18:22</span>
+  <span class="ver">versión 2026-10-26 18:35</span>
 </footer>
 
 <script>
@@ -2146,6 +2148,20 @@ async function histDetail(code){
   const ok = d.reflections.filter(x => !x.skipped), om = d.reflections.filter(x => x.skipped).length;
   const rl = h("div",{class:"reflect-list"}); ok.forEach(x => rl.append(h("div",{class:"reflect-item"}, h("span",{class:"who"}, "✨ " + (x.nick || "Estudiante")), h("p", null, x.text))));
   box.append(h("h3", null, `Mi última R · ${ok.length} reflexiones, ${om} omitidas`), ok.length ? rl : h("div",{class:"reflect-empty"}, "Sin reflexiones."));
+  box.append(h("div",{class:"hist-danger"}, h("button",{class:"btn btn-sm btn-del", type:"button", onclick: ()=> histDelete(d.code)}, "🗑️ Borrar esta sala"),
+    h("span",{class:"note"}, "Borra la sala con sus participantes, votos, resultados y reflexiones. No se puede deshacer.")));
+}
+async function histDelete(code){
+  if (!hist.pass) return;
+  const typed = window.prompt(`Para borrar la sala ${code} y todos sus datos, escribe el código de la sala:`);
+  if (typed === null) return;
+  if (cleanCode(typed) !== code){ toast("El código no coincide; no se borró nada."); return; }
+  try {
+    const { data } = await sb.rpc("buscalar_admin_delete", { p_pass: hist.pass, p_code: code });
+    if (data !== true){ toast("No se pudo borrar la sala."); return; }
+    hist.list = hist.list.filter(x => x.code !== code);
+    toast(`Sala ${code} borrada`); histRender();
+  } catch(e){ toast("No se pudo borrar la sala."); }
 }
 function histWire(){
   const entry = $("histEntry"); if (!entry || !sb) return;
