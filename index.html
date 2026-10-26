@@ -324,6 +324,53 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .cbox-tag b{font-family:var(--font-display);font-weight:400;font-size:1.2rem;margin-right:2px}
 .cbox-note{position:relative;z-index:2;justify-self:center;margin-top:22px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 16px;font-weight:800;font-size:.88rem;color:var(--ink);text-align:center}
 @media (prefers-reduced-motion:reduce){.cbox-ck{animation:none}}
+/* ---------- Mi última R ---------- */
+.btn-reflect{background:linear-gradient(#D7A8F0,#9B4DCA);color:#fff}
+.reflect-card{border-color:#9B4DCA;box-shadow:0 8px 0 0 #9B4DCA;background:linear-gradient(#FFFFFF,#FBF3FF)}
+.reflect-q{margin:0 0 12px;font-family:var(--font-display);font-size:1.35rem;line-height:1.3;color:#7A3E8E;text-align:center}
+.reflect-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.reflect-stats .st{border:3px solid var(--ink);border-radius:16px;padding:10px;text-align:center;background:#fff;box-shadow:0 4px 0 0 var(--ink)}
+.reflect-stats .st b{display:block;font-family:var(--font-display);font-weight:400;font-size:2.2rem;line-height:1}
+.reflect-stats .st span{font-weight:800;font-size:.85rem;color:var(--muted)}
+.reflect-stats .ok b{color:#7A3E8E}.reflect-stats .om b{color:var(--muted)}.reflect-stats .pe b{color:var(--tangerine)}
+.reflect-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:12px}
+.reflect-item{border:2px solid #E3C6EE;border-radius:16px;background:#fff;padding:12px 14px;display:grid;gap:6px;animation:popIn .45s cubic-bezier(.2,.9,.3,1.3) both}
+.reflect-item .who{font-weight:800;font-size:.85rem;color:#7A3E8E}
+.reflect-item p{margin:0;font-weight:600;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.reflect-empty{text-align:center;color:var(--muted);font-weight:700;padding:10px}
+.s-reflect{display:grid;gap:10px;width:100%;border:3px solid #9B4DCA;border-radius:20px;padding:16px;background:linear-gradient(#FFFFFF,#FBF3FF)}
+.s-reflect .t{font-family:var(--font-display);font-size:1.5rem;color:#9B4DCA;text-align:center}
+.s-reflect .q{margin:0;font-weight:800;text-align:center;line-height:1.35}
+.s-reflect textarea{width:100%;box-sizing:border-box;min-height:120px;border:3px solid var(--ink);border-radius:14px;padding:10px 12px;font:inherit;font-weight:600;resize:vertical}
+.s-reflect .priv{font-size:.82rem;font-weight:700;color:var(--muted);text-align:center}
+.s-reflect .btn-reflect{width:100%;justify-content:center}
+/* ---------- Historial de salas ---------- */
+.hist-entry{margin-top:10px;text-align:center}
+dialog.hist-dlg{width:min(96vw,980px);max-height:90vh;border:3px solid var(--ink);border-radius:22px;padding:18px 20px;box-shadow:0 8px 0 0 var(--ink)}
+dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
+.hist-login{display:grid;gap:8px;max-width:420px}
+.hist-login label{font-weight:800}
+.hist-filters{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px}
+.hist-filters input{border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit}
+.hist-filters input[type=search]{flex:1 1 260px}
+.hist-filters label{font-weight:700;font-size:.9rem;color:var(--muted);display:inline-flex;gap:6px;align-items:center}
+.hist-count{font-weight:800;color:var(--muted);margin-bottom:8px}
+.hist-list{display:grid;gap:8px}
+.hist-row{display:grid;grid-template-columns:auto 1fr auto;gap:4px 14px;align-items:center;text-align:left;border:2px solid var(--line);border-radius:14px;padding:10px 14px;background:#FFF8FA;cursor:pointer;font:inherit}
+.hist-row:hover{border-color:var(--ink)}
+.hist-row .code{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.1em;color:var(--rose)}
+.hist-row .m b{display:block;font-weight:800}
+.hist-row .m span{font-size:.85rem;color:var(--muted);font-weight:600}
+.hist-row .nums{font-size:.82rem;font-weight:700;color:var(--muted);text-align:right}
+.hist-detail{display:grid;gap:12px}
+.hist-detail h3{margin:6px 0 0;font-family:var(--font-display);font-weight:400;color:var(--rose)}
+.hist-chips{display:flex;flex-wrap:wrap;gap:6px}
+.hist-chips span{border:2px solid var(--line);border-radius:999px;padding:2px 10px;font-weight:700;font-size:.85rem;background:#fff}
+.hist-res{display:grid;gap:8px}
+.hist-res .r{border:2px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;display:grid;gap:4px}
+.hist-res .r b{color:#B5146E}
+.hist-res .r .n{font-size:.85rem;font-weight:700;color:var(--muted)}
+.hist-res .r details{font-size:.85rem}
 /* ---------- Resumen final ---------- */
 #resultados .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;padding:0;border:0;background:none}
 @media (max-width:640px){#resultados .summary{grid-template-columns:1fr}}
@@ -779,6 +826,7 @@ details.howto[open] summary::after{content:"\2212"}
       <input id="joinCode" type="text" maxlength="4" placeholder="CÓDIGO" aria-label="Código de la sala" autocapitalize="characters" spellcheck="false">
       <button class="btn btn-sm" type="submit">Entrar</button>
     </form>
+    <div class="hist-entry" id="histEntry" hidden><button class="linklike" id="histBtn" type="button">🗂️ Historial de salas</button></div>
   </section>
 
   <section class="card" id="teacherCard" hidden aria-labelledby="stageTitle">
@@ -932,6 +980,39 @@ details.howto[open] summary::after{content:"\2212"}
     </div>
   </section>
 
+  <dialog class="hist-dlg" id="histDlg" aria-labelledby="histTitle">
+    <div class="card-head">
+      <h2 id="histTitle">🗂️ Historial de salas</h2>
+      <button class="btn btn-sm" id="histClose" type="button">Cerrar</button>
+    </div>
+    <form class="hist-login" id="histLogin" autocomplete="off">
+      <label for="histPass">Código de acceso del administrador</label>
+      <div class="nick-row"><input id="histPass" type="password" autocomplete="off" spellcheck="false"><button class="btn btn-si btn-sm" type="submit" id="histGo">Entrar</button></div>
+      <p class="note" id="histMsg"></p>
+    </form>
+    <div id="histBody" hidden>
+      <div class="hist-filters">
+        <input id="histQ" type="search" placeholder="Buscar por módulo, docente o código">
+        <label>Desde <input id="histFrom" type="date"></label>
+        <label>Hasta <input id="histTo" type="date"></label>
+      </div>
+      <div class="hist-count" id="histCount"></div>
+      <div class="hist-list" id="histList"></div>
+      <div class="hist-detail" id="histDetail" hidden></div>
+    </div>
+  </dialog>
+
+  <section class="card teacher-only reflect-card" id="reflectCard" hidden aria-labelledby="reflectTitle">
+    <div class="card-head">
+      <h2 id="reflectTitle">✨ Mi última R</h2>
+      <span class="hint">Reflexión personal y opcional · solo la ve el docente</span>
+    </div>
+    <p class="reflect-q">¿Qué te llevas de esta experiencia y cómo puedes aplicarlo en tus relaciones laborales?</p>
+    <div class="reflect-stats" id="reflectStats"></div>
+    <div class="reflect-list" id="reflectList"></div>
+    <div class="toolbar" style="margin-top:12px"><button class="btn btn-sm" id="reflectCloseBtn" type="button">Cerrar «Mi última R» en los celulares</button></div>
+  </section>
+
   <section class="card teacher-only" id="salaCard" hidden aria-labelledby="salaTitle">
     <div class="card-head">
       <h2 id="salaTitle">Sala lista: invita a los participantes</h2>
@@ -995,6 +1076,7 @@ details.howto[open] summary::after{content:"\2212"}
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
     <div class="toolbar" style="margin-top:14px">
+      <button class="btn btn-sm btn-reflect" id="reflectBtn" type="button" hidden>✨ Abrir «Mi última R»</button>
       <button class="btn btn-sm" id="resumeBtn" type="button" hidden>🍪 Volver al juego</button>
       <button class="btn btn-sm" id="newRoundBtn2" type="button" hidden>🔥 Hornear otra ronda</button>
       <span class="sep"></span>
@@ -1021,7 +1103,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 17:55</span>
+  <span class="ver">versión 2026-10-26 18:22</span>
 </footer>
 
 <script>
@@ -1192,6 +1274,27 @@ function syncVoteClock(t){
   const key = t.round + ":" + t.idx + ":" + t.voteEnds;
   if (live.voteKey !== key){ live.voteKey = key; live.voteEndsLocal = Date.now() + Math.max(0, t.voteEnds - (t.sent || t.voteEnds - VOTE_SECS * 1000)); }
 }
+/* «Mi última R» en el celular: opcional y privada (solo la ve el docente) */
+const REFLECT_Q = "¿Qué te llevas de esta experiencia y cómo puedes aplicarlo en tus relaciones laborales?";
+function studentReflectUI(box, code, onSave){
+  let mine = null; try { mine = JSON.parse(localStorage.getItem("buscalar-reflect-" + code) || "null"); } catch(e){}
+  const wrap = h("div",{class:"s-reflect"}, h("div",{class:"t"}, "✨ Mi última R"), h("p",{class:"q"}, REFLECT_Q));
+  if (mine && !live.reflectEdit){
+    wrap.append(h("p",{class:"s-done"}, mine.skipped ? "Omitiste la reflexión. ¡Gracias por participar!" : "✅ ¡Gracias! Tu última R quedó guardada."));
+    if (!mine.skipped) wrap.append(h("p",{class:"note", style:"white-space:pre-wrap;margin:0"}, mine.text));
+    wrap.append(h("p",{class:"priv"}, "🔒 Solo la ve tu docente; tus compañeros no pueden verla."));
+    wrap.append(h("button",{class:"linklike", type:"button", onclick: ()=>{ live.reflectEdit = true; renderStudent(); }}, mine.skipped ? "Escribirla de todas formas" : "Editar mi última R"));
+    box.append(wrap); return;
+  }
+  const ta = h("textarea",{maxlength:"2000", placeholder:"Escribe aquí tu reflexión (opcional)", "aria-label": REFLECT_Q});
+  if (mine && !mine.skipped) ta.value = mine.text || "";
+  const save = h("button",{class:"btn btn-xl btn-reflect", type:"button", disabled: !ta.value.trim()}, "Guardar mi última R");
+  ta.addEventListener("input", ()=>{ save.disabled = !ta.value.trim(); });
+  save.addEventListener("click", ()=>{ const text = ta.value.trim(); if (!text) return; save.disabled = true; onSave({ text, skipped:false }); });
+  const skip = h("button",{class:"linklike", type:"button", onclick: ()=> onSave({ text:"", skipped:true })}, "Omitir reflexión");
+  wrap.append(ta, save, h("div",{style:"text-align:center"}, skip), h("p",{class:"priv"}, "🔒 Es opcional y privada: solo la ve tu docente."));
+  box.append(wrap);
+}
 /* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
 function studentResultUI(box, t, mine, debate){
   const c = { pro: t.pro || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
@@ -1300,7 +1403,7 @@ function renderStage(){
   if (live.mode !== "student"){
     const playing = state.started && state.playing;
     $("startCard").hidden = state.started; $("teacherCard").hidden = !playing;
-    document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard)").forEach(el => el.hidden = !playing);
+    document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard):not(#reflectCard)").forEach(el => el.hidden = !playing);
     const sala = $("salaCard"); if (sala) sala.hidden = !(state.started && !state.playing);
     // El resumen acumulado solo se ve en la pantalla final (al terminar la ronda o cuando el docente la termina); durante el juego queda oculto
     const roundOver = pool.length === 0 && state.phase === "idle" && state.opened.length > 0;
@@ -1308,6 +1411,7 @@ function renderStage(){
     $("resultados").hidden = !finalScreen;
     if (state.finished) $("teacherCard").hidden = true;
     $("resumeBtn").hidden = !(state.finished && pool.length > 0);
+    const rb = $("reflectBtn"); if (rb) rb.hidden = !(finalScreen && live.site && !state.reflect);
     $("newRoundBtn2").hidden = !(finalScreen && pool.length === 0);
   }
   $("controls").hidden = !state.started;
@@ -1489,9 +1593,28 @@ function finishGame(){
   state.finished = true; save(); renderAll();
   $("resultados").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
-function resumeGame(){ state.finished = false; save(); renderAll(); }
+function resumeGame(){ state.finished = false; state.reflect = false; save(); renderAll(); }
+/* «Mi última R»: el docente la abre después del resumen final; cada estudiante responde (u omite) en su celular */
+function openReflection(){ state.reflect = true; save(); renderAll(); live.broadcast(); if (typeof fetchReflections === "function") fetchReflections(); const c = $("reflectCard"); if (c && !c.hidden) c.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); }
+function closeReflection(){ state.reflect = false; save(); renderAll(); live.broadcast(); }
+function renderReflectCard(){
+  const card = $("reflectCard"); if (!card) return;
+  const show = live.mode !== "student" && state.started && state.playing && !!state.reflect;
+  card.hidden = !show; if (!show) return;
+  const data = live.reflections || { items: [] }, items = data.items || [];
+  const ok = items.filter(x => !x.skipped), om = items.filter(x => x.skipped);
+  const connected = (typeof live.students === "function" ? live.students : live.students || []).length;
+  const pend = Math.max(0, connected - items.length);
+  const st = $("reflectStats"); st.replaceChildren(
+    h("div",{class:"st ok"}, h("b", null, ok.length), h("span", null, ok.length === 1 ? "respondió" : "respondieron")),
+    h("div",{class:"st om"}, h("b", null, om.length), h("span", null, om.length === 1 ? "omitió" : "omitieron")),
+    h("div",{class:"st pe"}, h("b", null, pend), h("span", null, "por responder")));
+  const list = $("reflectList"); list.replaceChildren();
+  if (!ok.length) list.append(h("div",{class:"reflect-empty"}, "Todavía no llegan reflexiones. Aparecerán aquí a medida que los estudiantes las guarden."));
+  ok.forEach(x => list.append(h("div",{class:"reflect-item"}, h("span",{class:"who"}, "✨ " + (x.nick || "Estudiante")), h("p", null, x.text))));
+}
 function newRound(){
-  state.opened = []; state.round++; state.phase = "idle"; state.current = null; state.picked = null; state.lastVote = null; state.finished = false;
+  state.opened = []; state.round++; state.phase = "idle"; state.current = null; state.picked = null; state.lastVote = null; state.finished = false; state.reflect = false;
   save(); renderAll();
   toast(`Ronda ${state.round} lista: 15 galletas nuevas 🔥`);
 }
@@ -1586,7 +1709,7 @@ function renderReset(){
   area.append(btn);
 }
 
-function renderAll(){ renderStage(); renderTray(); renderTable(); renderReset(); }
+function renderAll(){ renderStage(); renderTray(); renderTable(); renderReset(); renderReflectCard(); }
 
 /* ---------- Panel de control del docente ----------
    Lee el estado y llama a las funciones que ya existen (no agrega lógica ni toca la sincronización).
@@ -1743,7 +1866,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, reflect: !!state.reflect, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -1871,6 +1994,7 @@ function renderStudent(){
   if (t.playing === false){ box.append(wait("¡Ya estás en la sala!", "Espera a que el docente empiece la partida.")); return; }
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
+  if (t.reflect){ studentReflectUI(box, live.code, saveReflection); return; }
   if (t.finished){ box.append(wait("¡Gracias por participar!", "La ronda terminó. El docente está mostrando el resumen final.")); return; }
   if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", "El docente va a sacar una galleta." + who)); return; }
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
@@ -1915,7 +2039,10 @@ function studentAsk(){
 async function studentConnect(code){
   live.code = code; live.missing = false;
   showStudentView(); wireCodeForm();
-  const track = ()=>{ if (live.channel && live.registered){ live.channel.track({ role: "estudiante", nick: live.nick, device: live.device }).catch(()=>{}); } };
+  const track = ()=>{
+    if (live.channel && live.registered){ live.channel.track({ role: "estudiante", nick: live.nick, device: live.device }).catch(()=>{}); }
+    if (sb && live.registered) sb.rpc("buscalar_join", { p_code: code, p_device: live.device, p_nick: live.nick }).then(()=>{}, ()=>{});   // queda en el historial de la sala
+  };
   wireNick(track);
   renderStudent();
   if (!sb){ $("sPillText").textContent = "Sin conexión"; return; }
@@ -1938,10 +2065,96 @@ function studentRoute(){
   return { code: cleanCode(m && m[1] !== undefined ? m[1] : params.get("s")) };
 }
 function initLive(){
+  histWire();
   const r = studentRoute();
   if (r){ if (r.code.length === 4) studentConnect(r.code); else studentAsk(); return; }
   live.mode = sb ? "teacher" : "local";
   if (live.mode === "teacher" && state.started) teacherConnect();
+}
+
+/* --- «Mi última R» --- */
+async function saveReflection(r){
+  if (!sb || !live.code) return;
+  try {
+    const { data, error } = await sb.rpc("buscalar_save_reflection", { p_code: live.code, p_device: live.device, p_nick: live.nick, p_text: r.text, p_skipped: r.skipped });
+    if (error || data !== true){ toast("No se pudo guardar. Intenta otra vez."); renderStudent(); return; }
+    try { localStorage.setItem("buscalar-reflect-" + live.code, JSON.stringify(r)); } catch(e){}
+    live.reflectEdit = false; renderStudent();
+  } catch(e){ toast("No se pudo guardar. Intenta otra vez."); renderStudent(); }
+}
+async function fetchReflections(){
+  if (!sb || !live.session || !state.reflect) return;
+  try { const { data } = await sb.rpc("buscalar_get_reflections", { p_code: live.session.code, p_secret: live.session.secret }); if (data){ live.reflections = data; renderReflectCard(); } } catch(e){}
+}
+setInterval(()=>{ if (live.mode === "teacher" && state.reflect) fetchReflections(); }, 4000);
+
+/* --- Historial de salas (administrador). El código no está en la página: se verifica en el servidor y solo vive en memoria mientras el diálogo está abierto --- */
+const hist = { pass: null, list: [] };
+const fmtDate = iso => { try { return new Date(iso).toLocaleString("es-CO", { dateStyle: "medium", timeStyle: "short" }); } catch(e){ return iso; } };
+const OPT_LBL = { reconozco: "Reconozco", rechazo: "Rechazo", replanteo: "Replanteo" };
+function histOpen(){ const d = $("histDlg"); hist.pass = null; $("histBody").hidden = true; $("histLogin").hidden = false; $("histPass").value = ""; $("histMsg").textContent = ""; d.showModal(); $("histPass").focus(); }
+function histCloseDlg(){ hist.pass = null; hist.list = []; $("histList").replaceChildren(); $("histDetail").replaceChildren(); const d = $("histDlg"); if (d.open) d.close(); }
+async function histLogin(e){
+  e.preventDefault();
+  const pass = $("histPass").value; if (!pass || !sb) return;
+  $("histGo").disabled = true; $("histMsg").textContent = "Verificando…";
+  try {
+    const { data, error } = await sb.rpc("buscalar_admin_list", { p_pass: pass });
+    if (error || !data){ $("histMsg").textContent = "Código incorrecto. Si fallas varias veces, el acceso se bloquea unos minutos."; return; }
+    hist.pass = pass; hist.list = data; $("histPass").value = "";
+    $("histLogin").hidden = true; $("histBody").hidden = false; histRender();
+  } catch(err){ $("histMsg").textContent = "No se pudo conectar. Revisa la conexión."; }
+  finally { $("histGo").disabled = false; }
+}
+function histRender(){
+  $("histDetail").hidden = true; $("histList").hidden = false;
+  const q = ($("histQ").value || "").trim().toLowerCase(), from = $("histFrom").value, to = $("histTo").value;
+  const rows = hist.list.filter(x => {
+    const day = (x.created_at || "").slice(0, 10);
+    if (from && day < from) return false; if (to && day > to) return false;
+    if (q && !(`${x.modulo} ${x.docente} ${x.code}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  $("histCount").textContent = `${rows.length} sala${rows.length===1?"":"s"}` + (rows.length !== hist.list.length ? ` de ${hist.list.length}` : "");
+  const list = $("histList"); list.replaceChildren();
+  rows.forEach(x => list.append(h("button",{class:"hist-row", type:"button", onclick: ()=> histDetail(x.code)},
+    h("span",{class:"code"}, x.code),
+    h("span",{class:"m"}, h("b", null, (x.modulo || "Sin módulo") + " · " + (x.docente || "Sin docente")), h("span", null, fmtDate(x.created_at) + (x.finished ? " · finalizada" : ""))),
+    h("span",{class:"nums"}, `${x.participants} participantes`, h("br"), `${x.cookies} galletas · ${x.votes} votos`, h("br"), `${x.reflections} reflexiones · ${x.skipped} omitidas`))));
+  if (!rows.length) list.append(h("div",{class:"reflect-empty"}, "No hay salas con esos filtros."));
+}
+async function histDetail(code){
+  if (!hist.pass) return;
+  const box = $("histDetail"); box.replaceChildren(h("div",{class:"reflect-empty"}, "Cargando…")); box.hidden = false; $("histList").hidden = true;
+  let d = null; try { const r = await sb.rpc("buscalar_admin_detail", { p_pass: hist.pass, p_code: code }); d = r.data; } catch(e){}
+  box.replaceChildren();
+  box.append(h("button",{class:"btn btn-sm", type:"button", onclick: histRender}, "← Volver a la lista"));
+  if (!d){ box.append(h("div",{class:"reflect-empty"}, "No se pudo cargar la sala.")); return; }
+  const st = d.state || {};
+  box.append(h("h3", null, `Sala ${d.code} · ${st.modulo || "Sin módulo"} · ${st.docente || "Sin docente"}`),
+    h("div",{class:"hist-count"}, `Creada: ${fmtDate(d.created_at)} · Última actividad: ${fmtDate(d.updated_at)}`));
+  box.append(h("h3", null, `Participantes (${d.participants.length})`), h("div",{class:"hist-chips"}, ...(d.participants.length ? d.participants.map(n => h("span", null, n)) : [h("span", null, "Sin registros")])));
+  const res = h("div",{class:"hist-res"});
+  d.results.forEach(r => {
+    const rec = RECS[r.idx] || {}, valid = r.pro + r.con + r.re, p = pct100([r.pro, r.con, r.re]);
+    const vs = d.votes.filter(v => v.round === r.round && v.idx === r.idx);
+    res.append(h("div",{class:"r"}, h("b", null, `Galleta #${r.idx + 1} · ronda ${r.round}${r.archived ? " (partida reiniciada)" : ""}`), h("span", null, rec.h || ""),
+      h("span",{class:"n"}, `Reconozco ${r.pro} (${p[0]} %) · Rechazo ${r.con} (${p[1]} %) · Replanteo ${r.re} (${p[2]} %) · ${valid} votos válidos · ${r.nr} sin responder`),
+      vs.length ? h("details", null, h("summary", null, "Ver respuestas"), h("div",{class:"hist-chips"}, ...vs.map(v => h("span", null, `${v.nick || "Estudiante"}: ${OPT_LBL[v.opt] || v.opt}`)))) : null));
+  });
+  box.append(h("h3", null, `Galletas trabajadas (${d.results.length})`), d.results.length ? res : h("div",{class:"reflect-empty"}, "Sin galletas trabajadas."));
+  const ok = d.reflections.filter(x => !x.skipped), om = d.reflections.filter(x => x.skipped).length;
+  const rl = h("div",{class:"reflect-list"}); ok.forEach(x => rl.append(h("div",{class:"reflect-item"}, h("span",{class:"who"}, "✨ " + (x.nick || "Estudiante")), h("p", null, x.text))));
+  box.append(h("h3", null, `Mi última R · ${ok.length} reflexiones, ${om} omitidas`), ok.length ? rl : h("div",{class:"reflect-empty"}, "Sin reflexiones."));
+}
+function histWire(){
+  const entry = $("histEntry"); if (!entry || !sb) return;
+  entry.hidden = false;
+  $("histBtn").addEventListener("click", histOpen);
+  $("histClose").addEventListener("click", histCloseDlg);
+  $("histDlg").addEventListener("close", ()=>{ hist.pass = null; hist.list = []; });
+  $("histLogin").addEventListener("submit", histLogin);
+  ["histQ","histFrom","histTo"].forEach(id => $(id).addEventListener("input", histRender));
 }
 /* ---------- Arranque ---------- */
 function start(){
@@ -1977,6 +2190,8 @@ function start(){
   $("newRoundBtn2").addEventListener("click", newRound);
   $("finishBtn2").addEventListener("click", finishGame);
   $("resumeBtn").addEventListener("click", resumeGame);
+  $("reflectBtn").addEventListener("click", openReflection);
+  $("reflectCloseBtn").addEventListener("click", closeReflection);
   initLive();
 }
 start();
