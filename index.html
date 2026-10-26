@@ -484,7 +484,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .dz-regla .regla-legend li{grid-template-columns:auto 1fr;padding:5px 8px;gap:2px 8px}
 .dz-regla .regla-legend .sw{width:12px;height:12px;grid-row:span 2}
 .dz-regla .regla-legend .tx b{font-size:clamp(.7rem,1.35cqw,.9rem)}
-.dz-regla .regla-legend .tx small{display:none}
+.dz-regla .regla-legend .tx small{font-size:clamp(.58rem,1.1cqw,.74rem);line-height:1.15}
 .dz-regla .regla-legend .nm{grid-column:2;justify-items:start;display:flex;gap:6px;align-items:baseline}
 .dz-regla .regla-legend .nm .p{font-size:clamp(.95rem,2cqw,1.35rem)}
 .dz-regla .regla-legend .nm small{font-size:clamp(.6rem,1.1cqw,.75rem)}
@@ -939,7 +939,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 16:59</span>
+  <span class="ver">versión 2026-10-26 17:00</span>
 </footer>
 
 <script>
@@ -1057,7 +1057,7 @@ function buildRegla(c){
   [OPT.reconozco, OPT.rechazo, OPT.replanteo].forEach(o => {
     const i = order.indexOf(o), n = vals[i];
     legend.append(h("li",{class:cls[o.key]}, h("i",{class:"sw","aria-hidden":"true"}),
-      h("div",{class:"tx"}, h("b", null, o.label), h("small", null, o.short)),
+      h("div",{class:"tx"}, h("b", null, o.label), h("small", null, o.desc)),
       h("div",{class:"nm"}, h("span",{class:"p"}, pcts[i] + " %"), h("small", null, `${n} participante${n===1?"":"s"}`))));
   });
   const foot = valid
