@@ -1,8 +1,8 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/sala", "destination": "/index.html" },
-    { "source": "/sala/:code", "destination": "/index.html" }
+    { "source": "/sala", "destination": "/index" },
+    { "source": "/sala/:code", "destination": "/index" }
   ],
   "headers": [
     { "source": "/mascota/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=604800" } ] },
