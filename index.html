@@ -945,7 +945,6 @@ details.howto[open] summary::after{content:"\2212"}
           <div class="legend" id="liveNote">
             <span class="pro"><b>Reconozco la R</b> · Sí, me pasa o me identifico.</span>
             <span class="con"><b>Rechazo la R</b> · No me pasa o no estoy de acuerdo.</span>
-            <span class="re"><b>Replanteo la R</b> · Puedo mejorar y hacerlo diferente.</span>
           </div>
         </div>
         <div class="after" id="afterBox" hidden>
@@ -1073,7 +1072,7 @@ details.howto[open] summary::after{content:"\2212"}
   <section class="card teacher-only" id="resultados" hidden aria-labelledby="tableTitle">
     <div class="card-head">
       <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada hábito</h2>
-      <span class="hint">Verde: Reconozco la R · Rojo: Rechazo la R · Naranja: Replanteo la R</span>
+      <span class="hint">Verde: Reconozco la R · Rojo: Rechazo la R</span>
     </div>
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
@@ -1092,7 +1091,7 @@ details.howto[open] summary::after{content:"\2212"}
       <ol>
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece el hábito.</li>
-        <li><strong>Tres opciones y 12 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico), «Rechazo la R» (no me pasa o no estoy de acuerdo) y «Replanteo la R» (puedo mejorar y hacerlo diferente) con una cuenta regresiva de 12 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
+        <li><strong>Dos opciones y 12 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 12 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Socialización.</strong> Tras los resultados aparece «¿Le damos la R… o tiene razón?» en todas las pantallas: el grupo comparte sus razones en voz alta, moderado por el docente. Cuando el docente decide, toca «Cerrar debate y continuar».</li>
@@ -1174,22 +1173,22 @@ function h(tag, attrs, ...kids){
 const rnd = arr => arr[Math.floor(Math.random()*arr.length)];
 const unopened = () => RECS.map((_,i)=>i).filter(i => !state.opened.includes(i));
 const tallyOf = i => Object.assign({ pro:0, con:0, re:0, nr:0 }, state.tally[i] || {});
-/* Votación: tres opciones, 12 segundos, cierre automático. pro = Reconozco, con = Rechazo, re = Replanteo, nr = Sin responder */
+/* Votación: dos opciones, 12 segundos, cierre automático. pro = Reconozco, con = Rechazo, nr = Sin responder.
+   (re = Replanteo se retiró; el campo se conserva en 0 para no romper la base de datos ni el historial.) */
 const VOTE_SECS = 12;
 const OPTS = [
   { k:"reconozco", key:"pro", label:"Reconozco la R", desc:"Sí, me pasa o me identifico.",        short:"De acuerdo",                       verdict:"La clase reconoce la R",  cls:"btn-si", tone:"" },
-  { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   short:"En desacuerdo",                    verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" },
-  { k:"replanteo", key:"re",  label:"Replanteo la R", desc:"Puedo mejorar y hacerlo diferente.", short:"Quiere reconsiderar su opinión",   verdict:"La clase replantea la R", cls:"btn-re", tone:"re" }
+  { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   short:"En desacuerdo",                    verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" }
 ];
 const OPT = Object.fromEntries(OPTS.map(o => [o.k, o]));
 const normOpt = v => (typeof v === "string" && OPT[v]) ? v : (v === true ? "reconozco" : v === false ? "rechazo" : null);
 function countVotes(votes){ const c = { pro:0, con:0, re:0 }; Object.values(votes || {}).forEach(v => { const o = OPT[normOpt(v)]; if (o) c[o.key]++; }); c.total = c.pro + c.con + c.re; return c; }
 function verdictOf(c){
-  const m = Math.max(c.pro, c.con, c.re);
+  const m = Math.max(c.pro, c.con);
   if (!m) return { k:"nadie", label:"Nadie respondió", tone:"tie", stamp:"Sin votos" };
   const w = OPTS.filter(o => c[o.key] === m);
   if (w.length > 1) return { k:"empate", label:"Empate: la clase se dividió", tone:"tie", stamp:"Empate" };
-  return { k:w[0].k, label:w[0].verdict, tone:w[0].tone, stamp: w[0].k === "reconozco" ? "R" : w[0].k === "rechazo" ? "Rechazo" : "Replanteo" };
+  return { k:w[0].k, label:w[0].verdict, tone:w[0].tone, stamp: w[0].k === "reconozco" ? "R" : "Rechazo" };
 }
 /* Porcentaje de cada opción sobre las respuestas recibidas (los «Sin responder» no entran en el reparto) */
 const pctOf = (n, total) => total ? Math.round(n / total * 100) : 0;
@@ -1209,10 +1208,10 @@ function pct100(vals){
   raw.map((r, i) => [r - base[i], i]).sort((a, b) => b[0] - a[0]).forEach(([, i]) => { if (rest > 0){ base[i]++; rest--; } });
   return base;
 }
-/* «La Regla de la R»: termómetro vertical que se llena desde abajo con Reconozco, Replanteo y Rechazo.
+/* «La Regla de la R»: termómetro vertical que se llena desde abajo con Reconozco y Rechazo.
    Solo cantidades y porcentajes: nunca nombres (anónimo). Se usa en la pantalla del docente. */
 function buildRegla(c){
-  const order = [OPT.reconozco, OPT.replanteo, OPT.rechazo];               // de abajo hacia arriba
+  const order = [OPT.reconozco, OPT.rechazo];               // de abajo hacia arriba
   const vals = order.map(o => c[o.key] || 0), valid = vals.reduce((a, b) => a + b, 0), pcts = pct100(vals);
   const cls = { pro:"pro", re:"re", con:"con" };
   const fill = h("div",{class:"regla-fill"});
@@ -1220,7 +1219,7 @@ function buildRegla(c){
   const ticks = h("div",{class:"regla-ticks","aria-hidden":"true"}); [100, 75, 50, 25, 0].forEach(t => ticks.append(h("span", null, t)));
   const tube = h("div",{class:"regla-tube","aria-hidden":"true"}, h("div",{class:"regla-glass"}, fill), h("div",{class:"regla-bulb"}, cookieSvg(null, null)));
   const legend = h("ul",{class:"regla-legend"});
-  [OPT.reconozco, OPT.rechazo, OPT.replanteo].forEach(o => {
+  [OPT.reconozco, OPT.rechazo].forEach(o => {
     const i = order.indexOf(o), n = vals[i];
     legend.append(h("li",{class:cls[o.key]}, h("i",{class:"sw","aria-hidden":"true"}),
       h("div",{class:"tx"}, h("b", null, o.label), h("small", null, o.desc)),
@@ -1238,8 +1237,8 @@ function buildRegla(c){
 /* Barra apilada con el reparto de las respuestas */
 function buildShareBar(c){
   const total = (c.pro || 0) + (c.con || 0) + (c.re || 0);
-  return h("div",{class:"bar share",role:"img","aria-label":`${pctOf(c.pro, total)} % reconocen, ${pctOf(c.con, total)} % rechazan, ${pctOf(c.re, total)} % replantean`},
-    h("span",{class:"pro",style:`width:${pctOf(c.pro, total)}%`}), h("span",{class:"re",style:`width:${pctOf(c.re, total)}%`}), h("span",{class:"con",style:`width:${pctOf(c.con, total)}%`}));
+  return h("div",{class:"bar share",role:"img","aria-label":`${pctOf(c.pro, total)} % reconocen, ${pctOf(c.con, total)} % rechazan`},
+    h("span",{class:"pro",style:`width:${pctOf(c.pro, total)}%`}), h("span",{class:"con",style:`width:${pctOf(c.con, total)}%`}));
 }
 /* Cronómetro: actualiza los segundos y la barra de un elemento .timer hasta endsAt (ms); al llegar a cero llama onZero */
 function runTimer(el, endsAt, onZero){
@@ -1513,7 +1512,7 @@ function renderSlip(){
     tb.append(buildRegla(c));          // «La Regla de la R» reemplaza las tarjetas de porcentajes
     $("shareBar").replaceChildren();
     const who = c.total === 1 ? "1 estudiante respondió" : `${c.total} estudiantes respondieron`;
-    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan, ${t.re} replantean.`));
+    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan.`));
   }
   $("debateBox").hidden = !debate;
   $("afterBox").classList.toggle("is-debate", debate);
@@ -1654,7 +1653,7 @@ function renderTable(){
   const maxVotes = worked.reduce((m, i) => { const t = tallyOf(i); return Math.max(m, t.pro + t.con + t.re); }, 0);
   const voters = Math.max(Object.keys(state.voters || {}).length, maxVotes);
   const halves = () => { const d = h("div",{class:"ki-halves"}); d.append(cookieSvg("l", "left"), cookieSvg("r", "right")); return d; };
-  const chips = () => h("div",{class:"ki-chips"}, h("span",{class:"c pro"}, "R"), h("span",{class:"c con"}, "R"), h("span",{class:"c re"}, "R"));
+  const chips = () => h("div",{class:"ki-chips"}, h("span",{class:"c pro"}, "R"), h("span",{class:"c con"}, "R"));
   const mini = () => h("div",{class:"ki-box"}, cookieSvg(null, null), h("span",{class:"lid"}), h("span",{class:"front"}));
   const kpi = (cls, ico, n, lab, tag) => {
     const num = h("div",{class:"kpi-n"}, "0"); countUp(num, n);
@@ -1663,12 +1662,12 @@ function renderTable(){
   sum.append(kpi("k1", halves(), worked.length, `galleta${worked.length===1?"":"s"} trabajada${worked.length===1?"":"s"}`, "¡Abiertas!"),
              kpi("k2", chips(), voters, voters === 1 ? "participante votó" : "participantes votaron", "¡Pusieron la R!"),
              kpi("k3", mini(), closed.length, `galleta${closed.length===1?"":"s"} pendiente${closed.length===1?"":"s"}`, "En la caja"));
-  // Una tarjeta por galleta trabajada, con tres barras horizontales
+  // Una tarjeta por galleta trabajada, con dos barras horizontales
   const grid = h("div",{class:"fcards"});
   worked.forEach(i=>{
-    const rec = RECS[i], t = tallyOf(i), vals = [t.pro, t.con, t.re], valid = vals[0] + vals[1] + vals[2], pcts = pct100(vals);
+    const rec = RECS[i], t = tallyOf(i), vals = [t.pro, t.con], valid = vals[0] + vals[1], pcts = pct100(vals);
     const rows = h("div",{class:"fbars"});
-    [["pro", "Reconozco la R", 0], ["con", "Rechazo la R", 1], ["re", "Replanteo la R", 2]].forEach(([cls, lab, k]) => {
+    [["pro", "Reconozco la R", 0], ["con", "Rechazo la R", 1]].forEach(([cls, lab, k]) => {
       const fill = h("span",{class:"fill"}); fill.style.setProperty("--w", pcts[k] + "%");
       rows.append(h("div",{class:"fbar " + cls, role:"img", "aria-label":`${lab}: ${pcts[k]} %, ${vals[k]} voto${vals[k]===1?"":"s"}`},
         h("div",{class:"fl"}, lab), h("div",{class:"track"}, fill), h("div",{class:"fp"}, pcts[k] + "%"), h("div",{class:"fv"}, `${vals[k]} voto${vals[k]===1?"":"s"}`)));
@@ -2141,7 +2140,7 @@ async function histDetail(code){
     const rec = RECS[r.idx] || {}, valid = r.pro + r.con + r.re, p = pct100([r.pro, r.con, r.re]);
     const vs = d.votes.filter(v => v.round === r.round && v.idx === r.idx);
     res.append(h("div",{class:"r"}, h("b", null, `Galleta #${r.idx + 1} · ronda ${r.round}${r.archived ? " (partida reiniciada)" : ""}`), h("span", null, rec.h || ""),
-      h("span",{class:"n"}, `Reconozco ${r.pro} (${p[0]} %) · Rechazo ${r.con} (${p[1]} %) · Replanteo ${r.re} (${p[2]} %) · ${valid} votos válidos · ${r.nr} sin responder`),
+      h("span",{class:"n"}, `Reconozco ${r.pro} (${p[0]} %) · Rechazo ${r.con} (${p[1]} %)${r.re ? ` · Replanteo ${r.re} (${p[2]} %)` : ""} · ${valid} votos válidos · ${r.nr} sin responder`),
       vs.length ? h("details", null, h("summary", null, "Ver respuestas"), h("div",{class:"hist-chips"}, ...vs.map(v => h("span", null, `${v.nick || "Estudiante"}: ${OPT_LBL[v.opt] || v.opt}`)))) : null));
   });
   box.append(h("h3", null, `Galletas trabajadas (${d.results.length})`), d.results.length ? res : h("div",{class:"reflect-empty"}, "Sin galletas trabajadas."));
