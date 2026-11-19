@@ -905,6 +905,8 @@ details.howto[open] summary::after{content:"\2212"}
 .porque-box .porque-q{font-size:clamp(1.6rem,3.2vw,2.6rem)}
 .suena-timer{width:min(100%,420px)}
 .suena-timer .timer{margin:0 auto}
+.people-strip .chip .ok{display:inline-grid;place-items:center;width:18px;height:18px;margin-left:4px;border-radius:50%;background:#3FAE2A;color:#fff;font-size:.7rem;border:2px solid var(--ink)}
+.people-strip .chip.done{border-color:#3FAE2A}
 .pasa-q{margin:4px 0 2px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.15;text-align:center;letter-spacing:.02em}
 .suena-box.compact{padding:8px 12px;gap:4px}
 .suena-box.compact .suena-q{font-size:.9rem}
@@ -1802,6 +1804,7 @@ function playCrack(){
 function drawCookie(){
   if (state.phase !== "idle") return;
   stopSuenaTimer();
+  if (state.suena) state.suena = {};
   crackAudio();
   const pool = unopened(); if (!pool.length) return;
   const idx = rnd(pool);
@@ -1888,7 +1891,7 @@ function next(){
   save();
   returning = true; setScene("is-return");
   later(()=>{ returning = false; if (state.phase === "idle") setScene(); }, 750);
-  renderStage();
+  renderStage(); renderPeopleStrip();
   if (unopened().length) $("breakBtn").focus({preventScroll:true});
 }
 
@@ -2238,6 +2241,7 @@ function renderSuena(){
   const vals = Object.values(state.suena || {});
   const si = vals.filter(Boolean).length, no = vals.length - si;
   el.textContent = si; $("suenaNo").textContent = no;
+  renderPeopleStrip();
   const studs = live.students || [];
   $("suenaNote").textContent = `${vals.length} de ${studs.length} conectado${studs.length===1?"":"s"} respondieron`;
 }
@@ -2300,7 +2304,8 @@ function renderPeopleStrip(){
   box.replaceChildren(h("span",{class:"lab"}, `👥 En la sala (${studs.length}):`));
   studs.slice().sort((a,b)=> (a.nick||"").localeCompare(b.nick||"", "es")).forEach(st => {
     seen[st.id] = 1;
-    box.append(h("span",{class:"chip" + (prev[st.id] ? "" : " new"), title: st.nick || "Estudiante"}, h("span", null, st.nick || "Estudiante")));
+    const ok = state.phase === "revealed" && state.suena && state.suena[st.id] !== undefined;   // ya respondió «Sí me pasa / No me pasa»
+    box.append(h("span",{class:"chip" + (prev[st.id] ? "" : " new") + (ok ? " done" : ""), title: st.nick || "Estudiante"}, h("span", null, st.nick || "Estudiante"), ok ? h("b",{class:"ok","aria-label":"respondió"}, "✔") : null));
   });
   live.stripSeen = seen;
 }
