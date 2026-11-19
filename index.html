@@ -1840,7 +1840,7 @@ function startSuenaTimer(){
   const box = $("suenaTimer"); if (!box) return;
   clearInterval(live.suenaTicker); box.replaceChildren(); box.hidden = false;
   const tm = buildTimer(); box.append(tm);
-  live.suenaTicker = runTimer(tm, Date.now() + VOTE_SECS * 1000, null);
+  live.suenaTicker = runTimer(tm, Date.now() + VOTE_SECS * 1000, () => stopSuenaTimer());   // en cero, el cronómetro desaparece
 }
 function stopSuenaTimer(){ clearInterval(live.suenaTicker); const box = $("suenaTimer"); if (box){ box.replaceChildren(); box.hidden = true; } }
 function continueToVote(){
