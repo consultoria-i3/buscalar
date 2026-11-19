@@ -904,7 +904,7 @@ details.howto[open] summary::after{content:"\2212"}
   <div class="site">relacion.at</div>
   <span class="badge">🌷 Relaciónate más, vas por más</span>
   <h1>Galletas de la R</h1>
-  <p class="tag">i3sit@ revuelve el tazón y sacará una galleta. Ponle la R si tú le das la razón.</p>
+  <p class="tag">Pongamos atención al CRACK</p>
 </header>
 
 <main>
@@ -1690,8 +1690,35 @@ function renderSlip(){
   renderPanel();
 }
 
+/* Sonido «¡crack!» al partirse la galleta: se genera con Web Audio (sin archivos). El contexto se crea con el clic del docente para que el navegador lo deje sonar. */
+let crackCtx = null;
+function crackAudio(){
+  try { if (!crackCtx) crackCtx = new (window.AudioContext || window.webkitAudioContext)(); if (crackCtx.state === "suspended") crackCtx.resume(); } catch(e){ crackCtx = null; }
+  return crackCtx;
+}
+function playCrack(){
+  const ctx = crackAudio(); if (!ctx) return;
+  const t0 = ctx.currentTime + 0.01;
+  const out = ctx.createGain(); out.gain.value = 0.9; out.connect(ctx.destination);
+  // varios chasquidos cortos de ruido filtrado: suena a galleta que se quiebra
+  [[0, 1, 2600], [0.045, 0.75, 1900], [0.11, 0.55, 3200], [0.16, 0.35, 1500], [0.21, 0.25, 2400]].forEach(([dt, vol, freq]) => {
+    const len = Math.floor(ctx.sampleRate * 0.07);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = freq; bp.Q.value = 0.9;
+    const g = ctx.createGain(); g.gain.setValueAtTime(vol, t0 + dt); g.gain.exponentialRampToValueAtTime(0.001, t0 + dt + 0.07);
+    src.connect(bp); bp.connect(g); g.connect(out); src.start(t0 + dt); src.stop(t0 + dt + 0.08);
+  });
+  // un golpe grave al inicio para darle cuerpo
+  const o = ctx.createOscillator(), og = ctx.createGain();
+  o.type = "triangle"; o.frequency.setValueAtTime(180, t0); o.frequency.exponentialRampToValueAtTime(60, t0 + 0.12);
+  og.gain.setValueAtTime(0.5, t0); og.gain.exponentialRampToValueAtTime(0.001, t0 + 0.14);
+  o.connect(og); og.connect(out); o.start(t0); o.stop(t0 + 0.15);
+}
 function drawCookie(){
   if (state.phase !== "idle") return;
+  crackAudio();
   const pool = unopened(); if (!pool.length) return;
   const idx = rnd(pool);
   state.current = idx; state.phase = "stirring"; state.lastVote = null; state.name = ""; state.suena = {}; state.recShown = false;
@@ -1702,7 +1729,7 @@ function drawCookie(){
   later(()=>{
     state.phase = "lifting"; setScene("is-lifting"); say(bubbleFor()); live.broadcast(); renderPanel();
     later(()=>{
-      setScene("is-lifting","is-open");
+      setScene("is-lifting","is-open"); playCrack();
       later(()=>{
         state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; fetchSuena();
         // la votación ya no se abre sola: el docente toca «Ver recomendación» (showRec)
