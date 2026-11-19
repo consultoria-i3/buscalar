@@ -800,6 +800,14 @@ details.howto[open] summary::after{content:"\2212"}
 .paper.hab .hab-body .big{margin-top:4px}
 @keyframes crackPop{from{opacity:0;transform:rotate(-8deg) scale(.3)}to{opacity:1;transform:rotate(6deg) scale(1)}}
 @media (prefers-reduced-motion:reduce){.paper.hab .crack-badge{animation:none}}
+
+/* socialización: más compacta para que quepan la franja y «La Regla de la R» */
+.dz-stack{gap:clamp(4px,1cqw,10px)}
+.dz-stack .dz-top{gap:4px;padding:clamp(4px,.9cqw,10px) clamp(12px,2.4cqw,24px)}
+.dz-stack .dz-top .dz-title{font-size:clamp(1rem,2.8cqw,1.8rem)}
+.dz-stack .dz-regla .regla-glass{height:clamp(70px,11cqw,130px)}
+.dz-stack .dz-regla .regla{padding:clamp(6px,1cqw,10px);gap:4px}
+.dz-stack .dz-regla .regla-legend li{padding:4px 10px}
 </style>
 </head>
 <body>
