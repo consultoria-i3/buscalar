@@ -829,6 +829,12 @@ details.howto[open] summary::after{content:"\2212"}
 .suena-c.no b{color:#C0255F}
 .suena-note{margin:0;color:var(--muted);font-weight:700;font-size:.9rem}
 .suena-opts .btn.opt .rb{font-size:1.3rem}
+
+/* «¿Por qué crees que esta recomendación te ayudaría?» (docente y estudiante) */
+.porque-box{display:grid;gap:10px;justify-items:center;width:min(100%,620px);background:#FFF6EE;border:3px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 0 var(--ink);padding:14px 18px}
+.porque-q{margin:0;font-family:var(--font-display);color:#B5461B;font-size:clamp(1.2rem,3vw,1.8rem);line-height:1.15;text-align:center}
+.porque-box .note{margin:0;text-align:center}
+.student .porque-ask{color:#B5461B}
 </style>
 </head>
 <body>
@@ -1012,6 +1018,11 @@ details.howto[open] summary::after{content:"\2212"}
             <p class="suena-note" id="suenaNote">0 de 0 conectados respondieron</p>
           </div>
           <button class="btn btn-xl" id="recBtn" type="button">👀 Ver recomendación</button>
+          <div class="porque-box" id="porqueBox" hidden>
+            <p class="porque-q">¿Por qué crees que esta recomendación te ayudaría?</p>
+            <p class="note">💬 Conversen en grupo. Cuando terminen, toca «Continuar»: aparecen las opciones en los celulares y empieza la cuenta regresiva.</p>
+            <button class="btn btn-xl" id="contBtn" type="button">Continuar <span aria-hidden="true">➜</span></button>
+          </div>
         </div>
         <div class="live" id="liveBox" hidden>
           <p class="ask" id="liveAsk">Los estudiantes responden desde su celular</p>
@@ -1167,7 +1178,7 @@ details.howto[open] summary::after{content:"\2212"}
       <ol>
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece la situación crack.</li>
-        <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cada estudiante responde en su celular «¿Te suena esta situación crack?» y el docente ve cuántos dicen que sí y cuántos que no. Luego toca «Ver recomendación» y aparece la recomendación («Ponle la R»).</li>
+        <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cada estudiante responde en su celular «¿Te suena esta situación crack?» y el docente ve cuántos dicen que sí y cuántos que no. Luego toca «Ver recomendación»: aparece la recomendación («Ponle la R») y la pregunta «¿Por qué crees que esta recomendación te ayudaría?». El grupo conversa y, cuando termina, el docente toca «Continuar» para abrir la votación.</li>
         <li><strong>Dos opciones y 20 segundos.</strong> Apenas aparece la recomendación, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
@@ -1566,8 +1577,9 @@ function renderSlip(){
   const box = $("revealBox"); box.replaceChildren(); box.hidden = false;
   const animate = state.phase === "revealed";
   box.classList.toggle("enter", animate && !reduced);
-  box.classList.toggle("has-rec", state.phase === "advised" || state.phase === "voted");
-  const { paper, hab } = buildSlip(idx, rec, animate, state.phase === "advised" || state.phase === "voted");
+  const recOn = state.phase === "advised" || state.phase === "voted" || (state.phase === "revealed" && !!state.recShown);
+  box.classList.toggle("has-rec", recOn);
+  const { paper, hab } = buildSlip(idx, rec, animate, recOn);
   const inDebate = state.phase === "debate";
   box.classList.toggle("is-debate", inDebate);
   // En el debate, la socialización y «La Regla de la R» comparten la escena para que ambas se vean a la vez
@@ -1590,6 +1602,7 @@ function renderSlip(){
   }
   $("teacherBox").hidden = state.phase !== "revealed";
   if (state.phase === "revealed") renderSuena();
+  if (state.phase === "revealed") renderPorque();
   $("liveBox").hidden = state.phase !== "advised";
   if (state.phase === "advised") renderLive();
   $("afterBox").hidden = !voted;
@@ -1613,7 +1626,7 @@ function drawCookie(){
   if (state.phase !== "idle") return;
   const pool = unopened(); if (!pool.length) return;
   const idx = rnd(pool);
-  state.current = idx; state.phase = "stirring"; state.lastVote = null; state.name = ""; state.suena = {};
+  state.current = idx; state.phase = "stirring"; state.lastVote = null; state.name = ""; state.suena = {}; state.recShown = false;
   $("idleControls").hidden = true;
   $("breakBtn").disabled = true;
   clearTimers();
@@ -1631,7 +1644,12 @@ function drawCookie(){
 }
 
 /* El docente toca «Ver recomendación»: aparece la recomendación y se abre la votación de 20 s en todas las pantallas */
-function showRec(){ if (state.phase !== "revealed") return; openVote(); }
+function showRec(){
+  if (state.phase !== "revealed" || state.recShown) return;
+  state.recShown = true; save();   // aparece la recomendación y la pregunta «¿Por qué…?»; la votación espera a «Continuar»
+  renderSlip(); live.broadcast();
+}
+function continueToVote(){ if (state.phase !== "revealed" || !state.recShown) return; openVote(); }
 function openVote(){
   if (state.phase !== "revealed") return;
   state.phase = "advised"; state.liveVotes = {}; state.voteEnds = Date.now() + VOTE_SECS * 1000; save();
@@ -1823,7 +1841,7 @@ function nextStep(){
     case "sala":      return { text: "Empezar la partida cuando todos hayan entrado.", auto: false };
     case "sacar":     return { text: "i3sit@ revuelve el tazón y saca una galleta al azar; se revela su título y la situación crack.", auto: false };
     case "revolver":  return { text: "Se revela el título y la situación crack.", auto: true };
-    case "habito":    return { text: `Toca «Ver recomendación»: aparece la recomendación y se abre la votación de ${VOTE_SECS} s en los celulares.`, auto: false };
+    case "habito":    return state.recShown ? { text: `Conversen «¿Por qué crees que esta recomendación te ayudaría?». Luego toca «Continuar»: se abre la votación de ${VOTE_SECS} s.`, auto: false } : { text: "Toca «Ver recomendación»: aparece la recomendación y la pregunta «¿Por qué te ayudaría?».", auto: false };
     case "votacion":  return { text: "Al llegar a cero: cierre automático y resultados (votos y porcentaje).", auto: true };
     case "resultado": return { text: "Se abre la socialización: «¿Le damos la R?».", auto: true };
     case "debate":    return left ? { text: `«Siguiente galleta»: los resultados desaparecen y quedan ${left} galleta${left===1?"":"s"}.`, auto: false }
@@ -1970,7 +1988,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, reflect: !!state.reflect, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, recShown: !!state.recShown, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, reflect: !!state.reflect, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -2011,6 +2029,14 @@ async function fetchSuena(){
     const { data } = await sb.from("buscalar_suena").select("device_id,suena").eq("session_code", live.session.code).eq("round", state.round).eq("cookie_idx", state.current);
     if (data){ state.suena = state.suena || {}; data.forEach(v => { if (state.suena[v.device_id] === undefined) state.suena[v.device_id] = !!v.suena; }); save(); renderSuena(); }
   } catch(e){}
+}
+/* Tras «Ver recomendación»: se oculta «¿Les suena?» y aparece la pregunta «¿Por qué…?» con «Continuar» */
+function renderPorque(){
+  const on = !!state.recShown;
+  const tb = $("teacherBox"); if (!tb) return;
+  tb.querySelector(".who").textContent = on ? "👀 Recomendación revelada" : "🍪 ¡Crack! Situación revelada";
+  tb.querySelector(":scope > .note").hidden = on;
+  $("suenaBox").hidden = on; $("recBtn").hidden = on; $("porqueBox").hidden = !on;
 }
 function renderSuena(){
   const el = $("suenaSi"); if (!el) return;
@@ -2130,9 +2156,9 @@ function renderStudent(){
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
   if (t.phase === "debate") box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal is-debate"}, buildDebateScene(idx, rec))));
-  else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted").paper)));
+  else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted" || (t.phase === "revealed" && !!t.recShown)).paper)));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.opt : null;
-  if (t.phase === "revealed"){ clearInterval(live.ticker); studentSuenaUI(box, t); return; }
+  if (t.phase === "revealed"){ clearInterval(live.ticker); if (t.recShown) studentPorqueUI(box); else studentSuenaUI(box, t); return; }
   if (t.phase === "advised"){ studentVoteUI(box, mine, live.voteEndsLocal, opt => studentVote(opt, t)); return; }
   clearInterval(live.ticker);
   if (t.phase === "voted" || t.phase === "debate") studentResultUI(box, t, mine, t.phase === "debate");
@@ -2147,6 +2173,10 @@ function studentSuenaUI(box, t){
       h("span",{class:"rb","aria-hidden":"true"}, ico), h("span",{class:"opt-txt"}, h("b", null, lab), h("small", null, desc)))));
   box.append(bar);
   box.append(h("p",{class:"note"}, mine !== null ? "✅ Respuesta enviada. Espera: el docente va a mostrar la recomendación." : "Toca una opción. Después el docente muestra la recomendación y empieza la cuenta regresiva."));
+}
+function studentPorqueUI(box){
+  box.append(h("p",{class:"s-ask porque-ask"}, "¿Por qué crees que esta recomendación te ayudaría?"));
+  box.append(h("p",{class:"note"}, "💬 Conversen en grupo. Cuando el docente continúe, aparecen las opciones y empieza la cuenta regresiva."));
 }
 function studentSuena(val, t){
   if (live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx) return;   // la primera respuesta es la que queda
@@ -2348,6 +2378,7 @@ function start(){
   $("dlgClose").addEventListener("click", closeInvite);
   $("breakBtn").addEventListener("click", drawCookie);
   $("recBtn").addEventListener("click", showRec);
+  $("contBtn").addEventListener("click", continueToVote);
   $("nextBtn").addEventListener("click", next);
   $("newRoundBtn").addEventListener("click", newRound);
   $("newRoundBtn2").addEventListener("click", newRound);
