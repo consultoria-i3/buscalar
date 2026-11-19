@@ -1071,8 +1071,8 @@ details.howto[open] summary::after{content:"\2212"}
           <div class="suena-box" id="suenaBox" aria-live="polite">
             <p class="suena-q">¿Les suena el crack? ¿Lo ven en su vida laboral?</p>
             <div class="suena-counts">
-              <div class="suena-c si"><b id="suenaSi">0</b><span>🙋 Les suena</span></div>
-              <div class="suena-c no"><b id="suenaNo">0</b><span>🙅 No les suena</span></div>
+              <div class="suena-c si"><b id="suenaSi">0</b><span>🙋 Sí lo hago</span></div>
+              <div class="suena-c no"><b id="suenaNo">0</b><span>🙅 No lo hago</span></div>
             </div>
             <p class="suena-note" id="suenaNote">0 de 0 conectados respondieron</p>
           </div>
@@ -2291,7 +2291,7 @@ function studentSuenaUI(box, t){
   const mine = live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx ? live.mySuena.val : null;
   box.append(h("p",{class:"s-ask"}, "¿Te suena el crack? ¿Lo ves en tu vida laboral?"));
   const bar = h("div",{class:"opts suena-opts" + (mine !== null ? " answered" : "")});
-  [[true,"btn-si","🙋","Sí, me suena","Me pasa o lo he visto."],[false,"btn-no","🙅","No me suena","No me pasa."]].forEach(([val,cls,ico,lab,desc]) =>
+  [[true,"btn-si","🙋","Sí lo hago","Me pasa en mi trabajo."],[false,"btn-no","🙅","No lo hago","No me pasa."]].forEach(([val,cls,ico,lab,desc]) =>
     bar.append(h("button",{class:"btn btn-xl opt " + cls + (mine === val ? " chosen" : ""), type:"button", disabled: mine !== null, "aria-pressed": mine === val ? "true" : "false", onclick: ()=>studentSuena(val, t)},
       h("span",{class:"rb","aria-hidden":"true"}, ico), h("span",{class:"opt-txt"}, h("b", null, lab), h("small", null, desc)))));
   box.append(bar);
