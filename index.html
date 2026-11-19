@@ -2298,7 +2298,7 @@ function renderStudent(){
   const who = t.name ? ` Le toca a ${t.name}.` : "";
   if (t.reflect){ studentReflectUI(box, live.code, saveReflection); return; }
   if (t.finished){ box.append(wait("¡Gracias por participar!", "La ronda terminó. El docente está mostrando el resumen final.")); return; }
-  if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", "El docente va a sacar una galleta." + who)); return; }
+  if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", who.trim())); return; }
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
