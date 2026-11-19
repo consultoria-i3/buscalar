@@ -461,6 +461,12 @@ dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
 .toolbar .sep{flex:1 1 10px}
 .confirm{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--pinkt);border:2px solid var(--pink);border-radius:14px;padding:6px 12px;font-size:.92rem;font-weight:700}
 
+/* Nombres de los conectados en la pantalla del docente */
+.people-strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 10px}
+.people-strip .lab{font-weight:800;font-size:.85rem;color:var(--muted);margin-right:2px}
+.people-strip .chip{padding:2px 10px;font-size:.82rem}
+.people-strip .chip.new{animation:popIn .55s cubic-bezier(.2,.9,.3,1.3) both}
+
 /* Sala en vivo */
 .pill{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:700;font-size:.82rem;background:var(--paper)}
 .pill .dot{width:9px;height:9px;border-radius:50%;background:#C9C2DE}
@@ -957,6 +963,7 @@ details.howto[open] summary::after{content:"\2212"}
       </div>
     </div>
     <p class="session-info" id="sessionInfo"></p>
+    <div class="people-strip" id="peopleStrip" hidden aria-live="polite"></div>
 
     <div class="scene-wrap" id="sceneWrap">
       <svg class="scene" id="scene" viewBox="0 0 900 536" aria-labelledby="sceneDesc" role="img">
@@ -2120,6 +2127,7 @@ function onStudentsChange(){
   $("roomPill").hidden = false; $("roomPill").classList.toggle("on", n > 0);
   $("roomText").textContent = (live.session ? "Sala " + live.session.code + " · " : "") + (n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
   renderInvitePeople();
+  renderPeopleStrip();
   if (typeof renderPanel === "function") renderPanel();
   if (state.phase === "advised" && state.current !== null) renderSlip();
   if (state.phase === "revealed") renderSuena();
@@ -2146,6 +2154,19 @@ function renderInvitePeople(){
     box.append(h("span",{class:"who"}, `${n} participante${n===1?"":"s"} en la sala`));
     live.students.forEach(st => box.append(h("span",{class:"chip"}, h("span", null, st.nick || "Estudiante"))));
   });
+}
+/* Nombres de los estudiantes conectados, siempre visibles en la pantalla del docente durante la partida */
+function renderPeopleStrip(){
+  const box = $("peopleStrip"); if (!box) return;
+  const studs = live.students || [];
+  box.hidden = live.mode !== "teacher" || !studs.length;
+  const prev = live.stripSeen || {}; const seen = {};
+  box.replaceChildren(h("span",{class:"lab"}, `👥 En la sala (${studs.length}):`));
+  studs.slice().sort((a,b)=> (a.nick||"").localeCompare(b.nick||"", "es")).forEach(st => {
+    seen[st.id] = 1;
+    box.append(h("span",{class:"chip" + (prev[st.id] ? "" : " new"), title: st.nick || "Estudiante"}, h("span", null, st.nick || "Estudiante")));
+  });
+  live.stripSeen = seen;
 }
 function renderSala(){
   const card = $("salaCard");
