@@ -907,6 +907,7 @@ details.howto[open] summary::after{content:"\2212"}
 .suena-timer .timer{margin:0 auto}
 .people-strip .chip .ok{display:inline-grid;place-items:center;width:18px;height:18px;margin-left:4px;border-radius:50%;background:#3FAE2A;color:#fff;font-size:.7rem;border:2px solid var(--ink)}
 .people-strip .chip.done{border-color:#3FAE2A}
+.final-q{margin:6px 0 18px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.12;text-align:center;letter-spacing:.02em;text-wrap:balance}
 .pasa-q{margin:4px 0 2px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.15;text-align:center;letter-spacing:.02em}
 .suena-box.compact{padding:8px 12px;gap:4px}
 .suena-box.compact .suena-q{font-size:.9rem}
@@ -1326,6 +1327,7 @@ details.howto[open] summary::after{content:"\2212"}
       <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada galleta</h2>
       <span class="hint">🙋 Sí me pasa · 🙅 No me pasa</span>
     </div>
+    <p class="final-q">¿Qué te pareció inesperado de las recomendaciones?</p>
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
     <div class="toolbar" style="margin-top:14px">
@@ -1896,7 +1898,10 @@ function next(){
 }
 
 function finishGame(){
-  if (state.phase !== "idle") return;
+  if (state.finished) return;
+  // el coach puede terminar en cualquier momento: si hay una galleta abierta, se guardan sus respuestas y se cierra
+  if (state.phase === "revealed"){ state.recShown = true; continueToVote(); }
+  else if (state.phase !== "idle"){ clearTimers(); clearInterval(live.ticker); stopSuenaTimer(); state.phase = "idle"; state.current = null; state.liveVotes = {}; state.voteEnds = null; setScene(); }
   state.finished = true; save(); renderAll();
   $("resultados").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
@@ -2077,7 +2082,7 @@ function renderPanel(){
   const btn = (label, fn, ok, cls) => q.append(h("button",{class:"btn btn-sm" + (cls ? " " + cls : ""), type:"button", disabled: !ok, onclick: fn}, label));
   const idle = state.phase === "idle" && !state.finished;
   // Accesos rápidos fijos: solo estas cuatro opciones (avanzar el juego se hace desde la escena)
-  btn("🏁 Terminar", finishGame, state.phase === "idle" && !state.finished && opened > 0, "main");
+  btn("🏁 Terminar", finishGame, !state.finished, "main");
   btn("👥 Invitar", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
   btn("🔄 Reiniciar", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
   btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = !d.open; if (d.open) d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
@@ -2378,7 +2383,7 @@ function renderStudent(){
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
   if (t.reflect){ studentReflectUI(box, live.code, saveReflection); return; }
-  if (t.finished){ box.append(wait("¡Gracias por participar!", "La ronda terminó. El docente está mostrando el resumen final.")); return; }
+  if (t.finished){ box.append(wait("¿Qué te pareció inesperado de las recomendaciones?", "¡Gracias por participar! Lo conversamos entre todos.")); return; }
   if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", who.trim())); return; }
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
