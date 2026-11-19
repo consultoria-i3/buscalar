@@ -1067,12 +1067,12 @@ details.howto[open] summary::after{content:"\2212"}
       <div class="slip" id="slip" hidden aria-live="polite">
         <div class="teacher-box" id="teacherBox">
           <span class="who">🍪 ¡Crack! Situación revelada</span>
-          <p class="note">Lean el título y la situación crack. Cuando estén listos, muestra la recomendación: ahí empieza la cuenta regresiva.</p>
+          <p class="note" hidden></p>
           <div class="suena-box" id="suenaBox" aria-live="polite">
-            <p class="suena-q">¿Les suena el crack? ¿Lo ven en su vida laboral?</p>
+            <p class="suena-q">Responde: ¿tú lo haces y te pasa en tu trabajo, o no te pasa?</p>
             <div class="suena-counts">
-              <div class="suena-c si"><b id="suenaSi">0</b><span>🙋 Sí lo hago</span></div>
-              <div class="suena-c no"><b id="suenaNo">0</b><span>🙅 No lo hago</span></div>
+              <div class="suena-c si"><b id="suenaSi">0</b><span>🙋 Sí me pasa</span></div>
+              <div class="suena-c no"><b id="suenaNo">0</b><span>🙅 No me pasa</span></div>
             </div>
             <p class="suena-note" id="suenaNote">0 de 0 conectados respondieron</p>
           </div>
@@ -2130,7 +2130,7 @@ function renderPorque(){
   const on = !!state.recShown;
   const tb = $("teacherBox"); if (!tb) return;
   tb.querySelector(".who").textContent = on ? "👀 Recomendación revelada" : "🍪 ¡Crack! Situación revelada";
-  tb.querySelector(":scope > .note").hidden = on;
+  tb.querySelector(":scope > .note").hidden = true;
   $("suenaBox").hidden = on; $("recBtn").hidden = on; $("porqueBox").hidden = !on;
 }
 function renderSuena(){
@@ -2289,13 +2289,13 @@ function renderStudent(){
 /* «¿Te suena esta situación crack?»: se pregunta mientras se ve la situación, antes de la recomendación */
 function studentSuenaUI(box, t){
   const mine = live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx ? live.mySuena.val : null;
-  box.append(h("p",{class:"s-ask"}, "¿Te suena el crack? ¿Lo ves en tu vida laboral?"));
+  box.append(h("p",{class:"s-ask"}, "Responde: ¿tú lo haces y te pasa en tu trabajo, o no te pasa?"));
   const bar = h("div",{class:"opts suena-opts" + (mine !== null ? " answered" : "")});
-  [[true,"btn-si","🙋","Sí lo hago","Me pasa en mi trabajo."],[false,"btn-no","🙅","No lo hago","No me pasa."]].forEach(([val,cls,ico,lab,desc]) =>
+  [[true,"btn-si","🙋","Sí me pasa",""],[false,"btn-no","🙅","No me pasa",""]].forEach(([val,cls,ico,lab,desc]) =>
     bar.append(h("button",{class:"btn btn-xl opt " + cls + (mine === val ? " chosen" : ""), type:"button", disabled: mine !== null, "aria-pressed": mine === val ? "true" : "false", onclick: ()=>studentSuena(val, t)},
-      h("span",{class:"rb","aria-hidden":"true"}, ico), h("span",{class:"opt-txt"}, h("b", null, lab), h("small", null, desc)))));
+      h("span",{class:"rb","aria-hidden":"true"}, ico), h("span",{class:"opt-txt"}, h("b", null, lab), desc ? h("small", null, desc) : null))));
   box.append(bar);
-  box.append(h("p",{class:"note"}, mine !== null ? "✅ Respuesta enviada. Espera: el docente va a mostrar la recomendación." : "Toca una opción. Después el docente muestra la recomendación y empieza la cuenta regresiva."));
+  if (mine !== null) box.append(h("p",{class:"note"}, "✅ Respuesta enviada."));
 }
 function studentPorqueUI(box){
   box.append(h("p",{class:"s-ask porque-ask"}, "¿Por qué crees que esta recomendación te ayudaría?"));
