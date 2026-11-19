@@ -1174,8 +1174,8 @@ details.howto[open] summary::after{content:"\2212"}
           <button class="btn btn-xl" id="recBtn" type="button">👀 Ver recomendación</button>
           <div class="porque-box" id="porqueBox" hidden>
             <p class="porque-q">¿Por qué crees que esta recomendación te ayudaría?</p>
-            <p class="note">💬 Conversen en grupo. Cuando terminen, toca «Continuar»: aparecen las opciones en los celulares y empieza la cuenta regresiva.</p>
-            <button class="btn btn-xl" id="contBtn" type="button">Continuar <span aria-hidden="true">➜</span></button>
+            <p class="note">💬 Conversen en grupo. Cuando terminen, toca «Siguiente galleta».</p>
+            <button class="btn btn-xl" id="contBtn" type="button">Siguiente galleta <span aria-hidden="true">➜</span></button>
           </div>
         </div>
         <div class="live" id="liveBox" hidden>
@@ -1821,7 +1821,14 @@ function showRec(){
   state.recShown = true; save();   // aparece la recomendación y la pregunta «¿Por qué…?»; la votación espera a «Continuar»
   renderSlip(); live.broadcast();
 }
-function continueToVote(){ if (state.phase !== "revealed" || !state.recShown) return; openVote(); }
+/* Después de la recomendación ya no hay votación: se guardan las respuestas «Sí me pasa / No me pasa» y se pasa a la siguiente galleta */
+function continueToVote(){
+  if (state.phase !== "revealed" || !state.recShown) return;
+  state.phase = "advised"; state.liveVotes = {};
+  Object.keys(state.suena || {}).forEach(id => { state.liveVotes[id] = state.suena[id] ? "si" : "no"; });
+  closeVote();
+  next();
+}
 function openVote(){
   if (state.phase !== "revealed") return;
   state.phase = "advised"; state.liveVotes = {}; state.voteEnds = Date.now() + VOTE_SECS * 1000; save();
@@ -2376,7 +2383,7 @@ function studentSuenaUI(box, t){
 }
 function studentPorqueUI(box){
   box.append(h("p",{class:"s-ask porque-ask"}, "¿Por qué crees que esta recomendación te ayudaría?"));
-  box.append(h("p",{class:"note"}, "💬 Conversen en grupo. Cuando el docente continúe, aparecen las opciones y empieza la cuenta regresiva."));
+  box.append(h("p",{class:"note"}, "💬 Conversen en grupo."));
 }
 function studentSuena(val, t){
   if (live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx) return;   // la primera respuesta es la que queda
