@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Galletas de la R · Buscalar</title>
-<meta name="description" content="Juego de aula de relacion.at e i3: i3sit@ rompe una galleta con un hábito laboral, el participante cuenta qué haría y los estudiantes votan desde su celular si le ponen la R.">
+<meta name="description" content="Juego de aula de relacion.at e i3: i3sit@ rompe una galleta con algo que hacemos en el trabajo, el participante cuenta qué haría y los estudiantes votan desde su celular si le ponen la R.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23F8857A' stroke='%233B2238' stroke-width='3'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='30' font-family='Arial Black,Arial' font-weight='900' fill='%23FFF6E5' stroke='%233B2238' stroke-width='1.5'%3ER%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -762,6 +762,23 @@ details.howto[open] summary::after{content:"\2212"}
 .footer .ver{font-size:.75rem;opacity:.7}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:999px;font-weight:700;font-size:.92rem;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:calc(100vw - 32px);text-align:center;z-index:20}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* galleta: título → hábito → recomendación */
+.paper.hab .slip-title{font-family:var(--font-display);font-weight:400;color:var(--ink);font-size:clamp(1.15rem,3.4cqw,2.1rem);line-height:1.1;margin:0 0 10px;letter-spacing:.02em}
+.s-scene .paper.hab .slip-title{font-size:clamp(1.1rem,5.4cqw,1.5rem)}
+.scene-reveal.enter .paper.hab .hab-body{animation:habBodyIn .6s ease both;animation-delay:2s}
+@keyframes habBodyIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.paper.rec.rec-in{animation:recIn .55s cubic-bezier(.2,1.2,.3,1) both}
+@keyframes recIn{from{opacity:0;transform:translateY(-8px) rotate(1deg) scale(.96)}to{opacity:1;transform:rotate(1deg)}}
+.scene-reveal .paper.rec .big{font-size:clamp(.95rem,2.4cqw,1.45rem);line-height:1.3}
+.s-scene .paper.rec .big{font-size:clamp(.95rem,4.2cqw,1.15rem)}
+@media (prefers-reduced-motion:reduce){.paper.rec.rec-in,.scene-reveal.enter .paper.hab .hab-body{animation:none!important}}
+
+.scene-reveal.has-rec .slip-paper{gap:6px}
+.scene-reveal.has-rec .paper.hab .slip-title{font-size:clamp(1rem,2.6cqw,1.6rem);margin-bottom:4px}
+.scene-reveal.has-rec .paper.hab .big{font-size:clamp(.9rem,2.3cqw,1.35rem);line-height:1.25}
+.scene-reveal.has-rec .paper.rec .big{font-size:clamp(.85rem,2.1cqw,1.25rem);line-height:1.25}
+.scene-reveal.has-rec .paper{padding-top:clamp(6px,1.1cqw,12px);padding-bottom:clamp(6px,1.2cqw,12px)}
 </style>
 </head>
 <body>
@@ -773,7 +790,7 @@ details.howto[open] summary::after{content:"\2212"}
   <div class="site">relacion.at</div>
   <span class="badge">🌷 Relaciónate más, vas por más</span>
   <h1>Galletas de la R</h1>
-  <p class="tag">i3sit@ revuelve el tazón y sacará un hábito. Ponle la R si tú le das la razón.</p>
+  <p class="tag">i3sit@ revuelve el tazón y sacará una galleta. Ponle la R si tú le das la razón.</p>
 </header>
 
 <main>
@@ -934,8 +951,9 @@ details.howto[open] summary::after{content:"\2212"}
 
       <div class="slip" id="slip" hidden aria-live="polite">
         <div class="teacher-box" id="teacherBox">
-          <span class="who">🍪 Hábito revelado</span>
-          <p class="note">En un momento aparecen las tres opciones en los celulares.</p>
+          <span class="who">🍪 ¡Crack! Situación revelada</span>
+          <p class="note">Lean el título y la situación crack. Cuando estén listos, muestra la recomendación: ahí empieza la cuenta regresiva.</p>
+          <button class="btn btn-xl" id="recBtn" type="button">👀 Ver recomendación</button>
         </div>
         <div class="live" id="liveBox" hidden>
           <p class="ask" id="liveAsk">Los estudiantes responden desde su celular</p>
@@ -1071,7 +1089,7 @@ details.howto[open] summary::after{content:"\2212"}
 
   <section class="card teacher-only" id="resultados" hidden aria-labelledby="tableTitle">
     <div class="card-head">
-      <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada hábito</h2>
+      <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada galleta</h2>
       <span class="hint">Verde: Reconozco la R · Rojo: Rechazo la R</span>
     </div>
     <div class="summary" id="tableSummary"></div>
@@ -1090,8 +1108,9 @@ details.howto[open] summary::after{content:"\2212"}
       <summary>¿Cómo se juega?</summary>
       <ol>
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
-        <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece el hábito.</li>
-        <li><strong>Dos opciones y 20 segundos.</strong> Apenas se revela el hábito, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota ni tiene que tocar nada.</li>
+        <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece la situación crack.</li>
+        <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cuando el grupo lo haya leído, el docente toca «Ver recomendación» y aparece la recomendación («Ponle la R»).</li>
+        <li><strong>Dos opciones y 20 segundos.</strong> Apenas aparece la recomendación, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Socialización.</strong> Tras los resultados aparece «¿Le damos la R… o tiene razón?» en todas las pantallas: el grupo comparte sus razones en voz alta, moderado por el docente. Cuando el docente decide, toca «Cerrar debate y continuar».</li>
@@ -1104,7 +1123,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-10-26 18:36</span>
+  <span class="ver">versión 2026-11-18 · recomendación con botón</span>
 </footer>
 
 <script>
@@ -1113,36 +1132,36 @@ details.howto[open] summary::after{content:"\2212"}
 
 /* ---------- Las recomendaciones (hábito + A) ---------- */
 const RECS = [
-  { h:"Cuando algo me afecta, suelo victimizarme al contarlo.",
-    a:"Cuéntalo desde tu capacidad, no desde lo que te hicieron. Lo que te pasa no es más grande que tú: muéstrale al equipo cómo lo estás manejando." },
-  { h:"Cuando no entrego una tarea, busco excusas para justificarme.",
-    a:"La excusa habla más de nosotros que del problema. Cuenta qué pasó, qué aprendiste y cuándo lo entregas. Eso sí deja bien a cualquiera." },
-  { h:"Cuando alguien propone una idea diferente a la mía, suelo buscarle peros antes de escucharla.",
-    a:"Cuando te proponen una idea, solo te la están proponiendo. Suelta el modo juez por un momento y escúchala hasta el final." },
-  { h:"Me importa más cumplir mi horario que entregar resultados.",
-    a:"Lo que cuenta no es la hora a la que haces las cosas, sino el momento en que las entregas y la calidad con la que llegan." },
-  { h:"A veces me cuesta aceptar opiniones sobre mi trabajo cuando le he dedicado mucho esfuerzo.",
-    a:"Si alguien te avisa que tienes una espinaca en el diente, es porque quiere que quedes bien. Los comentarios sobre tu trabajo funcionan igual." },
-  { h:"Veo las nuevas tareas como una carga adicional.",
-    a:"Nada es estático y lo último nunca es lo último. Ni siquiera tú eres la misma persona de hace un mes. Sin acción no hay evolución." },
-  { h:"Entrego mis trabajos solo por cumplir, sin preocuparme demasiado por su calidad.",
-    a:"Un chef no sirve un plato crudo esperando que el cliente lo termine. Una entrega pensada y revisada con alguien más será bien utilizada." },
-  { h:"Digo que sí a las tareas, pero no siempre las ejecuto.",
-    a:"Tu «sí» vale mucho: no lo dejes vacío. Es mejor un «déjame revisar» honesto que un «sí» que después se convierte en excusa." },
-  { h:"Sigo haciendo las cosas igual, aunque existan formas de mejorarlas.",
-    a:"Propón todo lo que se te ocurra. Si de diez ideas aceptan una sola, te recordarán por esa y te invitarán a cosas nuevas." },
-  { h:"Para intentar algo nuevo, siento que primero necesito capacitarme demasiado.",
-    a:"Cuando pides un plan completo para comprometerte, dejas de ser protagonista. Atrévete a empezar: te necesitan como sujeto, no como objeto." },
-  { h:"Uso la ironía o el sarcasmo para ridiculizar situaciones.",
-    a:"La ironía disfraza lo que realmente quieres decir y vuelve la situación un juego. Juega limpio: dilo directo y con respeto." },
-  { h:"Cuando alguien comete un error, suelo criticarlo o señalarlo.",
-    a:"Al señalar una falla te vuelves parte de la solución. Si la conviertes en murmullo, ya es tuya. Si la ves, gánate la medalla resolviéndola." },
-  { h:"Evito integrarme con mis compañeros en actividades fuera del trabajo.",
-    a:"La división déjala para las matemáticas. Alejarte físicamente también te aleja emocionalmente. Ve un paso más allá de tus límites para relacionarte." },
-  { h:"Suelo dramatizar las situaciones que ocurren en el trabajo.",
-    a:"Imitar y exagerar es una forma natural de aprender, y seguramente no es tu intención. Ponle atención y simplifica las situaciones cuando las cuentes." },
-  { h:"Respondo impulsivamente sin pensar bien cuando me preguntan sobre mi trabajo.",
-    a:"Acelerar implica fuerza, energía y desgaste. Guarda silencio un momento, pide aclaraciones y piensa despacio. Ahorras energía y errores." }
+  { t:"Hablar desde la dificultad", h:"A veces, cuando te asignan algo o te preguntan por un pendiente, respondes desde lo difícil que fue y te muestras como alguien a quien la situación afectó.",
+    a:"Cuando te pones en ese papel, te haces más pequeño de lo que eres. Muestra que puedes con la situación y que tienes la capacidad para hacerlo." },
+  { t:"Las excusas", h:"Cuando no entregas una tarea, das una excusa.",
+    a:"Las excusas pueden jugar en tu contra. Las que antes te funcionaron salen casi en automático, pero pueden hacer dudar de ti. Mejor cuenta cómo vas a resolverlo." },
+  { t:"El “pero” ante ideas ajenas", h:"Cuando una idea no es tuya, sueles responder con un “pero”.",
+    a:"Cuando te comparten una idea, solo te la están proponiendo. No tienes que aprobarla ni rechazarla de inmediato: primero escúchala con calma." },
+  { t:"Pendiente del horario", h:"Lo que más te preocupa de tu día es el horario.",
+    a:"Lo que más importa no es a qué hora haces las cosas, sino que las entregues a tiempo y bien hechas." },
+  { t:"Dificultad para recibir comentarios", h:"Te cuesta que opinen sobre tu trabajo, sobre todo si le dedicaste mucho tiempo.",
+    a:"Es como cuando alguien te avisa que tienes una espinaca en el diente: te lo dice porque quiere que quedes bien. Un comentario es una ayuda, no un ataque." },
+  { t:"Lo nuevo como carga", h:"Cuando te asignan algo nuevo, lo ves como esfuerzo extra o caos.",
+    a:"Todo cambia, y tú tampoco eres el mismo de hace un mes. Lo nuevo es una oportunidad para crecer. Sin acción no hay evolución." },
+  { t:"Entregar por entregar", h:"A veces entregas o presentas algo pensando que de todos modos alguien lo va a revisar.",
+    a:"Sería como un chef que sirve un plato crudo y frío. Si piensas bien lo que entregas y lo revisas antes con alguien, se va a poder usar de verdad." },
+  { t:"Decir que sí sin cumplir", h:"Dices que sí a todo, pero luego no lo haces.",
+    a:"Cada “sí” es una promesa. Si no cumples, la confianza se pierde. Que tu “sí” valga y tenga respaldo." },
+  { t:"Hacer siempre lo mismo", h:"Sigues haciendo el mismo proceso sin mejorarlo ni probar algo nuevo.",
+    a:"Propón tus ideas sin miedo. Aunque solo te acepten una de cada diez, te recordarán por esa y te invitarán a nuevos retos." },
+  { t:"Esperar un curso para empezar", h:"Para aprender algo nuevo, sientes que primero necesitas un curso o un plan muy intenso.",
+    a:"No esperes a que te den todo armado. Lo que necesitan es que tomes la iniciativa y aprendas mientras avanzas." },
+  { t:"Ironía y sarcasmo", h:"A veces respondes con ironía o en tono sarcástico para burlarte de una situación.",
+    a:"La ironía disfraza lo que realmente quieres decir y convierte la situación en un juego. Habla claro y con respeto: juega limpio." },
+  { t:"Criticar o señalar", h:"Cuando algo falla, criticas a las personas o a los proyectos.",
+    a:"Cuando ves una falla, también tienes la oportunidad de ayudar a resolverla. Si solo la comentas a escondidas, el problema se vuelve tuyo. Si ves la falla, gánate la medalla." },
+  { t:"Alejarte del equipo", h:"Tiendes a separarte del grupo en cosas sencillas, como almuerzos, celebraciones o invitaciones.",
+    a:"Dividir es para las matemáticas. Compartir en esos momentos fortalece al equipo. Anímate a ir un poco más allá de tu zona de confort." },
+  { t:"Dramatizar", h:"A veces exageras o dramatizas las situaciones del trabajo.",
+    a:"Seguramente no lo haces a propósito, pero vale la pena notarlo. Cuando hables de un problema, cuéntalo de forma simple y tranquila." },
+  { t:"Responder en automático", h:"Cuando te preguntan por tu trabajo, respondes lo primero que se te ocurre.",
+    a:"Responder con prisa desgasta. Tómate un momento, pide que te aclaren la pregunta y piensa antes de contestar." }
 ];
 /* Dónde está cada galleta sobre la mesa (x, y, giro) */
 const DESK_SPOTS = []; // la ilustración ya trae galletas sobre el escritorio
@@ -1445,16 +1464,18 @@ function cookieSvg(cls, side){
   use.setAttribute("href","#fc"); if (side) use.setAttribute("clip-path", side === "left" ? "url(#clipL)" : "url(#clipR)");
   svg.append(use); return svg;
 }
-function buildSlip(idx, rec, animate){
+function buildSlip(idx, rec, animate, showRec){
   const paper = h("div",{class:"slip-paper"});
   paper.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1)))));
-  const hab = h("div",{class:"paper hab"}, h("div",{class:"label"}, h("span",{class:"letter"},"H"), "El hábito"), h("p",{class:"big"}, rec.h));
+  const hab = h("div",{class:"paper hab"}, rec.t ? h("h3",{class:"slip-title"}, rec.t) : null, h("div",{class:"hab-body"}, h("div",{class:"label"}, h("span",{class:"letter"},"S"), "Situación crack"), h("p",{class:"big"}, rec.h)));
   const row = h("div",{class:"cookie-slip"}, cookieSvg("half-svg left","left"), hab, cookieSvg("half-svg right","right"), h("div",{class:"crac-h","aria-hidden":"true"}, "¡CRAC!"));
   for (let i=0;i<8;i++){
     const a = (i/8)*Math.PI*2, r = 60 + Math.random()*70;
     row.append(h("i",{class:"crumb-h","aria-hidden":"true",style:`--dx:${Math.round(Math.cos(a)*r)}px;--dy:${Math.round(Math.sin(a)*r-50)}px;--rot:${Math.round(Math.random()*360-180)}deg`}));
   }
   paper.append(row);
+  const recKey = idx + ":" + (showRec ? 1 : 0), recAnim = showRec && buildSlip.lastRecKey !== recKey; buildSlip.lastRecKey = recKey;
+  if (showRec && rec.a) paper.append(h("div",{class:"paper rec" + (recAnim ? " rec-in" : "")}, h("div",{class:"label"}, h("span",{class:"letter"},"R"), "Ponle la R · La recomendación"), h("p",{class:"big"}, rec.a)));
   if (animate && !reduced){
     requestAnimationFrame(()=>{
       const gap = Math.max(hab.offsetWidth/2 - 24, 0);
@@ -1479,7 +1500,8 @@ function renderSlip(){
   const box = $("revealBox"); box.replaceChildren(); box.hidden = false;
   const animate = state.phase === "revealed";
   box.classList.toggle("enter", animate && !reduced);
-  const { paper, hab } = buildSlip(idx, rec, animate);
+  box.classList.toggle("has-rec", state.phase === "advised" || state.phase === "voted");
+  const { paper, hab } = buildSlip(idx, rec, animate, state.phase === "advised" || state.phase === "voted");
   const inDebate = state.phase === "debate";
   box.classList.toggle("is-debate", inDebate);
   // En el debate, la socialización y «La Regla de la R» comparten la escena para que ambas se vean a la vez
@@ -1535,13 +1557,14 @@ function drawCookie(){
       setScene("is-lifting","is-open");
       later(()=>{
         state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false;
-        later(openVote, 2600);   // cuando termina la animación del hábito, se abre sola la votación en los celulares
+        // la votación ya no se abre sola: el docente toca «Ver recomendación» (showRec)
       }, 650);
     }, 950);
   }, 1600);
 }
 
-/* Se abre la votación sin que el docente toque nada: 20 segundos desde ahora, en todas las pantallas */
+/* El docente toca «Ver recomendación»: aparece la recomendación y se abre la votación de 20 s en todas las pantallas */
+function showRec(){ if (state.phase !== "revealed") return; openVote(); }
 function openVote(){
   if (state.phase !== "revealed") return;
   state.phase = "advised"; state.liveVotes = {}; state.voteEnds = Date.now() + VOTE_SECS * 1000; save();
@@ -1719,7 +1742,7 @@ const STAGES = [
   { id:"sala",      icon:"👥", label:"Sala",      is: () => !state.playing },
   { id:"sacar",     icon:"🍪", label:"Sacar",     is: () => state.playing && !state.finished && state.phase === "idle" && unopened().length > 0 },
   { id:"revolver",  icon:"🥣", label:"Revolver",  is: () => state.phase === "stirring" || state.phase === "lifting" },
-  { id:"habito",    icon:"📜", label:"Hábito",    is: () => state.phase === "revealed" },
+  { id:"habito",    icon:"📜", label:"Situación",    is: () => state.phase === "revealed" },
   { id:"votacion",  icon:"⏱️", label:"Votación",  is: () => state.phase === "advised" },
   { id:"resultado", icon:"📊", label:"Resultado", is: () => state.phase === "voted" },
   { id:"debate",    icon:"💬", label:"Debate",    is: () => state.phase === "debate" },
@@ -1731,9 +1754,9 @@ function nextStep(){
   const st = STAGES[stageIndex()].id, left = unopened().length;
   switch (st){
     case "sala":      return { text: "Empezar la partida cuando todos hayan entrado.", auto: false };
-    case "sacar":     return { text: "i3sit@ revuelve el tazón y saca una galleta al azar; se revela el hábito.", auto: false };
-    case "revolver":  return { text: "Se revela el hábito.", auto: true };
-    case "habito":    return { text: `Se abre sola la votación de ${VOTE_SECS} s en los celulares.`, auto: true };
+    case "sacar":     return { text: "i3sit@ revuelve el tazón y saca una galleta al azar; se revela su título y la situación crack.", auto: false };
+    case "revolver":  return { text: "Se revela el título y la situación crack.", auto: true };
+    case "habito":    return { text: `Toca «Ver recomendación»: aparece la recomendación y se abre la votación de ${VOTE_SECS} s en los celulares.`, auto: false };
     case "votacion":  return { text: "Al llegar a cero: cierre automático y resultados (votos y porcentaje).", auto: true };
     case "resultado": return { text: "Se abre la socialización: «¿Le damos la R… o tiene razón?».", auto: true };
     case "debate":    return left ? { text: `«Cerrar debate y continuar»: los resultados desaparecen y quedan ${left} galleta${left===1?"":"s"}.`, auto: false }
@@ -1835,6 +1858,19 @@ function wireNick(onRegister){
 const SUPA_URL = "https://aqgjmakpqcorkxpolmpa.supabase.co";
 const SUPA_KEY = "sb_publishable_W7804ewC4lDiGQOqIOMOfg_XYXE7lDw";
 const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+/* Galletas desde Supabase (tabla buscalar_galletas). Si falla, quedan los textos de respaldo de RECS.
+   Solo se aplican si llegan las 15, para no desordenar los índices guardados de la partida. */
+async function loadGalletas(){
+  if (!sb) return;
+  try {
+    const { data, error } = await sb.from("buscalar_galletas").select("id,titulo,habito,recomendacion").eq("activo", true).order("id");
+    if (error || !data || data.length !== RECS.length) return;
+    const before = JSON.stringify(RECS);
+    data.forEach((r, i) => { RECS[i] = { t: r.titulo, h: r.habito, a: r.recomendacion }; });
+    if (JSON.stringify(RECS) === before) return;
+    if (live.mode === "student") renderStudent(); else renderAll();
+  } catch(e){}
+}
 const DEVICE_KEY = "buscalar-device", SESSION_KEY = "buscalar-session", NICK_KEY = "buscalar-nick";
 function makeId(){ try { return Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b => b.toString(16).padStart(2,"0")).join(""); } catch(e){ return "d" + Math.random().toString(36).slice(2,14) + Date.now().toString(36); } }
 function deviceId(){ try { let d = localStorage.getItem(DEVICE_KEY); if (!d || d.length < 8){ d = makeId(); localStorage.setItem(DEVICE_KEY, d); } return d; } catch(e){ return makeId(); } }
@@ -2002,9 +2038,9 @@ function renderStudent(){
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
   if (t.phase === "debate") box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal is-debate"}, buildDebateScene(idx, rec))));
-  else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate).paper)));
+  else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted").paper)));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.opt : null;
-  if (t.phase === "revealed"){ clearInterval(live.ticker); box.append(h("p",{class:"note"}, "Lee el hábito. En un momento aparecen las tres opciones y empieza la cuenta regresiva.")); return; }
+  if (t.phase === "revealed"){ clearInterval(live.ticker); box.append(h("p",{class:"note"}, "Lee el título y la situación crack. Cuando el docente muestre la recomendación, aparecen las opciones y empieza la cuenta regresiva.")); return; }
   if (t.phase === "advised"){ studentVoteUI(box, mine, live.voteEndsLocal, opt => studentVote(opt, t)); return; }
   clearInterval(live.ticker);
   if (t.phase === "voted" || t.phase === "debate") studentResultUI(box, t, mine, t.phase === "debate");
@@ -2200,6 +2236,7 @@ function start(){
   $("dlgCopyLink").addEventListener("click", ()=> copyText(salaUrl(), "Enlace copiado"));
   $("dlgClose").addEventListener("click", closeInvite);
   $("breakBtn").addEventListener("click", drawCookie);
+  $("recBtn").addEventListener("click", showRec);
   $("nextBtn").addEventListener("click", next);
   $("newRoundBtn").addEventListener("click", newRound);
   $("newRoundBtn2").addEventListener("click", newRound);
@@ -2208,6 +2245,7 @@ function start(){
   $("reflectBtn").addEventListener("click", openReflection);
   $("reflectCloseBtn").addEventListener("click", closeReflection);
   initLive();
+  loadGalletas();
 }
 start();
 })();
