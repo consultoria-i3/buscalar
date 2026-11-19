@@ -900,6 +900,7 @@ details.howto[open] summary::after{content:"\2212"}
 
 /* «¿Les suena esta situación crack?» en el tablero del docente, arriba de «Ver recomendación» */
 /* tras «Ver recomendación» se siguen viendo los conteos Sí me pasa / No me pasa, en versión compacta */
+.pasa-q{margin:4px 0 2px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.15;text-align:center;letter-spacing:.02em}
 .suena-box.compact{padding:8px 12px;gap:4px}
 .suena-box.compact .suena-q{font-size:.9rem}
 .suena-box{display:grid;gap:8px;justify-items:center;width:min(100%,520px);background:#fff;border:3px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 0 var(--ink);padding:12px 16px}
@@ -1169,6 +1170,7 @@ details.howto[open] summary::after{content:"\2212"}
             </div>
             <p class="suena-note" id="suenaNote">0 de 0 conectados respondieron</p>
           </div>
+          <p class="pasa-q" id="pasaQ">¿Por qué nos pasa y por qué no nos pasa?</p>
           <button class="btn btn-xl" id="recBtn" type="button">👀 Ver recomendación</button>
           <div class="porque-box" id="porqueBox" hidden>
             <p class="porque-q">¿Por qué crees que esta recomendación te ayudaría?</p>
@@ -2206,7 +2208,7 @@ function renderPorque(){
   const tb = $("teacherBox"); if (!tb) return;
   tb.querySelector(".who").textContent = on ? "👀 Recomendación revelada" : "🍪 ¡Crack! Situación revelada";
   tb.querySelector(":scope > .note").hidden = true;
-  $("suenaBox").hidden = false; $("suenaBox").classList.toggle("compact", on); $("recBtn").hidden = on; $("porqueBox").hidden = !on;
+  $("suenaBox").hidden = false; $("suenaBox").classList.toggle("compact", on); $("recBtn").hidden = on; $("pasaQ").hidden = on; $("porqueBox").hidden = !on;
 }
 function renderSuena(){
   const el = $("suenaSi"); if (!el) return;
