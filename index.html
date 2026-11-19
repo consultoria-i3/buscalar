@@ -835,6 +835,41 @@ details.howto[open] summary::after{content:"\2212"}
 .porque-q{margin:0;font-family:var(--font-display);color:#B5461B;font-size:clamp(1.2rem,3vw,1.8rem);line-height:1.15;text-align:center}
 .porque-box .note{margin:0;text-align:center}
 .student .porque-ask{color:#B5461B}
+
+/* Cinco respuestas: 👍 Sí · 🤔 Sí, pero No · 🙃 No, pero Sí · 👎 No · 💭 Lo pensaré */
+.btn-sino{background:linear-gradient(#E8F7A8,#C8E86A)}
+.btn-nosi{background:linear-gradient(#FFD9A8,#FFB15E)}
+.btn-pienso{background:linear-gradient(#E9E2FF,#C9B8FF)}
+.opts.answered .btn-pienso.opt.chosen:disabled{background:linear-gradient(#E9E2FF,#C9B8FF)}
+.regla-seg.re{background:linear-gradient(90deg,#A88BFF,#C9B8FF)}.regla-legend .re .sw{background:#A88BFF}.regla-legend .re .p{color:#5B3FC4}
+.bar .re{background:#A88BFF}.fbar.re .fill{background:linear-gradient(90deg,#A88BFF,#C9B8FF)}.fbar.re .fp{color:#5B3FC4}
+.total.re{background:#F1ECFF;border-color:#A88BFF}.total.re .big-n{color:#5B3FC4}.legend .re b{color:#5B3FC4}
+.opts .btn.opt .rb.emo{font-size:1.4rem;border:none;background:none;text-decoration:none}
+.opts.answered .btn-sino.opt.chosen:disabled{background:linear-gradient(#E8F7A8,#C8E86A)}
+.opts.answered .btn-nosi.opt.chosen:disabled{background:linear-gradient(#FFD9A8,#FFB15E)}
+.regla-seg.sn{background:linear-gradient(90deg,#B9DC4A,#D8EE7E)}
+.regla-seg.ns{background:linear-gradient(90deg,#FF9F3A,#FFC069)}
+.regla-legend .sn .sw{background:#B9DC4A}.regla-legend .ns .sw{background:#FF9F3A}
+.regla-legend .sn .p{color:#6B8A12}.regla-legend .ns .p{color:#B5461B}
+.bar .sn{background:#B9DC4A}.bar .ns{background:#FF9F3A}
+.fbar.sn .fill{background:linear-gradient(90deg,#B9DC4A,#D8EE7E)}.fbar.sn .fp{color:#6B8A12}
+.fbar.ns .fill{background:linear-gradient(90deg,#FF8C2E,#FFB347)}.fbar.ns .fp{color:#C2560F}
+.total.sn{background:#F3FAD8;border-color:#B9DC4A}.total.sn .big-n{color:#6B8A12}
+.total.ns{background:var(--peacht);border-color:var(--tangerine)}.total.ns .big-n{color:#B5461B}
+.legend .sn b{color:#6B8A12} .legend .ns b{color:#B5461B}
+.dz-regla .regla-legend{gap:4px}
+.dz-regla .regla-legend li{padding:3px 10px}
+.dz-regla .regla-legend .tx small{display:none}
+
+/* socialización con cinco respuestas: la leyenda va en dos columnas y sin termómetro para que quepa */
+.dz-regla .regla-meter{display:none}
+.dz-regla .regla-body{grid-template-columns:1fr}
+.dz-regla .regla-legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px}
+.dz-regla .regla-legend li:last-child{grid-column:1 / -1}
+.dz-regla .regla-legend .tx b{font-size:clamp(.72rem,1.45cqw,.95rem)}
+.dz-regla .regla-legend .nm .p{font-size:clamp(.8rem,1.6cqw,1.05rem)}
+.dz-regla .regla-legend .nm small{font-size:.7rem}
+.dz-stack .dz-regla{width:min(100%,clamp(320px,74cqw,760px))}
 </style>
 </head>
 <body>
@@ -1030,8 +1065,11 @@ details.howto[open] summary::after{content:"\2212"}
           <div class="count" id="liveCount">0 <small>de 0 respondieron</small></div>
           <div class="dots" id="liveDots"></div>
           <div class="legend" id="liveNote">
-            <span class="pro"><b>Reconozco la R</b> · Sí, me pasa o me identifico.</span>
-            <span class="con"><b>Rechazo la R</b> · No me pasa o no estoy de acuerdo.</span>
+            <span class="pro"><b>👍 A la R digo Sí</b></span>
+            <span class="sn"><b>🤔 A la R digo Sí, pero No</b></span>
+            <span class="ns"><b>🙃 A la R digo No, pero Sí</b></span>
+            <span class="con"><b>👎 A la R digo No</b></span>
+            <span class="re"><b>💭 ¡Lo pensaré!</b></span>
           </div>
         </div>
         <div class="after" id="afterBox" hidden>
@@ -1159,7 +1197,7 @@ details.howto[open] summary::after{content:"\2212"}
   <section class="card teacher-only" id="resultados" hidden aria-labelledby="tableTitle">
     <div class="card-head">
       <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada galleta</h2>
-      <span class="hint">Verde: Reconozco la R · Rojo: Rechazo la R</span>
+      <span class="hint">👍 Sí · 🤔 Sí, pero No · 🙃 No, pero Sí · 👎 No · 💭 Lo pensaré</span>
     </div>
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
@@ -1179,7 +1217,7 @@ details.howto[open] summary::after{content:"\2212"}
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece la situación crack.</li>
         <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cada estudiante responde en su celular «¿Te suena esta situación crack?» y el docente ve cuántos dicen que sí y cuántos que no. Luego toca «Ver recomendación»: aparece la recomendación («Ponle la R») y la pregunta «¿Por qué crees que esta recomendación te ayudaría?». El grupo conversa y, cuando termina, el docente toca «Continuar» para abrir la votación.</li>
-        <li><strong>Dos opciones y 20 segundos.</strong> Apenas aparece la recomendación, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
+        <li><strong>Cinco opciones y 20 segundos.</strong> Cuando el docente toca «Continuar», en el celular de cada estudiante aparecen 👍 «A la R digo Sí», 🤔 «A la R digo Sí, pero No», 🙃 «A la R digo No, pero Sí», 👎 «A la R digo No» y 💭 «¡Lo pensaré!», con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
         <li><strong>Socialización.</strong> Tras los resultados aparece «¿Le damos la R?» en todas las pantallas: el grupo comparte sus razones en voz alta, moderado por el docente. Cuando el docente decide, toca «Siguiente galleta».</li>
@@ -1192,7 +1230,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-11-18 · situación crack + socialización</span>
+  <span class="ver">versión 2026-11-18 · cinco respuestas</span>
 </footer>
 
 <script>
@@ -1260,31 +1298,37 @@ function h(tag, attrs, ...kids){
 }
 const rnd = arr => arr[Math.floor(Math.random()*arr.length)];
 const unopened = () => RECS.map((_,i)=>i).filter(i => !state.opened.includes(i));
-const tallyOf = i => Object.assign({ pro:0, con:0, re:0, nr:0 }, state.tally[i] || {});
-/* Votación: dos opciones, 20 segundos, cierre automático. pro = Reconozco, con = Rechazo, nr = Sin responder.
+const tallyOf = i => Object.assign({ pro:0, sn:0, ns:0, con:0, re:0, nr:0 }, state.tally[i] || {});
+/* Votación: cinco opciones, 20 segundos, cierre automático. pro = Reconozco, con = Rechazo, nr = Sin responder.
    (re = Replanteo se retiró; el campo se conserva en 0 para no romper la base de datos ni el historial.) */
 const VOTE_SECS = 20;
+/* Cinco respuestas (2026-11): pro = Sí, sn = Sí pero No, ns = No pero Sí, con = No, re = ¡Lo pensaré! (columna «replanteo» en la base). */
 const OPTS = [
-  { k:"reconozco", key:"pro", label:"Reconozco la R", desc:"Sí, me pasa o me identifico.",        short:"De acuerdo",                       verdict:"La clase reconoce la R",  cls:"btn-si", tone:"" },
-  { k:"rechazo",   key:"con", label:"Rechazo la R",   desc:"No me pasa o no estoy de acuerdo.",   short:"En desacuerdo",                    verdict:"La clase rechaza la R",   cls:"btn-no", tone:"no" }
+  { k:"si",   key:"pro", emoji:"👍", label:"A la R digo Sí",          desc:"Me pasa y la recomendación me sirve.",   short:"Sí",          verdict:"A la R la clase dice Sí",          cls:"btn-si",   tone:"",   stamp:"R" },
+  { k:"sino", key:"sn",  emoji:"🤔", label:"A la R digo Sí, pero No", desc:"Me pasa, pero me cuesta aplicarla.",     short:"Sí, pero No", verdict:"A la R la clase dice Sí, pero No", cls:"btn-sino", tone:"re", stamp:"Sí, pero No" },
+  { k:"nosi", key:"ns",  emoji:"🙃", label:"A la R digo No, pero Sí", desc:"No me pasa tanto, pero algo me sirve.",  short:"No, pero Sí", verdict:"A la R la clase dice No, pero Sí", cls:"btn-nosi", tone:"re", stamp:"No, pero Sí" },
+  { k:"no",   key:"con", emoji:"👎", label:"A la R digo No",          desc:"No me pasa o no estoy de acuerdo.",      short:"No",          verdict:"A la R la clase dice No",          cls:"btn-no",   tone:"no", stamp:"No" },
+  { k:"pensare", key:"re", emoji:"💭", label:"¡Lo pensaré!",           desc:"Todavía no lo sé, lo voy a pensar.",     short:"Lo pensaré",  verdict:"La clase dice: ¡lo pensaré!",      cls:"btn-pienso", tone:"tie", stamp:"Lo pensaré" }
 ];
 const OPT = Object.fromEntries(OPTS.map(o => [o.k, o]));
-const normOpt = v => (typeof v === "string" && OPT[v]) ? v : (v === true ? "reconozco" : v === false ? "rechazo" : null);
-function countVotes(votes){ const c = { pro:0, con:0, re:0 }; Object.values(votes || {}).forEach(v => { const o = OPT[normOpt(v)]; if (o) c[o.key]++; }); c.total = c.pro + c.con + c.re; return c; }
+const OPT_ALIAS = { reconozco:"si", rechazo:"no" };   // votos guardados con la versión anterior
+const normOpt = v => (typeof v === "string" && OPT[v]) ? v : (typeof v === "string" && OPT_ALIAS[v]) ? OPT_ALIAS[v] : (v === true ? "si" : v === false ? "no" : null);
+const sumOf = c => (c.pro || 0) + (c.sn || 0) + (c.ns || 0) + (c.con || 0) + (c.re || 0);
+function countVotes(votes){ const c = { pro:0, sn:0, ns:0, con:0, re:0 }; Object.values(votes || {}).forEach(v => { const o = OPT[normOpt(v)]; if (o) c[o.key]++; }); c.total = sumOf(c); return c; }
 function verdictOf(c){
-  const m = Math.max(c.pro, c.con);
+  const m = Math.max(...OPTS.map(o => c[o.key] || 0));
   if (!m) return { k:"nadie", label:"Nadie respondió", tone:"tie", stamp:"Sin votos" };
-  const w = OPTS.filter(o => c[o.key] === m);
+  const w = OPTS.filter(o => (c[o.key] || 0) === m);
   if (w.length > 1) return { k:"empate", label:"Empate: la clase se dividió", tone:"tie", stamp:"Empate" };
-  return { k:w[0].k, label:w[0].verdict, tone:w[0].tone, stamp: w[0].k === "reconozco" ? "R" : "Rechazo" };
+  return { k:w[0].k, label:w[0].emoji + " " + w[0].verdict, tone:w[0].tone, stamp: w[0].stamp };
 }
 /* Porcentaje de cada opción sobre las respuestas recibidas (los «Sin responder» no entran en el reparto) */
 const pctOf = (n, total) => total ? Math.round(n / total * 100) : 0;
 function buildTotals(c, noPct){
-  const total = (c.pro || 0) + (c.con || 0) + (c.re || 0);
+  const total = sumOf(c);
   const box = h("div",{class:"totals"});
-  OPTS.forEach((o, i) => box.append(h("div",{class:"total " + (o.key === "pro" ? "pro" : o.key === "con" ? "con" : "re"), style:`animation-delay:${i*.1}s`},
-    h("div",{class:"big-n"}, c[o.key] || 0), noPct ? null : h("div",{class:"pct"}, pctOf(c[o.key] || 0, total) + " %"), h("div",{class:"lab"}, o.label), h("div",{class:"sub"}, o.short))));
+  OPTS.forEach((o, i) => box.append(h("div",{class:"total " + o.key, style:`animation-delay:${i*.1}s`},
+    h("div",{class:"big-n"}, c[o.key] || 0), noPct ? null : h("div",{class:"pct"}, pctOf(c[o.key] || 0, total) + " %"), h("div",{class:"lab"}, o.emoji + " " + o.label), h("div",{class:"sub"}, o.desc))));
   if (c.nr) box.append(h("div",{class:"total nr", style:"animation-delay:.3s"}, h("div",{class:"big-n"}, c.nr), noPct ? null : h("div",{class:"pct"}, "—"), h("div",{class:"lab"}, "Sin responder"), h("div",{class:"sub"}, "No alcanzó a responder.")));
   return box;
 }
@@ -1299,34 +1343,34 @@ function pct100(vals){
 /* «La Regla de la R»: termómetro vertical que se llena desde abajo con Reconozco y Rechazo.
    Solo cantidades y porcentajes: nunca nombres (anónimo). Se usa en la pantalla del docente. */
 function buildRegla(c){
-  const order = [OPT.reconozco, OPT.rechazo];               // de abajo hacia arriba
+  const order = OPTS.slice();               // de abajo hacia arriba: Sí, Sí pero No, No pero Sí, No
   const vals = order.map(o => c[o.key] || 0), valid = vals.reduce((a, b) => a + b, 0), pcts = pct100(vals);
-  const cls = { pro:"pro", re:"re", con:"con" };
+  const cls = { pro:"pro", sn:"sn", ns:"ns", re:"re", con:"con" };
   const fill = h("div",{class:"regla-fill"});
   order.forEach((o, i) => { if (!vals[i]) return; const seg = h("div",{class:"regla-seg " + cls[o.key], title:`${o.label}: ${pcts[i]} % (${vals[i]})`}, pcts[i] >= 12 ? h("span", null, pcts[i] + " %") : null); seg.style.setProperty("--h", pcts[i] + "%"); seg.style.setProperty("--d", (i * .45) + "s"); fill.append(seg); });
   const ticks = h("div",{class:"regla-ticks","aria-hidden":"true"}); [100, 75, 50, 25, 0].forEach(t => ticks.append(h("span", null, t)));
   const tube = h("div",{class:"regla-tube","aria-hidden":"true"}, h("div",{class:"regla-glass"}, fill), h("div",{class:"regla-bulb"}, cookieSvg(null, null)));
   const legend = h("ul",{class:"regla-legend"});
-  [OPT.reconozco, OPT.rechazo].forEach(o => {
+  OPTS.forEach(o => {
     const i = order.indexOf(o), n = vals[i];
     legend.append(h("li",{class:cls[o.key]}, h("i",{class:"sw","aria-hidden":"true"}),
-      h("div",{class:"tx"}, h("b", null, o.label), h("small", null, o.desc)),
+      h("div",{class:"tx"}, h("b", null, o.emoji + " " + o.label), h("small", null, o.desc)),
       h("div",{class:"nm"}, h("span",{class:"p"}, pcts[i] + " %"), h("small", null, `${n} participante${n===1?"":"s"}`))));
   });
   const foot = valid
     ? `${valid} voto${valid===1?"":"s"} válido${valid===1?"":"s"}` + (c.nr ? ` · ${c.nr} sin responder (no entra${c.nr===1?"":"n"} en el porcentaje)` : " · todos respondieron")
     : "Nadie respondió esta vez" + (c.nr ? ` · ${c.nr} sin responder` : "");
-  const label = `La Regla de la R: ${order.map((o, i) => `${o.label} ${pcts[i]} % (${vals[i]})`).join(", ")}` + (c.nr ? `, ${c.nr} sin responder` : "");
+  const label = `La Recomendación de la R: ${order.map((o, i) => `${o.label} ${pcts[i]} % (${vals[i]})`).join(", ")}` + (c.nr ? `, ${c.nr} sin responder` : "");
   return h("div",{class:"regla", role:"group", "aria-label": label},
-    h("div",{class:"regla-head"}, "📏 La Regla de la R"),
+    h("div",{class:"regla-head"}, "🍪 La Recomendación de la R"),
     h("div",{class:"regla-body"}, h("div",{class:"regla-meter"}, ticks, tube), legend),
     h("div",{class:"regla-foot"}, foot));
 }
 /* Barra apilada con el reparto de las respuestas */
 function buildShareBar(c){
-  const total = (c.pro || 0) + (c.con || 0) + (c.re || 0);
-  return h("div",{class:"bar share",role:"img","aria-label":`${pctOf(c.pro, total)} % reconocen, ${pctOf(c.con, total)} % rechazan`},
-    h("span",{class:"pro",style:`width:${pctOf(c.pro, total)}%`}), h("span",{class:"con",style:`width:${pctOf(c.con, total)}%`}));
+  const total = sumOf(c);
+  return h("div",{class:"bar share",role:"img","aria-label": OPTS.map(o => `${pctOf(c[o.key] || 0, total)} % ${o.short}`).join(", ")},
+    ...OPTS.map(o => h("span",{class:o.key,style:`width:${pctOf(c[o.key] || 0, total)}%`})));
 }
 /* Cronómetro: actualiza los segundos y la barra de un elemento .timer hasta endsAt (ms); al llegar a cero llama onZero */
 function runTimer(el, endsAt, onZero){
@@ -1348,7 +1392,7 @@ function studentVoteUI(box, mine, endsAt, onVote){
   box.append(h("p",{class:"s-ask"}, "¿Qué haces con esta R?"));
   const timer = buildTimer(); box.append(timer);
   const bar = h("div",{class:"opts" + (mine ? " answered" : "")});
-  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: locked, "aria-pressed": mine === o.k ? "true" : "false", onclick: ()=>onVote(o.k)}, h("span",{class:"rb"},"R"), h("span",{class:"opt-txt"}, h("b", null, o.label), h("small", null, o.desc)))));
+  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: locked, "aria-pressed": mine === o.k ? "true" : "false", onclick: ()=>onVote(o.k)}, h("span",{class:"rb emo","aria-hidden":"true"}, o.emoji), h("span",{class:"opt-txt"}, h("b", null, o.label), h("small", null, o.desc)))));
   box.append(bar);
   if (mine) box.append(h("p",{class:"s-done " + OPT[mine].tone}, "✅ " + OPT[mine].label + ". Tu respuesta quedó registrada."));
   else if (over) box.append(h("p",{class:"note"}, "Se acabó el tiempo: quedas como «Sin responder»."));
@@ -1386,11 +1430,11 @@ function studentReflectUI(box, code, onSave){
 }
 /* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
 function studentResultUI(box, t, mine, debate){
-  const c = { pro: t.pro || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
+  const c = { pro: t.pro || 0, sn: t.sn || 0, ns: t.ns || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
   // En el celular no se muestran porcentajes (solo en la pantalla del docente)
   if (!debate) box.append(buildTotals(c, true));
   const v = verdictOf(c);
-  box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine ? ` · tú: ${OPT[mine].label}` : " · tú quedaste sin responder")));
+  box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine && OPT[normOpt(mine)] ? ` · tú: ${OPT[normOpt(mine)].emoji} ${OPT[normOpt(mine)].label}` : " · tú quedaste sin responder")));
   if (!debate) box.append(h("p",{class:"note"}, "En un momento abrimos la conversación."));
 }
 const later = (fn, ms) => { timers.push(setTimeout(fn, reduced ? 0 : ms)); };
@@ -1486,7 +1530,7 @@ function bubbleFor(){
     case "revealed": return "¿Qué harías tú?";
     case "advised": return "¡20 segundos!";
     case "debate": return "¡A conversar!";
-    case "voted": return { reconozco:"¡Esa es la R!", rechazo:"Bueno… ¿y por qué no?", replanteo:"¡A replantearla!", empate:"¡Empate!", nadie:"¿Nadie? ¡Atentos!" }[state.lastVerdict] || "¡Listo!";
+    case "voted": return { si:"¡Esa es la R!", sino:"¡Sí, pero No! ¿Qué cuesta?", nosi:"¡No, pero Sí! Algo sirve.", no:"Bueno… ¿y por qué no?", pensare:"¡A pensarlo!", empate:"¡Empate!", nadie:"¿Nadie? ¡Atentos!" }[state.lastVerdict] || "¡Listo!";
   }
   if (!pool.length) return "¡Se acabaron! ¿Otra ronda?";
   return ["¡Saca una galleta!","¡Otra galleta!","¡Dale, sin miedo!"][state.log.length % 3];
@@ -1614,7 +1658,7 @@ function renderSlip(){
     tb.append(buildRegla(c));          // «La Regla de la R» reemplaza las tarjetas de porcentajes
     $("shareBar").replaceChildren();
     const who = c.total === 1 ? "1 estudiante respondió" : `${c.total} estudiantes respondieron`;
-    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: ${t.pro} reconocen, ${t.con} rechazan.`));
+    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: 👍 ${t.pro} · 🤔 ${t.sn} · 🙃 ${t.ns} · 👎 ${t.con} · 💭 ${t.re}.`));
   }
   $("debateBox").hidden = !debate;
   $("afterBox").classList.toggle("is-debate", debate);
@@ -1666,16 +1710,16 @@ function closeVote(){
   const c = countVotes(state.liveVotes);
   const studs = live.students;
   c.nr = Math.max(0, studs.filter(st => state.liveVotes[st.id !== undefined ? st.id : (st.by || st.peer)] === undefined).length);
-  const t = tallyOf(idx); t.pro += c.pro; t.con += c.con; t.re += c.re; t.nr += c.nr; state.tally[idx] = t;
+  const t = tallyOf(idx); t.pro += c.pro; t.sn += c.sn; t.ns += c.ns; t.con += c.con; t.re += c.re; t.nr += c.nr; state.tally[idx] = t;
   if (!state.opened.includes(idx)) state.opened.push(idx);
   const v = verdictOf(c);
-  state.log.push({ idx, v: v.k, r: v.k === "reconozco", pro: c.pro, con: c.con, re: c.re, nr: c.nr, t: Date.now() });
+  state.log.push({ idx, v: v.k, r: v.k === "si", pro: c.pro, sn: c.sn, ns: c.ns, con: c.con, re: c.re, nr: c.nr, t: Date.now() });
   state.voters = state.voters || {}; Object.keys(state.liveVotes || {}).forEach(id => { state.voters[id] = 1; });
-  state.lastVote = v.k === "reconozco"; state.lastVerdict = v.k; state.lastCounts = c; state.phase = "voted"; state.picked = null; state.voteEnds = null;
+  state.lastVote = v.k === "si"; state.lastVerdict = v.k; state.lastCounts = c; state.phase = "voted"; state.picked = null; state.voteEnds = null;
   save(); saveResult(idx, c);
   renderSlip(); renderTray(); renderTable(); renderReset(); renderDesk(); say(bubbleFor()); live.broadcast();
-  flashScene(v.k === "reconozco" ? "is-happy" : "is-meh", 1100);
-  if (v.k === "reconozco"){ const cf = $("confetti"); if (cf){ cf.classList.remove("go"); void cf.offsetWidth; cf.classList.add("go"); } }
+  flashScene(v.k === "si" ? "is-happy" : "is-meh", 1100);
+  if (v.k === "si"){ const cf = $("confetti"); if (cf){ cf.classList.remove("go"); void cf.offsetWidth; cf.classList.add("go"); } }
   openDebate();   // los resultados aparecen directamente dentro de la socialización
 }
 
@@ -1754,11 +1798,11 @@ function renderTable(){
   const box = $("table"); box.replaceChildren();
   const best = bestRec();
   const closed = [], worked = [];
-  RECS.forEach((rec, i)=>{ const t = tallyOf(i); if (!(t.pro + t.con + t.re) && !t.nr && !state.opened.includes(i)) closed.push(i); else worked.push(i); });
+  RECS.forEach((rec, i)=>{ const t = tallyOf(i); if (!sumOf(t) && !t.nr && !state.opened.includes(i)) closed.push(i); else worked.push(i); });
   // Encabezado: tres indicadores
   const sum = $("tableSummary"); sum.replaceChildren();
   // Participantes únicos (anónimos); como mínimo, la mayor cantidad de votos de una galleta (por si la partida empezó antes de contar)
-  const maxVotes = worked.reduce((m, i) => { const t = tallyOf(i); return Math.max(m, t.pro + t.con + t.re); }, 0);
+  const maxVotes = worked.reduce((m, i) => { const t = tallyOf(i); return Math.max(m, sumOf(t)); }, 0);
   const voters = Math.max(Object.keys(state.voters || {}).length, maxVotes);
   const halves = () => { const d = h("div",{class:"ki-halves"}); d.append(cookieSvg("l", "left"), cookieSvg("r", "right")); return d; };
   const chips = () => h("div",{class:"ki-chips"}, h("span",{class:"c pro"}, "R"), h("span",{class:"c con"}, "R"));
@@ -1773,9 +1817,9 @@ function renderTable(){
   // Una tarjeta por galleta trabajada, con dos barras horizontales
   const grid = h("div",{class:"fcards"});
   worked.forEach(i=>{
-    const rec = RECS[i], t = tallyOf(i), vals = [t.pro, t.con], valid = vals[0] + vals[1], pcts = pct100(vals);
+    const rec = RECS[i], t = tallyOf(i), vals = OPTS.map(o => t[o.key] || 0), valid = vals.reduce((a, b) => a + b, 0), pcts = pct100(vals);
     const rows = h("div",{class:"fbars"});
-    [["pro", "Reconozco la R", 0], ["con", "Rechazo la R", 1]].forEach(([cls, lab, k]) => {
+    OPTS.map((o, k) => [o.key, o.emoji + " " + o.label, k]).forEach(([cls, lab, k]) => {
       const fill = h("span",{class:"fill"}); fill.style.setProperty("--w", pcts[k] + "%");
       rows.append(h("div",{class:"fbar " + cls, role:"img", "aria-label":`${lab}: ${pcts[k]} %, ${vals[k]} voto${vals[k]===1?"":"s"}`},
         h("div",{class:"fl"}, lab), h("div",{class:"track"}, fill), h("div",{class:"fp"}, pcts[k] + "%"), h("div",{class:"fv"}, `${vals[k]} voto${vals[k]===1?"":"s"}`)));
@@ -1988,7 +2032,7 @@ function pushState(){
   clearTimeout(live.pushTimer);
   live.pushTimer = setTimeout(async ()=>{
     const c = state.lastCounts;
-    const st = { round: state.round, idx: state.current, phase: state.phase, recShown: !!state.recShown, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, reflect: !!state.reflect, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
+    const st = { round: state.round, idx: state.current, phase: state.phase, recShown: !!state.recShown, playing: !!state.playing, name: state.name || "", pro: c ? c.pro : null, sn: c ? c.sn : null, ns: c ? c.ns : null, con: c ? c.con : null, re: c ? c.re : null, nr: c ? c.nr : null, verdict: state.lastVerdict, voteEnds: state.voteEnds, sent: Date.now(), finished: !!state.finished, reflect: !!state.reflect, modulo: state.modulo || "", docente: state.docente || "", epoch: Date.now() };
     try { await sb.rpc("buscalar_set_state", { p_code: live.session.code, p_secret: live.session.secret, p_state: st }); } catch(e){}
   }, 120);
 }
@@ -2118,7 +2162,7 @@ function copyText(text, okMsg){
 }
 async function saveResult(idx, c){
   if (!sb || !live.session) return;
-  try { await sb.rpc("buscalar_save_result", { p_code: live.session.code, p_secret: live.session.secret, p_round: state.round, p_idx: idx, p_pro: c.pro, p_con: c.con, p_participant: state.name || "", p_re: c.re, p_nr: c.nr }); } catch(e){}
+  try { await sb.rpc("buscalar_save_result", { p_code: live.session.code, p_secret: live.session.secret, p_round: state.round, p_idx: idx, p_pro: c.pro, p_con: c.con, p_participant: state.name || "", p_re: c.re, p_nr: c.nr, p_sn: c.sn || 0, p_ns: c.ns || 0 }); } catch(e){}
 }
 async function resetSessionRemote(){
   if (!sb || !live.session) return;
@@ -2189,11 +2233,11 @@ function studentSuena(val, t){
 function studentVote(opt, t){
   if (live.voteEndsLocal - Date.now() <= 0) return;   // se acabó el tiempo: las respuestas quedan bloqueadas
   if (live.myVote && live.myVote.round === t.round && live.myVote.idx === t.idx) return;   // ya respondió: la primera opción es la que queda
-  live.myVote = { round: t.round, idx: t.idx, opt, r: opt === "reconozco", t: Date.now() };
+  live.myVote = { round: t.round, idx: t.idx, opt, r: opt === "si" || opt === "sino", t: Date.now() };
   renderStudent();
   if (!sb || !live.code) return;
   // insert (no upsert): si ya existe una respuesta de este celular para esta galleta, la base la conserva
-  sb.from("buscalar_votes").insert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r: opt === "reconozco", opt, nick: live.nick })
+  sb.from("buscalar_votes").insert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, r: opt === "si" || opt === "sino", opt, nick: live.nick })
     .then(({ error }) => { if (error && !/duplicate|unique|23505/i.test(error.message || "")) toast("No se pudo enviar tu respuesta. Intenta otra vez."); });
 }
 /* Formulario del código (pantalla /sala sin código, o código que no existe) */
@@ -2269,7 +2313,7 @@ setInterval(()=>{ if (live.mode === "teacher" && state.reflect) fetchReflections
 /* --- Historial de salas (administrador). El código no está en la página: se verifica en el servidor y solo vive en memoria mientras el diálogo está abierto --- */
 const hist = { pass: null, list: [] };
 const fmtDate = iso => { try { return new Date(iso).toLocaleString("es-CO", { dateStyle: "medium", timeStyle: "short" }); } catch(e){ return iso; } };
-const OPT_LBL = { reconozco: "Reconozco", rechazo: "Rechazo", replanteo: "Replanteo" };
+const OPT_LBL = { si: "👍 Sí", sino: "🤔 Sí, pero No", nosi: "🙃 No, pero Sí", no: "👎 No", pensare: "💭 Lo pensaré", reconozco: "👍 Sí", rechazo: "👎 No", replanteo: "Replanteo" };
 function histOpen(){ const d = $("histDlg"); hist.pass = null; $("histBody").hidden = true; $("histLogin").hidden = false; $("histPass").value = ""; $("histMsg").textContent = ""; d.showModal(); $("histPass").focus(); }
 function histCloseDlg(){ hist.pass = null; hist.list = []; $("histList").replaceChildren(); $("histDetail").replaceChildren(); const d = $("histDlg"); if (d.open) d.close(); }
 async function histLogin(e){
@@ -2314,10 +2358,10 @@ async function histDetail(code){
   box.append(h("h3", null, `Participantes (${d.participants.length})`), h("div",{class:"hist-chips"}, ...(d.participants.length ? d.participants.map(n => h("span", null, n)) : [h("span", null, "Sin registros")])));
   const res = h("div",{class:"hist-res"});
   d.results.forEach(r => {
-    const rec = RECS[r.idx] || {}, valid = r.pro + r.con + r.re, p = pct100([r.pro, r.con, r.re]);
+    const sn = r.sn || 0, ns = r.ns || 0, rec = RECS[r.idx] || {}, valid = r.pro + sn + ns + r.con + r.re, p = pct100([r.pro, sn, ns, r.con, r.re]);
     const vs = d.votes.filter(v => v.round === r.round && v.idx === r.idx);
     res.append(h("div",{class:"r"}, h("b", null, `Galleta #${r.idx + 1} · ronda ${r.round}${r.archived ? " (partida reiniciada)" : ""}`), h("span", null, rec.h || ""),
-      h("span",{class:"n"}, `Reconozco ${r.pro} (${p[0]} %) · Rechazo ${r.con} (${p[1]} %)${r.re ? ` · Replanteo ${r.re} (${p[2]} %)` : ""} · ${valid} votos válidos · ${r.nr} sin responder`),
+      h("span",{class:"n"}, `👍 Sí ${r.pro} (${p[0]} %) · 🤔 Sí, pero No ${sn} (${p[1]} %) · 🙃 No, pero Sí ${ns} (${p[2]} %) · 👎 No ${r.con} (${p[3]} %) · 💭 Lo pensaré ${r.re} (${p[4]} %) · ${valid} votos válidos · ${r.nr} sin responder`),
       vs.length ? h("details", null, h("summary", null, "Ver respuestas"), h("div",{class:"hist-chips"}, ...vs.map(v => h("span", null, `${v.nick || "Estudiante"}: ${OPT_LBL[v.opt] || v.opt}`)))) : null));
   });
   box.append(h("h3", null, `Galletas trabajadas (${d.results.length})`), d.results.length ? res : h("div",{class:"reflect-empty"}, "Sin galletas trabajadas."));
