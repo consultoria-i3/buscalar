@@ -900,6 +900,11 @@ details.howto[open] summary::after{content:"\2212"}
 
 /* «¿Les suena esta situación crack?» en el tablero del docente, arriba de «Ver recomendación» */
 /* tras «Ver recomendación» se siguen viendo los conteos Sí me pasa / No me pasa, en versión compacta */
+/* «¿Por qué crees que esta recomendación te ayudaría?» va arriba del botón, sin recuadro alrededor */
+.porque-box{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+.porque-box .porque-q{font-size:clamp(1.6rem,3.2vw,2.6rem)}
+.suena-timer{width:min(100%,420px)}
+.suena-timer .timer{margin:0 auto}
 .pasa-q{margin:4px 0 2px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.15;text-align:center;letter-spacing:.02em}
 .suena-box.compact{padding:8px 12px;gap:4px}
 .suena-box.compact .suena-q{font-size:.9rem}
@@ -1170,6 +1175,7 @@ details.howto[open] summary::after{content:"\2212"}
             </div>
             <p class="suena-note" id="suenaNote">0 de 0 conectados respondieron</p>
           </div>
+          <div class="suena-timer" id="suenaTimer"></div>
           <p class="pasa-q" id="pasaQ">¿Por qué nos pasa y por qué no nos pasa?</p>
           <button class="btn btn-xl" id="recBtn" type="button">👀 Ver recomendación</button>
           <div class="porque-box" id="porqueBox" hidden>
@@ -1795,6 +1801,7 @@ function playCrack(){
 }
 function drawCookie(){
   if (state.phase !== "idle") return;
+  stopSuenaTimer();
   crackAudio();
   const pool = unopened(); if (!pool.length) return;
   const idx = rnd(pool);
@@ -1809,6 +1816,7 @@ function drawCookie(){
       setScene("is-lifting","is-open"); playCrack();
       later(()=>{
         state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; fetchSuena();
+        startSuenaTimer();   // 20 segundos para que los estudiantes respondan «Sí me pasa / No me pasa»
         // la votación ya no se abre sola: el docente toca «Ver recomendación» (showRec)
       }, 650);
     }, 950);
@@ -1822,6 +1830,14 @@ function showRec(){
   renderSlip(); live.broadcast();
 }
 /* Después de la recomendación ya no hay votación: se guardan las respuestas «Sí me pasa / No me pasa» y se pasa a la siguiente galleta */
+/* Cronómetro de 20 s que aparece con la situación crack, en la pantalla del coach */
+function startSuenaTimer(){
+  const box = $("suenaTimer"); if (!box) return;
+  clearInterval(live.suenaTicker); box.replaceChildren(); box.hidden = false;
+  const tm = buildTimer(); box.append(tm);
+  live.suenaTicker = runTimer(tm, Date.now() + VOTE_SECS * 1000, null);
+}
+function stopSuenaTimer(){ clearInterval(live.suenaTicker); const box = $("suenaTimer"); if (box){ box.replaceChildren(); box.hidden = true; } }
 function continueToVote(){
   if (state.phase !== "revealed" || !state.recShown) return;
   state.phase = "advised"; state.liveVotes = {};
@@ -2215,7 +2231,7 @@ function renderPorque(){
   const tb = $("teacherBox"); if (!tb) return;
   tb.querySelector(".who").textContent = on ? "👀 Recomendación revelada" : "🍪 ¡Crack! Situación revelada";
   tb.querySelector(":scope > .note").hidden = true;
-  $("suenaBox").hidden = false; $("suenaBox").classList.toggle("compact", on); $("recBtn").hidden = on; $("pasaQ").hidden = on; $("porqueBox").hidden = !on;
+  $("suenaBox").hidden = false; $("suenaBox").classList.toggle("compact", on); $("recBtn").hidden = on; $("pasaQ").hidden = on; if (on) stopSuenaTimer(); $("porqueBox").hidden = !on;
 }
 function renderSuena(){
   const el = $("suenaSi"); if (!el) return;
