@@ -1104,11 +1104,11 @@ details.howto[open] summary::after{content:"\2212"}
           <div class="count" id="liveCount">0 <small>de 0 respondieron</small></div>
           <div class="dots" id="liveDots"></div>
           <div class="legend" id="liveNote">
-            <span class="pro"><b>👍 A la R digo Sí</b></span>
-            <span class="sn"><b>🤔 A la R digo Sí, pero No</b></span>
-            <span class="ns"><b>🙃 A la R digo No, pero Sí</b></span>
-            <span class="con"><b>👎 A la R digo No</b></span>
-            <span class="re"><b>💭 ¡Lo pensaré!</b></span>
+            <span class="pro"><b>🙋 Sí me pasa</b></span>
+            
+            
+            <span class="con"><b>🙅 No me pasa</b></span>
+            
           </div>
         </div>
         <div class="after" id="afterBox" hidden>
@@ -1236,7 +1236,7 @@ details.howto[open] summary::after{content:"\2212"}
   <section class="card teacher-only" id="resultados" hidden aria-labelledby="tableTitle">
     <div class="card-head">
       <h2 id="tableTitle">🏆 Resumen final: cuántas R tuvo cada galleta</h2>
-      <span class="hint">👍 Sí · 🤔 Sí, pero No · 🙃 No, pero Sí · 👎 No · 💭 Lo pensaré</span>
+      <span class="hint">🙋 Sí me pasa · 🙅 No me pasa</span>
     </div>
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
@@ -1343,11 +1343,8 @@ const tallyOf = i => Object.assign({ pro:0, sn:0, ns:0, con:0, re:0, nr:0 }, sta
 const VOTE_SECS = 20;
 /* Cinco respuestas (2026-11): pro = Sí, sn = Sí pero No, ns = No pero Sí, con = No, re = ¡Lo pensaré! (columna «replanteo» en la base). */
 const OPTS = [
-  { k:"si",   key:"pro", emoji:"👍", label:"A la R digo Sí",          desc:"Me pasa y la recomendación me sirve.",   short:"Sí",          verdict:"A la R la clase dice Sí",          cls:"btn-si",   tone:"",   stamp:"R" },
-  { k:"sino", key:"sn",  emoji:"🤔", label:"A la R digo Sí, pero No", desc:"Me pasa, pero me cuesta aplicarla.",     short:"Sí, pero No", verdict:"A la R la clase dice Sí, pero No", cls:"btn-sino", tone:"re", stamp:"Sí, pero No" },
-  { k:"nosi", key:"ns",  emoji:"🙃", label:"A la R digo No, pero Sí", desc:"No me pasa tanto, pero algo me sirve.",  short:"No, pero Sí", verdict:"A la R la clase dice No, pero Sí", cls:"btn-nosi", tone:"re", stamp:"No, pero Sí" },
-  { k:"no",   key:"con", emoji:"👎", label:"A la R digo No",          desc:"No me pasa o no estoy de acuerdo.",      short:"No",          verdict:"A la R la clase dice No",          cls:"btn-no",   tone:"no", stamp:"No" },
-  { k:"pensare", key:"re", emoji:"💭", label:"¡Lo pensaré!",           desc:"Todavía no lo sé, lo voy a pensar.",     short:"Lo pensaré",  verdict:"La clase dice: ¡lo pensaré!",      cls:"btn-pienso", tone:"tie", stamp:"Lo pensaré" }
+  { k:"si",   key:"pro", emoji:"🙋", label:"Sí me pasa",  desc:"", short:"Sí me pasa", verdict:"A la clase le pasa", cls:"btn-si", tone:"",   stamp:"Sí" },
+  { k:"no",   key:"con", emoji:"🙅", label:"No me pasa",  desc:"", short:"No me pasa", verdict:"A la clase no le pasa", cls:"btn-no", tone:"no", stamp:"No" }
 ];
 const OPT = Object.fromEntries(OPTS.map(o => [o.k, o]));
 const OPT_ALIAS = { reconozco:"si", rechazo:"no" };   // votos guardados con la versión anterior
@@ -1431,7 +1428,7 @@ function studentVoteUI(box, mine, endsAt, onVote){
   box.append(h("p",{class:"s-ask"}, "¿Qué haces con esta R?"));
   const timer = buildTimer(); box.append(timer);
   const bar = h("div",{class:"opts" + (mine ? " answered" : "")});
-  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: locked, "aria-pressed": mine === o.k ? "true" : "false", onclick: ()=>onVote(o.k)}, h("span",{class:"rb emo","aria-hidden":"true"}, o.emoji), h("span",{class:"opt-txt"}, h("b", null, o.label), h("small", null, o.desc)))));
+  OPTS.forEach(o => bar.append(h("button",{class:"btn btn-xl opt " + o.cls + (mine === o.k ? " chosen" : ""), type:"button", disabled: locked, "aria-pressed": mine === o.k ? "true" : "false", onclick: ()=>onVote(o.k)}, h("span",{class:"rb emo","aria-hidden":"true"}, o.emoji), h("span",{class:"opt-txt"}, h("b", null, o.label), o.desc ? h("small", null, o.desc) : null))));
   box.append(bar);
   if (mine) box.append(h("p",{class:"s-done " + OPT[mine].tone}, "✅ " + OPT[mine].label + ". Tu respuesta quedó registrada."));
   else if (over) box.append(h("p",{class:"note"}, "Se acabó el tiempo: quedas como «Sin responder»."));
@@ -1697,7 +1694,7 @@ function renderSlip(){
     tb.append(buildRegla(c));          // «La Regla de la R» reemplaza las tarjetas de porcentajes
     $("shareBar").replaceChildren();
     const who = c.total === 1 ? "1 estudiante respondió" : `${c.total} estudiantes respondieron`;
-    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: 👍 ${t.pro} · 🤔 ${t.sn} · 🙃 ${t.ns} · 👎 ${t.con} · 💭 ${t.re}.`));
+    res.append(h("b",{class: v.tone}, v.label), ` · galleta #${idx+1}.`, h("span",{class:"cn"}, `${who}${c.nr ? `, ${c.nr} sin responder` : ""}. Acumulado: 🙋 Sí me pasa ${t.pro} · 🙅 No me pasa ${t.con}.`));
   }
   $("debateBox").hidden = !debate;
   $("afterBox").classList.toggle("is-debate", debate);
