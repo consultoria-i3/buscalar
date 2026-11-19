@@ -766,6 +766,17 @@ body.is-student .teacher-note{display:none}
 .pz-next{font-size:.92rem;font-weight:600;color:var(--muted);display:grid;gap:2px}
 .pz-next .auto{display:inline-block;margin-left:6px;border:2px solid var(--line);border-radius:999px;padding:0 8px;font-size:.75rem;font-weight:800;color:var(--muted);background:#fff}
 .quick{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+/* Accesos rápidos pequeños en la esquina superior derecha de la oficina (ya no en el panel de abajo) */
+.pz-quick{display:none!important}
+/* el panel de control de abajo (Sesión · Etapa actual · Accesos rápidos) no se muestra; el número de la sala va arriba a la derecha */
+#panelCard{display:none!important}
+#roomPill{font-size:1rem;padding:5px 14px}
+#roomPill .room-code{font-family:var(--font-display);font-size:1.35rem;letter-spacing:.12em;color:var(--pink);margin:0 2px}
+.head-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-end}
+.quick-top{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.quick-top .btn{padding:3px 10px;font-size:.72rem;border-width:2px;border-radius:999px;box-shadow:0 2px 0 0 var(--ink)}
+.quick-top .btn:hover{box-shadow:0 3px 0 0 var(--ink)}
+.quick-top .btn.main{background:var(--pinkt)}
 .quick .btn{justify-content:center;font-size:.92rem;padding:9px 10px;border-radius:12px;box-shadow:0 4px 0 0 var(--ink)}
 .quick .btn.main{background:linear-gradient(#FFB0A3,#FF7B6B);grid-column:1 / -1;font-size:1.05rem}
 .quick .btn:disabled{opacity:.45;box-shadow:0 4px 0 0 var(--line)}
@@ -983,6 +994,7 @@ details.howto[open] summary::after{content:"\2212"}
       <span class="hint" id="stageHint">0 de 15 galletas abiertas · Ronda 1</span>
       <div class="head-actions">
         <span class="pill" id="roomPill" hidden><span class="dot"></span><span id="roomText">Sala</span></span>
+        <div class="quick-top" id="quickTop" hidden aria-label="Accesos rápidos"></div>
         
       </div>
     </div>
@@ -1963,7 +1975,7 @@ function renderPanel(){
   const playing = state.started && state.playing;
   // En la pantalla final (resumen) el panel no se muestra
   const isFinal = playing && STAGES[stageIndex()].id === "final";
-  card.hidden = !playing || isFinal; if (card.hidden) return;
+  card.hidden = !playing || isFinal; { const qt = $("quickTop"); if (qt) qt.hidden = card.hidden; } if (card.hidden) return;
   // Sesión
   const code = (live.session && live.session.code) || live.code || "";
   $("pCode").textContent = code || "····";
@@ -1982,13 +1994,13 @@ function renderPanel(){
   now.append(cur.icon + " " + cur.label); if (detail) now.append(h("small", null, detail));
   const nx = nextStep(); const pn = $("pNext"); pn.replaceChildren(nx.text); if (nx.auto) pn.append(h("span",{class:"auto"}, "automático"));
   // Accesos rápidos: cada botón llama a la función existente y solo se activa cuando aplica
-  const q = $("pQuick"); q.replaceChildren();
+  const q = $("quickTop") || $("pQuick"); q.replaceChildren();
   const btn = (label, fn, ok, cls) => q.append(h("button",{class:"btn btn-sm" + (cls ? " " + cls : ""), type:"button", disabled: !ok, onclick: fn}, label));
   const idle = state.phase === "idle" && !state.finished;
   // Accesos rápidos fijos: solo estas cuatro opciones (avanzar el juego se hace desde la escena)
-  btn("🏁 Terminar y ver resultados finales", finishGame, state.phase === "idle" && !state.finished && opened > 0, "main");
-  btn("👥 Invitar participantes", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
-  btn("🔄 Reiniciar juego", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
+  btn("🏁 Terminar", finishGame, state.phase === "idle" && !state.finished && opened > 0, "main");
+  btn("👥 Invitar", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
+  btn("🔄 Reiniciar", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
   btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = true; d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
 }
 function renderStart(){}
@@ -2173,7 +2185,7 @@ function onStudentsChange(){
   if (live.mode !== "teacher") return;
   const n = live.students.length;
   $("roomPill").hidden = false; $("roomPill").classList.toggle("on", n > 0);
-  $("roomText").textContent = (live.session ? "Sala " + live.session.code + " · " : "") + (n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
+  $("roomText").replaceChildren(...(live.session ? ["Sala ", h("b",{class:"room-code"}, live.session.code), " · "] : []), n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
   renderInvitePeople();
   renderPeopleStrip();
   if (typeof renderPanel === "function") renderPanel();
