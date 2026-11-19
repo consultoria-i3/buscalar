@@ -2168,6 +2168,8 @@ const sb = (window.supabase && window.supabase.createClient) ? window.supabase.c
 /* Galletas desde Supabase (tabla buscalar_galletas). Si falla, quedan los textos de respaldo de RECS.
    Solo se aplican si llegan las 15, para no desordenar los índices guardados de la partida. */
 async function loadGalletas(){
+  // Los textos de las galletas ahora mandan desde este archivo (RECS); la tabla de Supabase ya no los reemplaza.
+  return;
   if (!sb) return;
   try {
     const { data, error } = await sb.from("buscalar_galletas").select("id,titulo,habito,recomendacion").eq("activo", true).order("id");
