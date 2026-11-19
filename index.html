@@ -206,6 +206,15 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 
 /* Controles bajo la escena */
 .controls{display:grid;gap:16px;justify-items:center;margin-top:16px}
+/* Pantalla del docente horizontal en pantallas anchas: imagen a la izquierda, controles (¿Les suena?, recomendación, votación) a la derecha, todo sin bajar */
+@media (min-width:1100px){
+  main{max-width:min(1400px,96vw)}
+  #teacherCard:has(#controls:not([hidden])){display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);column-gap:22px;align-items:center}
+  #teacherCard:has(#controls:not([hidden])) > :not(.scene-wrap):not(.controls){grid-column:1/-1}
+  #teacherCard:has(#controls:not([hidden])) > .controls{margin-top:0;align-content:center}
+  #teacherCard:has(#controls:not([hidden])) .slip{max-width:none}
+  #teacherCard:has(#controls:not([hidden])) .suena-box,#teacherCard:has(#controls:not([hidden])) .porque-box{width:100%}
+}
 .idle-controls{display:grid;gap:14px;justify-items:center;width:100%}
 .done-box{display:grid;gap:12px;justify-items:center;width:100%;text-align:center}
 .done-box .big{max-width:40ch}
@@ -1060,7 +1069,7 @@ details.howto[open] summary::after{content:"\2212"}
           <span class="who">🍪 ¡Crack! Situación revelada</span>
           <p class="note">Lean el título y la situación crack. Cuando estén listos, muestra la recomendación: ahí empieza la cuenta regresiva.</p>
           <div class="suena-box" id="suenaBox" aria-live="polite">
-            <p class="suena-q">¿Les suena esta situación crack?</p>
+            <p class="suena-q">¿Les suena el crack? ¿Lo ven en su vida laboral?</p>
             <div class="suena-counts">
               <div class="suena-c si"><b id="suenaSi">0</b><span>🙋 Les suena</span></div>
               <div class="suena-c no"><b id="suenaNo">0</b><span>🙅 No les suena</span></div>
@@ -2233,7 +2242,7 @@ function renderStudent(){
   $("sPillText").textContent = live.code ? "Sala " + live.code : "Sin sala";
   $("sPill").classList.toggle("on", !!t);
   if (!t){ box.append(wait("Esperando al docente…", "Cuando saque una galleta, aquí la verás.")); return; }
-  if (t.playing === false){ box.append(wait("¡Ya estás en la sala!", "Espera a que el docente empiece la partida.")); return; }
+  if (t.playing === false){ box.append(wait("¡Hola! Entraste al enlace y vamos a empezar.", "Vamos a sacar una galleta: vas a ver una situación laboral y responderás sí o no. ¡Espera a que el docente empiece!")); return; }
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
   if (t.reflect){ studentReflectUI(box, live.code, saveReflection); return; }
@@ -2253,7 +2262,7 @@ function renderStudent(){
 /* «¿Te suena esta situación crack?»: se pregunta mientras se ve la situación, antes de la recomendación */
 function studentSuenaUI(box, t){
   const mine = live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx ? live.mySuena.val : null;
-  box.append(h("p",{class:"s-ask"}, "¿Te suena esta situación crack?"));
+  box.append(h("p",{class:"s-ask"}, "¿Te suena el crack? ¿Lo ves en tu vida laboral?"));
   const bar = h("div",{class:"opts suena-opts" + (mine !== null ? " answered" : "")});
   [[true,"btn-si","🙋","Sí, me suena","Me pasa o lo he visto."],[false,"btn-no","🙅","No me suena","No me pasa."]].forEach(([val,cls,ico,lab,desc]) =>
     bar.append(h("button",{class:"btn btn-xl opt " + cls + (mine === val ? " chosen" : ""), type:"button", disabled: mine !== null, "aria-pressed": mine === val ? "true" : "false", onclick: ()=>studentSuena(val, t)},
