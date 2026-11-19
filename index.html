@@ -779,6 +779,27 @@ details.howto[open] summary::after{content:"\2212"}
 .scene-reveal.has-rec .paper.hab .big{font-size:clamp(.9rem,2.3cqw,1.35rem);line-height:1.25}
 .scene-reveal.has-rec .paper.rec .big{font-size:clamp(.85rem,2.1cqw,1.25rem);line-height:1.25}
 .scene-reveal.has-rec .paper{padding-top:clamp(6px,1.1cqw,12px);padding-bottom:clamp(6px,1.2cqw,12px)}
+
+/* socialización: franja con título, situación crack y recomendación */
+.dz-card{align-items:flex-start;max-width:min(100%,900px)}
+.dz-card .dz-txt{display:grid;gap:2px;min-width:0}
+.dz-card .dz-t{font-family:var(--font-display);font-weight:400;color:var(--ink);font-size:1.08em;line-height:1.15}
+.dz-card .dz-t .k{color:var(--muted)}
+.dz-card p{margin:0;line-height:1.3}
+.dz-card .dz-s{color:#B5146E}
+.dz-card .dz-r{color:#B5461B}
+.dz-card b{font-weight:800}
+.dz-top .dz-card{font-size:clamp(.72rem,1.5cqw,.98rem)}
+
+/* sello «¡Situación crack!» en la esquina superior derecha */
+.paper.hab .crack-badge{position:absolute;top:-18px;right:-14px;z-index:3;transform:rotate(6deg);background:linear-gradient(180deg,#FF8C2E,#E63E7E);color:#fff;font-family:var(--font-display);font-weight:400;font-size:clamp(.9rem,2.1cqw,1.35rem);letter-spacing:.05em;line-height:1;padding:8px 16px 6px;border:3px solid var(--ink);border-radius:999px;box-shadow:0 4px 0 0 var(--ink);white-space:nowrap;text-shadow:0 2px 0 rgba(59,31,51,.35);animation:crackPop .55s cubic-bezier(.2,1.6,.3,1) both;animation-delay:1.1s}
+.s-scene .paper.hab .crack-badge{font-size:.85rem;padding:6px 12px 4px}
+.paper.hab .crack-badge{display:block;float:right;position:relative;top:auto;right:auto;margin:-4px clamp(-60px,-6cqw,-40px) 6px 12px}
+.s-scene .paper.hab .crack-badge{margin:-4px -10px 6px 8px}
+.paper.hab .hab-body{clear:both}
+.paper.hab .hab-body .big{margin-top:4px}
+@keyframes crackPop{from{opacity:0;transform:rotate(-8deg) scale(.3)}to{opacity:1;transform:rotate(6deg) scale(1)}}
+@media (prefers-reduced-motion:reduce){.paper.hab .crack-badge{animation:none}}
 </style>
 </head>
 <body>
@@ -971,7 +992,7 @@ details.howto[open] summary::after{content:"\2212"}
           <p class="result" id="resultText"></p>
           <div class="debate-cta" id="debateBox" hidden>
             <span class="dz-live"><i></i> Debate en curso · conversación oral y libre</span>
-            <button class="btn btn-xl btn-debate" id="nextBtn" hidden>💬 Cerrar debate y continuar <span aria-hidden="true">➜</span></button>
+            <button class="btn btn-xl btn-debate" id="nextBtn" hidden>Siguiente galleta <span aria-hidden="true">➜</span></button>
           </div>
         </div>
       </div>
@@ -1113,7 +1134,7 @@ details.howto[open] summary::after{content:"\2212"}
         <li><strong>Dos opciones y 20 segundos.</strong> Apenas aparece la recomendación, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
-        <li><strong>Socialización.</strong> Tras los resultados aparece «¿Le damos la R… o tiene razón?» en todas las pantallas: el grupo comparte sus razones en voz alta, moderado por el docente. Cuando el docente decide, toca «Cerrar debate y continuar».</li>
+        <li><strong>Socialización.</strong> Tras los resultados aparece «¿Le damos la R?» en todas las pantallas: el grupo comparte sus razones en voz alta, moderado por el docente. Cuando el docente decide, toca «Siguiente galleta».</li>
         <li><strong>Siguiente galleta.</strong> Al cerrar el debate, los resultados desaparecen de la pantalla. Cada galleta sale una sola vez por ronda; cuando se acaban (o cuando el docente toca «Terminar y ver el resumen final») aparece la pantalla final con el acumulado de todas las galletas: votos y porcentajes de cada opción. Desde ahí se puede hornear otra ronda, y las R se siguen sumando.</li>
       </ol>
     </details>
@@ -1123,7 +1144,7 @@ details.howto[open] summary::after{content:"\2212"}
 <footer class="footer">
   <span>Un juego de <b>relacion.at</b> con i3 🌷 · Recomendaciones del material «Dale la A, ponle la R».</span>
   <span class="teacher-note">La sala vive mientras esta pestaña esté abierta: si la cierras o recargas, se crea una sala nueva con otro código.</span>
-  <span class="ver">versión 2026-11-18 · recomendación con botón</span>
+  <span class="ver">versión 2026-11-18 · situación crack + socialización</span>
 </footer>
 
 <script>
@@ -1327,17 +1348,25 @@ function studentResultUI(box, t, mine, debate){
 const later = (fn, ms) => { timers.push(setTimeout(fn, reduced ? 0 : ms)); };
 function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 const SHOWING = ["revealed","advised","voted","debate"];
-const DEBATE_TITLE = "¿Le damos la R… o tiene razón?";
+const DEBATE_TITLE = "¿Le damos la R?";
 const DEBATE_MSG = "Es momento de compartir nuestras razones, escuchar otras perspectivas y descubrir si mantenemos nuestra postura o nos replanteamos la R.";
 /* Composición de la socialización (misma pieza en la escena del docente y en el celular): sin preguntas, votos ni respuestas correctas */
+/* Franja de la galleta en la socialización: título, situación crack y recomendación */
+function dzCard(idx, rec){
+  return h("div",{class:"dz-hab dz-card"}, cookieSvg(null, null),
+    h("div",{class:"dz-txt"},
+      h("div",{class:"dz-t"}, h("span",{class:"k"}, `Galleta #${idx+1} ·`), " ", rec && rec.t ? rec.t : ""),
+      h("p",{class:"dz-s"}, h("b", null, "Situación crack: "), rec ? rec.h : ""),
+      rec && rec.a ? h("p",{class:"dz-r"}, h("b", null, "Ponle la R: "), rec.a) : null));
+}
 function buildDebateScene(idx, rec){
   const step = (i, ico, b, sm) => { const el = h("div",{class:"dz-step"}, h("div",{class:"dz-ico","aria-hidden":"true"}, ico), h("b", null, b), h("small", null, sm)); el.style.setProperty("--i", i); return el; };
-  const hab = h("div",{class:"dz-hab"}, cookieSvg(null, null), h("span",{class:"k"}, `Galleta #${idx+1} ·`), h("span", null, rec ? rec.h : ""));
+  const hab = dzCard(idx, rec);
   return h("div",{class:"dz"},
     h("i",{class:"dz-float f1","aria-hidden":"true"}, "💬"), h("i",{class:"dz-float f2","aria-hidden":"true"}, "💭"),
     h("i",{class:"dz-float f3","aria-hidden":"true"}, "🗨️"), h("i",{class:"dz-float f4","aria-hidden":"true"}, "✨"),
     h("span",{class:"dz-chip"}, h("i"), "Socialización"),
-    h("div",{class:"dz-title"}, "💬 ¿Le damos la R… ", h("span", null, "o tiene razón?")),
+    h("div",{class:"dz-title"}, "💬 ¿Le damos la R?"),
     h("p",{class:"dz-msg"}, DEBATE_MSG),
     h("div",{class:"dz-steps"}, step(0, "🗣️", "Compartimos", "nuestras razones"), step(1, "👂", "Escuchamos", "otras perspectivas"), step(2, "💭", "Reflexionamos", "¿mantenemos o replanteamos la R?")),
     hab);
@@ -1467,7 +1496,7 @@ function cookieSvg(cls, side){
 function buildSlip(idx, rec, animate, showRec){
   const paper = h("div",{class:"slip-paper"});
   paper.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1)))));
-  const hab = h("div",{class:"paper hab"}, rec.t ? h("h3",{class:"slip-title"}, rec.t) : null, h("div",{class:"hab-body"}, h("div",{class:"label"}, h("span",{class:"letter"},"S"), "Situación crack"), h("p",{class:"big"}, rec.h)));
+  const hab = h("div",{class:"paper hab"}, h("span",{class:"crack-badge"}, "¡Situación crack!"), rec.t ? h("h3",{class:"slip-title"}, rec.t) : null, h("div",{class:"hab-body"}, h("p",{class:"big"}, rec.h)));
   const row = h("div",{class:"cookie-slip"}, cookieSvg("half-svg left","left"), hab, cookieSvg("half-svg right","right"), h("div",{class:"crac-h","aria-hidden":"true"}, "¡CRAC!"));
   for (let i=0;i<8;i++){
     const a = (i/8)*Math.PI*2, r = 60 + Math.random()*70;
@@ -1507,8 +1536,8 @@ function renderSlip(){
   // En el debate, la socialización y «La Regla de la R» comparten la escena para que ambas se vean a la vez
   // Debate en el docente: arriba solo el título de la socialización; en el centro, «La Regla de la R»
   box.append(inDebate ? h("div",{class:"dz-stack"},
-      h("div",{class:"dz-top"}, h("span",{class:"dz-chip"}, h("i"), "Socialización"), h("div",{class:"dz-title"}, "💬 ¿Le damos la R… ", h("span", null, "o tiene razón?")),
-        h("div",{class:"dz-hab"}, cookieSvg(null, null), h("span",{class:"k"}, `Galleta #${idx+1} ·`), h("span", null, rec ? rec.h : ""))),
+      h("div",{class:"dz-top"}, h("span",{class:"dz-chip"}, h("i"), "Socialización"), h("div",{class:"dz-title"}, "💬 ¿Le damos la R?"),
+        dzCard(idx, rec)),
       h("div",{class:"dz-regla"}, buildRegla(state.lastCounts || { pro:0, con:0, re:0, nr:0 }))) : paper);
   const conf = h("div",{class:"confetti",id:"confetti","aria-hidden":"true"});
   const colors = ["#FF6FA3","#E63E7E","#FF8C2E","#FFB347","#5BC236","#FFD166"];
@@ -1758,9 +1787,9 @@ function nextStep(){
     case "revolver":  return { text: "Se revela el título y la situación crack.", auto: true };
     case "habito":    return { text: `Toca «Ver recomendación»: aparece la recomendación y se abre la votación de ${VOTE_SECS} s en los celulares.`, auto: false };
     case "votacion":  return { text: "Al llegar a cero: cierre automático y resultados (votos y porcentaje).", auto: true };
-    case "resultado": return { text: "Se abre la socialización: «¿Le damos la R… o tiene razón?».", auto: true };
-    case "debate":    return left ? { text: `«Cerrar debate y continuar»: los resultados desaparecen y quedan ${left} galleta${left===1?"":"s"}.`, auto: false }
-                                  : { text: "Era la última galleta: «Cerrar debate y continuar» lleva al resumen final.", auto: false };
+    case "resultado": return { text: "Se abre la socialización: «¿Le damos la R?».", auto: true };
+    case "debate":    return left ? { text: `«Siguiente galleta»: los resultados desaparecen y quedan ${left} galleta${left===1?"":"s"}.`, auto: false }
+                                  : { text: "Era la última galleta: «Siguiente galleta» lleva al resumen final.", auto: false };
     case "final":     return left ? { text: "Volver al juego para seguir con las galletas que quedan, u hornear otra ronda.", auto: false }
                                   : { text: "Hornear otra ronda (las R se siguen sumando) o reiniciar.", auto: false };
   }
