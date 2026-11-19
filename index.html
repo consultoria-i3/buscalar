@@ -788,6 +788,9 @@ details.howto summary::after{content:"+";font-size:1.6rem;color:var(--muted)}
 details.howto[open] summary::after{content:"\2212"}
 .howto ol{margin:14px 0 0;padding-left:22px;display:grid;gap:8px;font-weight:600}
 .howto ol strong{color:var(--rose)}
+.howto-card{padding-block:14px}
+.howto-card summary{font-size:1.5rem!important}
+.howto-card ol{font-size:1.25rem;gap:10px;line-height:1.35}
 .footer{text-align:center;color:var(--muted);font-size:.88rem;margin-top:26px;display:grid;gap:6px;font-weight:600}
 .footer b{color:var(--rose)}
 .footer .ver{font-size:.75rem;opacity:.7}
@@ -988,6 +991,19 @@ details.howto[open] summary::after{content:"\2212"}
     <div class="hist-entry" id="histEntry" hidden><button class="linklike" id="histBtn" type="button">🗂️ Historial de salas</button></div>
   </section>
 
+  <section class="card teacher-only howto-card">
+    <details class="howto">
+      <summary>¿Cómo se juega?</summary>
+      <ol>
+        <li><strong>Crea la sala</strong> y comparte el QR o el código.</li>
+        <li><strong>Saca una galleta:</strong> ¡crack! aparece la situación.</li>
+        <li><strong>Responden en el celular:</strong> 🙋 Sí me pasa · 🙅 No me pasa.</li>
+        <li><strong>Ver recomendación</strong> y conversan: ¿por qué les ayudaría?</li>
+        <li><strong>Continuar:</strong> votan en 20 segundos y ven los resultados.</li>
+        <li><strong>Siguiente galleta.</strong> Al final, 🏁 Terminar muestra el resumen.</li>
+      </ol>
+    </details>
+  </section>
   <section class="card" id="teacherCard" hidden aria-labelledby="stageTitle">
     <div class="card-head">
       <h2 id="stageTitle">La oficina de i3sit@</h2>
@@ -1261,21 +1277,6 @@ details.howto[open] summary::after{content:"\2212"}
     </div>
   </section>
 
-  <section class="card teacher-only">
-    <details class="howto">
-      <summary>¿Cómo se juega?</summary>
-      <ol>
-        <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
-        <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece la situación crack.</li>
-        <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cada estudiante responde en su celular «¿Te suena esta situación crack?» y el docente ve cuántos dicen que sí y cuántos que no. Luego toca «Ver recomendación»: aparece la recomendación («Ponle la R») y la pregunta «¿Por qué crees que esta recomendación te ayudaría?». El grupo conversa y, cuando termina, el docente toca «Continuar» para abrir la votación.</li>
-        <li><strong>Cinco opciones y 20 segundos.</strong> Cuando el docente toca «Continuar», en el celular de cada estudiante aparecen 👍 «A la R digo Sí», 🤔 «A la R digo Sí, pero No», 🙃 «A la R digo No, pero Sí», 👎 «A la R digo No» y 💭 «¡Lo pensaré!», con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
-        <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
-        <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
-        <li><strong>Socialización.</strong> Tras los resultados aparece «¿Le damos la R?» en todas las pantallas: el grupo comparte sus razones en voz alta, moderado por el docente. Cuando el docente decide, toca «Siguiente galleta».</li>
-        <li><strong>Siguiente galleta.</strong> Al cerrar el debate, los resultados desaparecen de la pantalla. Cada galleta sale una sola vez por ronda; cuando se acaban (o cuando el docente toca «Terminar y ver el resumen final») aparece la pantalla final con el acumulado de todas las galletas: votos y porcentajes de cada opción. Desde ahí se puede hornear otra ronda, y las R se siguen sumando.</li>
-      </ol>
-    </details>
-  </section>
 </main>
 
 <footer class="footer">
@@ -2001,7 +2002,7 @@ function renderPanel(){
   btn("🏁 Terminar", finishGame, state.phase === "idle" && !state.finished && opened > 0, "main");
   btn("👥 Invitar", () => { if (typeof openInvite === "function") openInvite(); }, typeof openInvite === "function" && !!code);
   btn("🔄 Reiniciar", () => { if (window.confirm("¿Borrar todas las R y empezar de cero?")) resetGame(); }, state.phase === "idle" && (opened > 0 || state.round > 1 || state.log.length > 0));
-  btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = true; d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
+  btn("📖 Instrucciones", () => { const d = document.querySelector("details.howto"); if (d){ d.open = !d.open; if (d.open) d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); } }, true);
 }
 function renderStart(){}
 
