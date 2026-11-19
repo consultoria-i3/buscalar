@@ -835,8 +835,18 @@ details.howto[open] summary::after{content:"\2212"}
 .scene-reveal.has-rec .paper.hab .crack-badge{font-size:clamp(.75rem,1.5cqw,1rem);padding:5px 12px 4px}
 .scene-reveal.has-rec .paper.rec .label{font-size:clamp(.8rem,1.6cqw,1.05rem)}
 .scene-reveal.has-rec .paper.rec .big{font-size:clamp(1.1rem,3.2cqw,2rem);line-height:1.25}
+/* con la recomendación: todo más ancho (horizontal) y letra que cabe completa dentro de la imagen */
+.scene-reveal.has-rec{padding:1.5% 2%}
+.scene-reveal.has-rec .slip-paper{width:100%;max-width:none;gap:4px}
+.scene-reveal.has-rec .half-svg{width:clamp(44px,10cqw,110px);height:clamp(44px,10cqw,110px)}
+.scene-reveal.has-rec .paper.rec{margin:2px 0 0;transform:rotate(.4deg)}
+.scene-reveal.has-rec .paper.rec .big{font-size:clamp(.9rem,2.3cqw,1.5rem);line-height:1.22}
+.scene-reveal.has-rec .paper.hab .big{font-size:clamp(.78rem,1.7cqw,1.05rem);line-height:1.2}
 
 /* «¿Les suena esta situación crack?» en el tablero del docente, arriba de «Ver recomendación» */
+/* tras «Ver recomendación» se siguen viendo los conteos Sí me pasa / No me pasa, en versión compacta */
+.suena-box.compact{padding:8px 12px;gap:4px}
+.suena-box.compact .suena-q{font-size:.9rem}
 .suena-box{display:grid;gap:8px;justify-items:center;width:min(100%,520px);background:#fff;border:3px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 0 var(--ink);padding:12px 16px}
 .suena-q{margin:0;font-family:var(--font-display);color:var(--rose);font-size:clamp(1.05rem,2.4vw,1.4rem);text-align:center}
 .suena-counts{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
@@ -2136,7 +2146,7 @@ function renderPorque(){
   const tb = $("teacherBox"); if (!tb) return;
   tb.querySelector(".who").textContent = on ? "👀 Recomendación revelada" : "🍪 ¡Crack! Situación revelada";
   tb.querySelector(":scope > .note").hidden = true;
-  $("suenaBox").hidden = on; $("recBtn").hidden = on; $("porqueBox").hidden = !on;
+  $("suenaBox").hidden = false; $("suenaBox").classList.toggle("compact", on); $("recBtn").hidden = on; $("porqueBox").hidden = !on;
 }
 function renderSuena(){
   const el = $("suenaSi"); if (!el) return;
