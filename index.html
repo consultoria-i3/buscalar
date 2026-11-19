@@ -815,6 +815,20 @@ details.howto[open] summary::after{content:"\2212"}
 .scene-reveal.has-rec .paper.hab .crack-badge{font-size:clamp(.75rem,1.5cqw,1rem);padding:5px 12px 4px}
 .scene-reveal.has-rec .paper.rec .label{font-size:clamp(.8rem,1.6cqw,1.05rem)}
 .scene-reveal.has-rec .paper.rec .big{font-size:clamp(1.1rem,3.2cqw,2rem);line-height:1.25}
+
+/* «¿Les suena esta situación crack?» en el tablero del docente, arriba de «Ver recomendación» */
+.suena-box{display:grid;gap:8px;justify-items:center;width:min(100%,520px);background:#fff;border:3px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 0 var(--ink);padding:12px 16px}
+.suena-q{margin:0;font-family:var(--font-display);color:var(--rose);font-size:clamp(1.05rem,2.4vw,1.4rem);text-align:center}
+.suena-counts{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.suena-c{display:grid;justify-items:center;gap:2px;border:2px solid var(--ink);border-radius:14px;padding:8px 6px}
+.suena-c b{font-family:var(--font-display);font-weight:400;font-size:clamp(2rem,6vw,3rem);line-height:1}
+.suena-c span{font-weight:800;font-size:.95rem}
+.suena-c.si{background:linear-gradient(#E4FBCF,#C4EE9C)}
+.suena-c.si b{color:#2F7A12}
+.suena-c.no{background:linear-gradient(#FFE1EC,#FFC2D8)}
+.suena-c.no b{color:#C0255F}
+.suena-note{margin:0;color:var(--muted);font-weight:700;font-size:.9rem}
+.suena-opts .btn.opt .rb{font-size:1.3rem}
 </style>
 </head>
 <body>
@@ -989,6 +1003,14 @@ details.howto[open] summary::after{content:"\2212"}
         <div class="teacher-box" id="teacherBox">
           <span class="who">🍪 ¡Crack! Situación revelada</span>
           <p class="note">Lean el título y la situación crack. Cuando estén listos, muestra la recomendación: ahí empieza la cuenta regresiva.</p>
+          <div class="suena-box" id="suenaBox" aria-live="polite">
+            <p class="suena-q">¿Les suena esta situación crack?</p>
+            <div class="suena-counts">
+              <div class="suena-c si"><b id="suenaSi">0</b><span>🙋 Les suena</span></div>
+              <div class="suena-c no"><b id="suenaNo">0</b><span>🙅 No les suena</span></div>
+            </div>
+            <p class="suena-note" id="suenaNote">0 de 0 conectados respondieron</p>
+          </div>
           <button class="btn btn-xl" id="recBtn" type="button">👀 Ver recomendación</button>
         </div>
         <div class="live" id="liveBox" hidden>
@@ -1145,7 +1167,7 @@ details.howto[open] summary::after{content:"\2212"}
       <ol>
         <li><strong>Sacar una galleta.</strong> El docente toca «Sacar una galleta».</li>
         <li><strong>i3sit@ revuelve el tazón.</strong> Mete las dos manos, las galletas saltan y sale con una. La abre y aparece la situación crack.</li>
-        <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cuando el grupo lo haya leído, el docente toca «Ver recomendación» y aparece la recomendación («Ponle la R»).</li>
+        <li><strong>Título, situación crack y recomendación.</strong> Al partirse la galleta aparece su título y luego la situación crack. Cada estudiante responde en su celular «¿Te suena esta situación crack?» y el docente ve cuántos dicen que sí y cuántos que no. Luego toca «Ver recomendación» y aparece la recomendación («Ponle la R»).</li>
         <li><strong>Dos opciones y 20 segundos.</strong> Apenas aparece la recomendación, en el celular de cada estudiante aparecen «Reconozco la R» (sí, me pasa o me identifico) y «Rechazo la R» (no me pasa o no estoy de acuerdo) con una cuenta regresiva de 20 segundos (la barra y los segundos se ven también en la pantalla proyectada). El docente no vota.</li>
         <li><strong>Cierre automático.</strong> Al llegar a cero se bloquean las respuestas, se guardan los votos recibidos y quien no respondió queda como «Sin responder». Los totales aparecen en las dos pantallas; luego el docente toca «Siguiente galleta». La recomendación del material queda en la tabla de resultados, para el cierre.</li>
         <li><strong>Para que los estudiantes voten desde su celular:</strong> al crear la sala aparecen un código de 4 letras, un QR y un enlace directo. Los estudiantes escanean el QR, abren el enlace o entran a <b>buscalar.relacion.at/sala</b> y escriben el código; ponen su nombre y listo, sin cuenta. Durante la partida, el botón «Invitar participantes» vuelve a mostrar el código, el QR y el enlace; quien entre tarde se incorpora sin reiniciar nada.</li>
@@ -1567,6 +1589,7 @@ function renderSlip(){
     hab.append(h("div",{class:"stamp " + v.tone,"aria-label": v.label}, v.stamp));
   }
   $("teacherBox").hidden = state.phase !== "revealed";
+  if (state.phase === "revealed") renderSuena();
   $("liveBox").hidden = state.phase !== "advised";
   if (state.phase === "advised") renderLive();
   $("afterBox").hidden = !voted;
@@ -1590,7 +1613,7 @@ function drawCookie(){
   if (state.phase !== "idle") return;
   const pool = unopened(); if (!pool.length) return;
   const idx = rnd(pool);
-  state.current = idx; state.phase = "stirring"; state.lastVote = null; state.name = "";
+  state.current = idx; state.phase = "stirring"; state.lastVote = null; state.name = ""; state.suena = {};
   $("idleControls").hidden = true;
   $("breakBtn").disabled = true;
   clearTimers();
@@ -1600,7 +1623,7 @@ function drawCookie(){
     later(()=>{
       setScene("is-lifting","is-open");
       later(()=>{
-        state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false;
+        state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; fetchSuena();
         // la votación ya no se abre sola: el docente toca «Ver recomendación» (showRec)
       }, 650);
     }, 950);
@@ -1964,6 +1987,7 @@ async function teacherConnect(){
   const ch = sb.channel("sala-" + s.code, { config: { presence: { key: "docente-" + live.device } } });
   ch.on("presence", { event: "sync" }, ()=>{ live.students = presenceStudents(ch); onStudentsChange(); })
     .on("postgres_changes", { event: "*", schema: "public", table: "buscalar_votes", filter: "session_code=eq." + s.code }, payload => { if (payload.new) absorbVote(payload.new); })
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "buscalar_suena", filter: "session_code=eq." + s.code }, payload => { if (payload.new) absorbSuena(payload.new); })
     .subscribe(async status => {
       if (status === "SUBSCRIBED"){ try { await ch.track({ role: "docente" }); } catch(e){} pushState(); }
       else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT"){ $("roomText").textContent = "Sala " + s.code + " · reconectando…"; }
@@ -1972,6 +1996,29 @@ async function teacherConnect(){
   clearInterval(live.pollTimer);
   live.pollTimer = setInterval(()=>{ if (state.phase === "advised") fetchVotes(); }, 4000);
   onStudentsChange();
+}
+/* Respuestas a «¿Te suena esta situación crack?» (docente) */
+function absorbSuena(v){
+  if (state.phase !== "revealed" || !v) return;
+  if (v.round !== state.round || v.cookie_idx !== state.current) return;
+  state.suena = state.suena || {};
+  if (state.suena[v.device_id] === undefined){ state.suena[v.device_id] = !!v.suena; save(); }
+  renderSuena();
+}
+async function fetchSuena(){
+  if (!live.session || !sb || state.phase !== "revealed" || state.current === null) return;
+  try {
+    const { data } = await sb.from("buscalar_suena").select("device_id,suena").eq("session_code", live.session.code).eq("round", state.round).eq("cookie_idx", state.current);
+    if (data){ state.suena = state.suena || {}; data.forEach(v => { if (state.suena[v.device_id] === undefined) state.suena[v.device_id] = !!v.suena; }); save(); renderSuena(); }
+  } catch(e){}
+}
+function renderSuena(){
+  const el = $("suenaSi"); if (!el) return;
+  const vals = Object.values(state.suena || {});
+  const si = vals.filter(Boolean).length, no = vals.length - si;
+  el.textContent = si; $("suenaNo").textContent = no;
+  const studs = live.students || [];
+  $("suenaNote").textContent = `${vals.length} de ${studs.length} conectado${studs.length===1?"":"s"} respondieron`;
 }
 function absorbVote(v){
   if (state.phase !== "advised" || !v) return;
@@ -1997,6 +2044,7 @@ function onStudentsChange(){
   renderInvitePeople();
   if (typeof renderPanel === "function") renderPanel();
   if (state.phase === "advised" && state.current !== null) renderSlip();
+  if (state.phase === "revealed") renderSuena();
 }
 
 /* --- invitación: código, QR y enlace (misma información en la sala recién creada y en el diálogo «Invitar participantes») --- */
@@ -2084,10 +2132,29 @@ function renderStudent(){
   if (t.phase === "debate") box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal is-debate"}, buildDebateScene(idx, rec))));
   else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted").paper)));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.opt : null;
-  if (t.phase === "revealed"){ clearInterval(live.ticker); box.append(h("p",{class:"note"}, "Lee el título y la situación crack. Cuando el docente muestre la recomendación, aparecen las opciones y empieza la cuenta regresiva.")); return; }
+  if (t.phase === "revealed"){ clearInterval(live.ticker); studentSuenaUI(box, t); return; }
   if (t.phase === "advised"){ studentVoteUI(box, mine, live.voteEndsLocal, opt => studentVote(opt, t)); return; }
   clearInterval(live.ticker);
   if (t.phase === "voted" || t.phase === "debate") studentResultUI(box, t, mine, t.phase === "debate");
+}
+/* «¿Te suena esta situación crack?»: se pregunta mientras se ve la situación, antes de la recomendación */
+function studentSuenaUI(box, t){
+  const mine = live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx ? live.mySuena.val : null;
+  box.append(h("p",{class:"s-ask"}, "¿Te suena esta situación crack?"));
+  const bar = h("div",{class:"opts suena-opts" + (mine !== null ? " answered" : "")});
+  [[true,"btn-si","🙋","Sí, me suena","Me pasa o lo he visto."],[false,"btn-no","🙅","No me suena","No me pasa."]].forEach(([val,cls,ico,lab,desc]) =>
+    bar.append(h("button",{class:"btn btn-xl opt " + cls + (mine === val ? " chosen" : ""), type:"button", disabled: mine !== null, "aria-pressed": mine === val ? "true" : "false", onclick: ()=>studentSuena(val, t)},
+      h("span",{class:"rb","aria-hidden":"true"}, ico), h("span",{class:"opt-txt"}, h("b", null, lab), h("small", null, desc)))));
+  box.append(bar);
+  box.append(h("p",{class:"note"}, mine !== null ? "✅ Respuesta enviada. Espera: el docente va a mostrar la recomendación." : "Toca una opción. Después el docente muestra la recomendación y empieza la cuenta regresiva."));
+}
+function studentSuena(val, t){
+  if (live.mySuena && live.mySuena.round === t.round && live.mySuena.idx === t.idx) return;   // la primera respuesta es la que queda
+  live.mySuena = { round: t.round, idx: t.idx, val };
+  renderStudent();
+  if (!sb || !live.code) return;
+  sb.from("buscalar_suena").insert({ session_code: live.code, device_id: live.device, round: t.round, cookie_idx: t.idx, suena: val, nick: live.nick })
+    .then(({ error }) => { if (error && !/duplicate|unique|23505/i.test(error.message || "")) toast("No se pudo enviar tu respuesta. Intenta otra vez."); });
 }
 function studentVote(opt, t){
   if (live.voteEndsLocal - Date.now() <= 0) return;   // se acabó el tiempo: las respuestas quedan bloqueadas
