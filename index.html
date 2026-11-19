@@ -845,6 +845,10 @@ details.howto[open] summary::after{content:"\2212"}
 .s-scene .paper.hab .crack-badge{margin:-4px -10px 6px 8px}
 .paper.hab .hab-body{clear:both}
 .paper.hab .hab-body .big{margin-top:4px}
+/* la situación aparece palabra por palabra, despacio, para ir leyendo al ritmo */
+.paper.hab .big.stream .w{opacity:0;animation:wordIn .45s ease forwards;animation-delay:calc(2.4s + var(--wi) * .32s)}
+@keyframes wordIn{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
+@media (prefers-reduced-motion:reduce){.paper.hab .big.stream .w{opacity:1;animation:none}}
 @keyframes crackPop{from{opacity:0;transform:rotate(-8deg) scale(.3)}to{opacity:1;transform:rotate(6deg) scale(1)}}
 @media (prefers-reduced-motion:reduce){.paper.hab .crack-badge{animation:none}}
 
@@ -1672,7 +1676,7 @@ function cookieSvg(cls, side){
 function buildSlip(idx, rec, animate, showRec){
   const paper = h("div",{class:"slip-paper"});
   paper.append(h("div",{class:"slip-head"}, h("span",{class:"eyebrow"}, "🍪 La galleta dice"), h("span", null, "Galleta ", h("b", null, "#" + (idx+1)))));
-  const hab = h("div",{class:"paper hab"}, h("span",{class:"crack-badge"}, "¡Situación crack!"), rec.t ? h("h3",{class:"slip-title"}, rec.t) : null, h("div",{class:"hab-body"}, h("p",{class:"big"}, rec.h)));
+  const hab = h("div",{class:"paper hab"}, h("span",{class:"crack-badge"}, "¡Situación crack!"), rec.t ? h("h3",{class:"slip-title"}, rec.t) : null, h("div",{class:"hab-body"}, h("p",{class:"big" + (animate && !reduced ? " stream" : "")}, animate && !reduced ? String(rec.h).split(/(\s+)/).map((w, k) => /^\s+$/.test(w) ? w : h("span",{class:"w", style:`--wi:${k >> 1}`}, w)) : rec.h)));
   const row = h("div",{class:"cookie-slip"}, cookieSvg("half-svg left","left"), hab, cookieSvg("half-svg right","right"), h("div",{class:"crac-h","aria-hidden":"true"}, "¡CRAC!"));
   for (let i=0;i<8;i++){
     const a = (i/8)*Math.PI*2, r = 60 + Math.random()*70;
