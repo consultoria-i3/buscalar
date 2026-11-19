@@ -848,6 +848,17 @@ details.howto[open] summary::after{content:"\2212"}
 /* la situación aparece palabra por palabra, despacio, para ir leyendo al ritmo */
 .paper.hab .big.stream .w{opacity:0;animation:wordIn .45s ease forwards;animation-delay:calc(2.4s + var(--wi) * .32s)}
 @keyframes wordIn{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
+/* «¡Cómo vamos a jugar!»: letra más grande y cada paso de un color */
+.howto-card details.howto[open] ol{font-size:clamp(1.5rem,2.9vw,2.3rem);gap:clamp(14px,2.2vw,26px);list-style:none;padding-left:clamp(28px,4vw,64px);counter-reset:paso}
+.howto-card details.howto ol li{counter-increment:paso;border-radius:18px;padding:8px 18px;border:3px solid var(--ink);box-shadow:0 4px 0 0 var(--ink);font-weight:700}
+.howto-card details.howto ol li::before{content:counter(paso) ".";font-family:var(--font-display);margin-right:10px}
+.howto-card details.howto ol li strong{color:inherit}
+.howto-card details.howto ol li:nth-child(1){background:#FFD6E4;color:#B5146E}
+.howto-card details.howto ol li:nth-child(2){background:#D9F2C4;color:#2F6B12}
+.howto-card details.howto ol li:nth-child(3){background:#D6E8FF;color:#1D4F91}
+.howto-card details.howto ol li:nth-child(4){background:#FFE6B8;color:#9A4A06}
+.howto-card details.howto ol li:nth-child(5){background:#E8DAFB;color:#5B2A9A}
+.howto-card summary{font-size:clamp(1.6rem,2.6vw,2.2rem)!important}
 @media (prefers-reduced-motion:reduce){.paper.hab .big.stream .w{opacity:1;animation:none}}
 @keyframes crackPop{from{opacity:0;transform:rotate(-8deg) scale(.3)}to{opacity:1;transform:rotate(6deg) scale(1)}}
 @media (prefers-reduced-motion:reduce){.paper.hab .crack-badge{animation:none}}
