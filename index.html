@@ -339,7 +339,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 .cbox-tag b{font-family:var(--font-display);font-weight:400;font-size:1.2rem;margin-right:2px}
 .cbox-note{position:relative;z-index:2;justify-self:center;margin-top:22px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 16px;font-weight:800;font-size:.88rem;color:var(--ink);text-align:center}
 @media (prefers-reduced-motion:reduce){.cbox-ck{animation:none}}
-/* ---------- Mi última R ---------- */
+/* ---------- Lo que me llevo ---------- */
 .btn-reflect{background:linear-gradient(#D7A8F0,#9B4DCA);color:#fff}
 .reflect-card{border-color:#9B4DCA;box-shadow:0 8px 0 0 #9B4DCA;background:linear-gradient(#FFFFFF,#FBF3FF)}
 .reflect-q{margin:0 0 12px;font-family:var(--font-display);font-size:1.35rem;line-height:1.3;color:#7A3E8E;text-align:center}
@@ -1275,13 +1275,13 @@ details.howto[open] summary::after{content:"\2212"}
 
   <section class="card teacher-only reflect-card" id="reflectCard" hidden aria-labelledby="reflectTitle">
     <div class="card-head">
-      <h2 id="reflectTitle">✨ Mi última R</h2>
+      <h2 id="reflectTitle">✨ Lo que me llevo</h2>
       <span class="hint">Reflexión personal y opcional · solo la ve el docente</span>
     </div>
     <p class="reflect-q">¿Qué te llevas de esta experiencia y cómo puedes aplicarlo en tus relaciones laborales?</p>
     <div class="reflect-stats" id="reflectStats"></div>
     <div class="reflect-list" id="reflectList"></div>
-    <div class="toolbar" style="margin-top:12px"><button class="btn btn-sm" id="reflectCloseBtn" type="button">Cerrar «Mi última R» en los celulares</button></div>
+    <div class="toolbar" style="margin-top:12px"><button class="btn btn-sm" id="reflectCloseBtn" type="button">Cerrar «Lo que me llevo» en los celulares</button></div>
   </section>
 
   <section class="card teacher-only" id="salaCard" hidden aria-labelledby="salaTitle">
@@ -1348,7 +1348,7 @@ details.howto[open] summary::after{content:"\2212"}
     <div class="summary" id="tableSummary"></div>
     <div class="table" id="table"></div>
     <div class="toolbar" style="margin-top:14px">
-      <button class="btn btn-sm btn-reflect" id="reflectBtn" type="button" hidden>✨ Abrir «Mi última R»</button>
+      <button class="btn btn-sm btn-reflect" id="reflectBtn" type="button" hidden>✨ Abrir «Lo que me llevo»</button>
       <button class="btn btn-sm" id="resumeBtn" type="button" hidden>🍪 Volver al juego</button>
       <button class="btn btn-sm" id="newRoundBtn2" type="button" hidden>🔥 Hornear otra ronda</button>
       <span class="sep"></span>
@@ -1535,21 +1535,21 @@ function syncVoteClock(t){
   const key = t.round + ":" + t.idx + ":" + t.voteEnds;
   if (live.voteKey !== key){ live.voteKey = key; live.voteEndsLocal = Date.now() + Math.max(0, t.voteEnds - (t.sent || t.voteEnds - VOTE_SECS * 1000)); }
 }
-/* «Mi última R» en el celular: opcional y privada (solo la ve el docente) */
+/* «Lo que me llevo» en el celular: opcional y privada (solo la ve el docente) */
 const REFLECT_Q = "¿Qué te llevas de esta experiencia y cómo puedes aplicarlo en tus relaciones laborales?";
 function studentReflectUI(box, code, onSave){
   let mine = null; try { mine = JSON.parse(localStorage.getItem("buscalar-reflect-" + code) || "null"); } catch(e){}
-  const wrap = h("div",{class:"s-reflect"}, h("div",{class:"t"}, "✨ Mi última R"), h("p",{class:"q"}, REFLECT_Q));
+  const wrap = h("div",{class:"s-reflect"}, h("div",{class:"t"}, "✨ Lo que me llevo"), h("p",{class:"q"}, REFLECT_Q));
   if (mine && !live.reflectEdit){
-    wrap.append(h("p",{class:"s-done"}, mine.skipped ? "Omitiste la reflexión. ¡Gracias por participar!" : "✅ ¡Gracias! Tu última R quedó guardada."));
+    wrap.append(h("p",{class:"s-done"}, mine.skipped ? "Omitiste la reflexión. ¡Gracias por participar!" : "✅ ¡Gracias! Quedó guardado lo que te llevas."));
     if (!mine.skipped) wrap.append(h("p",{class:"note", style:"white-space:pre-wrap;margin:0"}, mine.text));
     wrap.append(h("p",{class:"priv"}, "🔒 Solo la ve tu docente; tus compañeros no pueden verla."));
-    wrap.append(h("button",{class:"linklike", type:"button", onclick: ()=>{ live.reflectEdit = true; renderStudent(); }}, mine.skipped ? "Escribirla de todas formas" : "Editar mi última R"));
+    wrap.append(h("button",{class:"linklike", type:"button", onclick: ()=>{ live.reflectEdit = true; renderStudent(); }}, mine.skipped ? "Escribirla de todas formas" : "Editar lo que me llevo"));
     box.append(wrap); return;
   }
   const ta = h("textarea",{maxlength:"2000", placeholder:"Escribe aquí tu reflexión (opcional)", "aria-label": REFLECT_Q});
   if (mine && !mine.skipped) ta.value = mine.text || "";
-  const save = h("button",{class:"btn btn-xl btn-reflect", type:"button", disabled: !ta.value.trim()}, "Guardar mi última R");
+  const save = h("button",{class:"btn btn-xl btn-reflect", type:"button", disabled: !ta.value.trim()}, "Guardar lo que me llevo");
   ta.addEventListener("input", ()=>{ save.disabled = !ta.value.trim(); });
   save.addEventListener("click", ()=>{ const text = ta.value.trim(); if (!text) return; save.disabled = true; onSave({ text, skipped:false }); });
   const skip = h("button",{class:"linklike", type:"button", onclick: ()=> onSave({ text:"", skipped:true })}, "Omitir reflexión");
@@ -1925,7 +1925,7 @@ function finishGame(){
   $("resultados").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
 function resumeGame(){ state.finished = false; state.reflect = false; save(); renderAll(); }
-/* «Mi última R»: el docente la abre después del resumen final; cada estudiante responde (u omite) en su celular */
+/* «Lo que me llevo»: el docente la abre después del resumen final; cada estudiante responde (u omite) en su celular */
 function openReflection(){ state.reflect = true; save(); renderAll(); live.broadcast(); if (typeof fetchReflections === "function") fetchReflections(); const c = $("reflectCard"); if (c && !c.hidden) c.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); }
 function closeReflection(){ state.reflect = false; save(); renderAll(); live.broadcast(); }
 function renderReflectCard(){
@@ -2389,14 +2389,14 @@ function renderLive(){
 function i3Head(t){
   const say = !t ? "¡Hola! Espera al docente." :
     t.playing === false ? "¡Ya estás en la sala!" :
-    t.reflect ? "¡Cuéntame tu R!" :
+    t.reflect ? "" :
     t.finished ? "¡Gracias por jugar!" :
     (!t.phase || t.phase === "idle") ? "¡Atentos! Voy a sacar una galleta." :
     t.phase === "stirring" ? "Mmm… ¿cuál será?" :
     t.phase === "lifting" ? "¡Esta!" :
     t.phase === "revealed" ? (t.recShown ? "¡Conversemos en grupo!" : "¡Crack! Lee la galleta.") :
     t.phase === "advised" ? "¡Elige tu R!" : "¡A conversar!";
-  return h("div",{class:"s-i3"}, h("div",{class:"s-i3-pic", role:"img", "aria-label":"i3sit@"}), h("div",{class:"s-i3-bubble"}, say));
+  return h("div",{class:"s-i3"}, h("div",{class:"s-i3-pic", role:"img", "aria-label":"i3sit@"}), say ? h("div",{class:"s-i3-bubble"}, say) : null);
 }
 function renderStudent(){
   renderStudentShell();
@@ -2513,7 +2513,7 @@ function initLive(){
   if (live.mode === "teacher" && state.started) teacherConnect();
 }
 
-/* --- «Mi última R» --- */
+/* --- «Lo que me llevo» --- */
 async function saveReflection(r){
   if (!sb || !live.code) return;
   try {
@@ -2586,7 +2586,7 @@ async function histDetail(code){
   box.append(h("h3", null, `Galletas trabajadas (${d.results.length})`), d.results.length ? res : h("div",{class:"reflect-empty"}, "Sin galletas trabajadas."));
   const ok = d.reflections.filter(x => !x.skipped), om = d.reflections.filter(x => x.skipped).length;
   const rl = h("div",{class:"reflect-list"}); ok.forEach(x => rl.append(h("div",{class:"reflect-item"}, h("span",{class:"who"}, "✨ " + (x.nick || "Estudiante")), h("p", null, x.text))));
-  box.append(h("h3", null, `Mi última R · ${ok.length} reflexiones, ${om} omitidas`), ok.length ? rl : h("div",{class:"reflect-empty"}, "Sin reflexiones."));
+  box.append(h("h3", null, `Lo que me llevo · ${ok.length} reflexiones, ${om} omitidas`), ok.length ? rl : h("div",{class:"reflect-empty"}, "Sin reflexiones."));
   box.append(h("div",{class:"hist-danger"}, h("button",{class:"btn btn-sm btn-del", type:"button", onclick: ()=> histDelete(d.code)}, "🗑️ Borrar esta sala"),
     h("span",{class:"note"}, "Borra la sala con sus participantes, votos, resultados y reflexiones. No se puede deshacer.")));
 }
