@@ -2303,8 +2303,8 @@ function renderStudent(){
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
   // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
-  if (t.phase === "debate") box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal is-debate"}, buildDebateScene(idx, rec))));
-  else box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted" || (t.phase === "revealed" && !!t.recShown)).paper)));
+  // en la socialización el estudiante no ve la pantalla «¿Le damos la R?»: sigue viendo la galleta con la recomendación
+  box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted" || t.phase === "debate" || (t.phase === "revealed" && !!t.recShown)).paper)));
   const mine = live.myVote && live.myVote.round === t.round && live.myVote.idx === idx ? live.myVote.opt : null;
   if (t.phase === "revealed"){ clearInterval(live.ticker); if (t.recShown) studentPorqueUI(box); else studentSuenaUI(box, t); return; }
   if (t.phase === "advised"){ studentVoteUI(box, mine, live.voteEndsLocal, opt => studentVote(opt, t)); return; }
