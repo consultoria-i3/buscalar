@@ -167,7 +167,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 #bubble.pop{animation:pop .45s cubic-bezier(.2,1.4,.3,1) both}
 @keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
 
-/* Galleta grande partida con el hábito, sobre la escena (docente) o sobre la foto de la oficina (estudiante) */
+/* Galleta grande partida con el hábito, sobre la escena (coach) o sobre la foto de la oficina (estudiante) */
 .scene-wrap{container-type:inline-size}
 .scene-reveal{position:absolute;inset:0;display:grid;place-items:center;padding:3% 5%;pointer-events:none;overflow:hidden;
   background:radial-gradient(ellipse 60% 72% at 50% 52%,rgba(255,255,255,.95) 0%,rgba(255,245,249,.9) 36%,rgba(255,236,243,.55) 64%,rgba(255,236,243,0) 100%)}
@@ -207,7 +207,7 @@ main{max-width:980px;margin:0 auto;display:grid;gap:22px}
 
 /* Controles bajo la escena */
 .controls{display:grid;gap:16px;justify-items:center;margin-top:16px}
-/* Pantalla del docente horizontal en pantallas anchas: imagen a la izquierda, controles (¿Les suena?, recomendación, votación) a la derecha, todo sin bajar */
+/* Pantalla del coach horizontal en pantallas anchas: imagen a la izquierda, controles (¿Les suena?, recomendación, votación) a la derecha, todo sin bajar */
 @media (min-width:1100px){
   main{max-width:min(1800px,98vw)}
   #teacherCard:has(#controls:not([hidden])){display:grid;grid-template-columns:minmax(0,3.2fr) minmax(240px,1fr);column-gap:16px;align-items:center}
@@ -476,7 +476,7 @@ dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
 .toolbar .sep{flex:1 1 10px}
 .confirm{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--pinkt);border:2px solid var(--pink);border-radius:14px;padding:6px 12px;font-size:.92rem;font-weight:700}
 
-/* Nombres de los conectados en la pantalla del docente */
+/* Nombres de los conectados en la pantalla del coach */
 .people-strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-end;margin:4px 0 10px}
 .people-strip .lab{font-weight:800;font-size:.85rem;color:var(--muted);margin-right:2px}
 .people-strip .chip{padding:2px 10px;font-size:.82rem}
@@ -516,7 +516,7 @@ dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
 .total.re .big-n{color:#B5461B}
 .total.nr{background:#F4F1F6;border-color:#9A8FB0}
 .total.nr .big-n{color:#6F6A8E}
-/* Cronómetro de la votación: barra que se vacía y segundos restantes (docente y estudiantes) */
+/* Cronómetro de la votación: barra que se vacía y segundos restantes (coach y estudiantes) */
 .timer{display:grid;gap:6px;justify-items:center;width:min(100%,460px)}
 .timer .secs{font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--rose);font-variant-numeric:tabular-nums}
 .timer .secs small{font-family:var(--font-body);font-size:1rem;font-weight:800;color:var(--muted);margin-left:4px}
@@ -543,7 +543,7 @@ dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
 .total .sub{font-size:.8rem;font-weight:600;color:var(--muted);text-align:center;line-height:1.2}
 .total .pct{font-family:var(--font-display);font-size:1.25rem;line-height:1;color:var(--muted);margin-top:-2px}
 .bar.share{width:min(100%,520px);height:16px;margin:2px auto 0}
-/* ---------- La Regla de la R (termómetro de resultados, pantalla del docente) ---------- */
+/* ---------- La Regla de la R (termómetro de resultados, pantalla del coach) ---------- */
 .regla-wrap{width:min(100%,640px)}
 .regla{border:3px solid var(--ink);border-radius:22px;background:#fff;box-shadow:0 6px 0 0 var(--line);padding:14px 18px 12px;display:grid;gap:10px;animation:popIn .5s cubic-bezier(.2,.9,.3,1.3) both}
 .regla-head{font-family:var(--font-display);font-size:1.15rem;letter-spacing:.03em;color:var(--rose);text-align:center}
@@ -652,7 +652,7 @@ dialog.hist-dlg::backdrop{background:rgba(59,34,56,.45)}
 .dz-regla .regla-legend .nm small{font-size:clamp(.7rem,1.3cqw,.85rem)}
 .dz-regla .regla-foot{font-size:clamp(.72rem,1.4cqw,.92rem)}
 .after.is-debate #totalsBox{display:none}
-/* Debajo de la escena: resultados compactos + acción principal del docente */
+/* Debajo de la escena: resultados compactos + acción principal del coach */
 .after.is-debate .totals .total{padding:10px;animation:none}
 .after.is-debate .totals .total .big-n{font-size:2.2rem}
 .after.is-debate .result{font-size:.95rem;opacity:.85}
@@ -712,7 +712,7 @@ body.is-start .float-cookies{display:block}
 @keyframes floatUp{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-55vh) translateX(18px) rotate(180deg)}100%{transform:translateY(-115vh) translateX(-10px) rotate(360deg)}}
 .brand,main{position:relative;z-index:1}
 
-/* Inicio del docente */
+/* Inicio del coach */
 .start-form{display:grid;gap:12px;max-width:520px;margin:0 auto;justify-items:stretch}
 .start-form .field{max-width:none}
 .start-form .votebar{margin-top:4px}
@@ -754,7 +754,7 @@ dialog.invite-dlg .card-head{margin-bottom:14px}
 dialog.invite-dlg h2{font-family:var(--font-display);font-weight:400;font-size:1.35rem;letter-spacing:.03em;color:var(--rose)}
 body.is-student .teacher-note{display:none}
 .head-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-/* Panel de control del docente */
+/* Panel de control del coach */
 .panel{padding:14px 18px}
 .panel-grid{display:grid;grid-template-columns:1.05fr 1.5fr 1.15fr;gap:12px}
 @media (max-width:900px){.panel-grid{grid-template-columns:1fr}}
@@ -900,7 +900,7 @@ details.howto[open] summary::after{content:"\2212"}
 #teacherCard > .suena-box .suena-q{display:none}
 #sceneWrap .scene-reveal:not(.has-rec) .paper.hab::after{animation:wordIn .5s ease both;animation-delay:var(--sd,0s)}
 
-/* «¿Les suena esta situación crack?» en el tablero del docente, arriba de «Ver recomendación» */
+/* «¿Les suena esta situación crack?» en el tablero del coach, arriba de «Ver recomendación» */
 /* tras «Ver recomendación» se siguen viendo los conteos Sí me pasa / No me pasa, en versión compacta */
 /* «¿Por qué crees que esta recomendación te ayudaría?» va arriba del botón, sin recuadro alrededor */
 .porque-box{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
@@ -950,7 +950,7 @@ details.howto[open] summary::after{content:"\2212"}
 #teacherCard > .suena-box .suena-note{font-size:.8rem;white-space:nowrap}
 .suena-opts .btn.opt .rb{font-size:1.3rem}
 
-/* «¿Por qué crees que esta recomendación te ayudaría?» (docente y estudiante) */
+/* «¿Por qué crees que esta recomendación te ayudaría?» (coach y estudiante) */
 .porque-box{display:grid;gap:10px;justify-items:center;width:min(100%,620px);background:#FFF6EE;border:3px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 0 var(--ink);padding:14px 18px}
 .porque-q{margin:0;font-family:var(--font-display);color:#B5461B;font-size:clamp(1.2rem,3vw,1.8rem);line-height:1.15;text-align:center}
 .porque-box .note{margin:0;text-align:center}
@@ -1026,14 +1026,14 @@ details.howto[open] summary::after{content:"\2212"}
       <span class="pill" id="sPill"><span class="dot"></span><span id="sPillText">Conectando…</span></span>
     </div>
     <div class="s-info" id="sInfo"></div>
-    <div class="s-missing" id="sMissing" hidden>Esa sala no existe o ya se cerró. Revisa el código con el docente.</div>
+    <div class="s-missing" id="sMissing" hidden>Esa sala no existe o ya se cerró. Revisa el código con el coach.</div>
     <form class="field s-join" id="codeForm" autocomplete="off" hidden>
       <label for="codeInput">Código de la sala</label>
       <div class="nick-row">
         <input id="codeInput" type="text" maxlength="4" placeholder="ABCD" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
         <button class="btn btn-si btn-sm" type="submit" id="codeBtn" disabled>Entrar</button>
       </div>
-      <p class="note">Son 4 letras. Pídele el código o escanea el QR que muestra el docente.</p>
+      <p class="note">Son 4 letras. Pídele el código o escanea el QR que muestra el coach.</p>
     </form>
     <form class="field nick-form" id="nickForm" autocomplete="off">
       <label for="nickInput">Tu nombre</label>
@@ -1263,7 +1263,7 @@ details.howto[open] summary::after{content:"\2212"}
     </form>
     <div id="histBody" hidden>
       <div class="hist-filters">
-        <input id="histQ" type="search" placeholder="Buscar por módulo, docente o código">
+        <input id="histQ" type="search" placeholder="Buscar por módulo, coach o código">
         <label>Desde <input id="histFrom" type="date"></label>
         <label>Hasta <input id="histTo" type="date"></label>
       </div>
@@ -1276,7 +1276,7 @@ details.howto[open] summary::after{content:"\2212"}
   <section class="card teacher-only reflect-card" id="reflectCard" hidden aria-labelledby="reflectTitle">
     <div class="card-head">
       <h2 id="reflectTitle">✨ Lo que me llevo</h2>
-      <span class="hint">Reflexión personal y opcional · solo la ve el docente</span>
+      <span class="hint">Reflexión personal y opcional · solo la ve el coach</span>
     </div>
     <p class="reflect-q">¿Qué te llevas de esta experiencia y cómo puedes aplicarlo en tus relaciones laborales?</p>
     <div class="reflect-stats" id="reflectStats"></div>
@@ -1408,7 +1408,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 /* ---------- Estado ---------- */
 const LS_KEY = "galleta-de-la-r-v3";
 const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-/* started: la sala ya existe (el docente llenó módulo y nombre). playing: la partida arrancó (en el sitio hay una pantalla de invitación entre ambas). */
+/* started: la sala ya existe (el coach llenó módulo y nombre). playing: la partida arrancó (en el sitio hay una pantalla de invitación entre ambas). */
 const fresh = () => ({ started:false, playing:false, modulo:"", docente:"", opened:[], tally:{}, log:[], round:1, picked:null, current:null, phase:"idle", lastVote:null, lastVerdict:null, lastCounts:null, name:"", liveVotes:{}, voteEnds:null, finished:false });
 let state = fresh();
 let timers = [];
@@ -1469,7 +1469,7 @@ function pct100(vals){
   return base;
 }
 /* «La Regla de la R»: termómetro vertical que se llena desde abajo con Reconozco y Rechazo.
-   Solo cantidades y porcentajes: nunca nombres (anónimo). Se usa en la pantalla del docente. */
+   Solo cantidades y porcentajes: nunca nombres (anónimo). Se usa en la pantalla del coach. */
 function buildRegla(c){
   const order = OPTS.slice();               // de abajo hacia arriba: Sí, Sí pero No, No pero Sí, No
   const vals = order.map(o => c[o.key] || 0), valid = vals.reduce((a, b) => a + b, 0), pcts = pct100(vals);
@@ -1529,13 +1529,13 @@ function studentVoteUI(box, mine, endsAt, onVote){
   if (over){ timer.classList.add("over"); timer.querySelector(".n").textContent = "0"; timer.querySelector(".fill").style.width = "0%"; }
   else live.ticker = runTimer(timer, endsAt, ()=> renderStudent());   // al llegar a cero se vuelve a pintar con las respuestas bloqueadas
 }
-/* El reloj de la votación en el celular: el docente manda cuánto falta (voteEnds - sent) y se cuenta desde que llega */
+/* El reloj de la votación en el celular: el coach manda cuánto falta (voteEnds - sent) y se cuenta desde que llega */
 function syncVoteClock(t){
   if (!t || t.phase !== "advised" || !t.voteEnds){ live.voteKey = null; return; }
   const key = t.round + ":" + t.idx + ":" + t.voteEnds;
   if (live.voteKey !== key){ live.voteKey = key; live.voteEndsLocal = Date.now() + Math.max(0, t.voteEnds - (t.sent || t.voteEnds - VOTE_SECS * 1000)); }
 }
-/* «Lo que me llevo» en el celular: opcional y privada (solo la ve el docente) */
+/* «Lo que me llevo» en el celular: opcional y privada (solo la ve el coach) */
 const REFLECT_Q = "¿Qué te llevas de esta experiencia y cómo puedes aplicarlo en tus relaciones laborales?";
 function studentReflectUI(box, code, onSave){
   let mine = null; try { mine = JSON.parse(localStorage.getItem("buscalar-reflect-" + code) || "null"); } catch(e){}
@@ -1543,7 +1543,7 @@ function studentReflectUI(box, code, onSave){
   if (mine && !live.reflectEdit){
     wrap.append(h("p",{class:"s-done"}, mine.skipped ? "Omitiste la reflexión. ¡Gracias por participar!" : "✅ ¡Gracias! Quedó guardado lo que te llevas."));
     if (!mine.skipped) wrap.append(h("p",{class:"note", style:"white-space:pre-wrap;margin:0"}, mine.text));
-    wrap.append(h("p",{class:"priv"}, "🔒 Solo la ve tu docente; tus compañeros no pueden verla."));
+    wrap.append(h("p",{class:"priv"}, "🔒 Solo la ve tu coach; tus compañeros no pueden verla."));
     wrap.append(h("button",{class:"linklike", type:"button", onclick: ()=>{ live.reflectEdit = true; renderStudent(); }}, mine.skipped ? "Escribirla de todas formas" : "Editar lo que me llevo"));
     box.append(wrap); return;
   }
@@ -1553,13 +1553,13 @@ function studentReflectUI(box, code, onSave){
   ta.addEventListener("input", ()=>{ save.disabled = !ta.value.trim(); });
   save.addEventListener("click", ()=>{ const text = ta.value.trim(); if (!text) return; save.disabled = true; onSave({ text, skipped:false }); });
   const skip = h("button",{class:"linklike", type:"button", onclick: ()=> onSave({ text:"", skipped:true })}, "Omitir reflexión");
-  wrap.append(ta, save, h("div",{style:"text-align:center"}, skip), h("p",{class:"priv"}, "🔒 Es opcional y privada: solo la ve tu docente."));
+  wrap.append(ta, save, h("div",{style:"text-align:center"}, skip), h("p",{class:"priv"}, "🔒 Es opcional y privada: solo la ve tu coach."));
   box.append(wrap);
 }
 /* Pantalla del estudiante al cerrar: totales, veredicto y su propia respuesta */
 function studentResultUI(box, t, mine, debate){
   const c = { pro: t.pro || 0, sn: t.sn || 0, ns: t.ns || 0, con: t.con || 0, re: t.re || 0, nr: t.nr || 0 };
-  // En el celular no se muestran porcentajes (solo en la pantalla del docente)
+  // En el celular no se muestran porcentajes (solo en la pantalla del coach)
   if (!debate) box.append(buildTotals(c, true));
   const v = verdictOf(c);
   box.append(h("p",{class:"s-done " + v.tone}, v.label + (mine && OPT[normOpt(mine)] ? ` · tú: ${OPT[normOpt(mine)].emoji} ${OPT[normOpt(mine)].label}` : " · tú quedaste sin responder")));
@@ -1570,7 +1570,7 @@ function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 const SHOWING = ["revealed","advised","voted","debate"];
 const DEBATE_TITLE = "¿Le damos la R?";
 const DEBATE_MSG = "Es momento de compartir nuestras razones, escuchar otras perspectivas y descubrir si mantenemos nuestra postura o nos replanteamos la R.";
-/* Composición de la socialización (misma pieza en la escena del docente y en el celular): sin preguntas, votos ni respuestas correctas */
+/* Composición de la socialización (misma pieza en la escena del coach y en el celular): sin preguntas, votos ni respuestas correctas */
 /* Franja de la galleta en la socialización: título, situación crack y recomendación */
 function dzCard(idx, rec){
   return h("div",{class:"dz-hab dz-card"}, cookieSvg(null, null),
@@ -1674,7 +1674,7 @@ function renderStage(){
     $("startCard").hidden = state.started; $("teacherCard").hidden = !playing;
     document.querySelectorAll(".teacher-only:not(#startCard):not(#salaCard):not(#reflectCard)").forEach(el => el.hidden = !playing);
     const sala = $("salaCard"); if (sala) sala.hidden = !(state.started && !state.playing);
-    // El resumen acumulado solo se ve en la pantalla final (al terminar la ronda o cuando el docente la termina); durante el juego queda oculto
+    // El resumen acumulado solo se ve en la pantalla final (al terminar la ronda o cuando el coach la termina); durante el juego queda oculto
     const roundOver = pool.length === 0 && state.phase === "idle" && state.opened.length > 0;
     const finalScreen = playing && (state.finished || roundOver);
     $("resultados").hidden = !finalScreen;
@@ -1685,7 +1685,7 @@ function renderStage(){
   }
   $("controls").hidden = !state.started;
   const si = $("sessionInfo"); si.replaceChildren();
-  if (state.modulo || state.docente) si.append("Módulo: ", h("b", null, state.modulo || "—"), " · Docente: ", h("b", null, state.docente || "—"));
+  if (state.modulo || state.docente) si.append("Módulo: ", h("b", null, state.modulo || "—"), " · Coach: ", h("b", null, state.docente || "—"));
   const showing = SHOWING.includes(state.phase);
   if (showing) setScene("is-lifting","is-open"); else if (state.phase === "idle" && !returning) setScene();
   $("idleControls").hidden = !(state.phase === "idle" && pool.length > 0);
@@ -1704,7 +1704,7 @@ function renderStage(){
   renderPanel();
 }
 
-/* Galleta grande partida en dos con el hábito en el centro (misma pieza en la pantalla del docente y en el celular).
+/* Galleta grande partida en dos con el hábito en el centro (misma pieza en la pantalla del coach y en el celular).
    animate=true: entra creciendo desde la mano, las mitades se separan y el papel se abre. */
 function cookieSvg(cls, side){
   const svg = document.createElementNS(SVG_NS,"svg");
@@ -1792,11 +1792,11 @@ function renderSlip(){
   }
   $("debateBox").hidden = !debate;
   $("afterBox").classList.toggle("is-debate", debate);
-  $("nextBtn").hidden = !debate;   // el docente avanza solo desde el debate
+  $("nextBtn").hidden = !debate;   // el coach avanza solo desde el debate
   renderPanel();
 }
 
-/* Sonido «¡crack!» al partirse la galleta: se genera con Web Audio (sin archivos). El contexto se crea con el clic del docente para que el navegador lo deje sonar. */
+/* Sonido «¡crack!» al partirse la galleta: se genera con Web Audio (sin archivos). El contexto se crea con el clic del coach para que el navegador lo deje sonar. */
 let crackCtx = null;
 function crackAudio(){
   try { if (!crackCtx) crackCtx = new (window.AudioContext || window.webkitAudioContext)(); if (crackCtx.state === "suspended") crackCtx.resume(); } catch(e){ crackCtx = null; }
@@ -1841,13 +1841,13 @@ function drawCookie(){
       later(()=>{
         state.phase = "revealed"; save(); renderStage(); $("breakBtn").disabled = false; fetchSuena();
         startSuenaTimer();   // 20 segundos para que los estudiantes respondan «Sí me pasa / No me pasa»
-        // la votación ya no se abre sola: el docente toca «Ver recomendación» (showRec)
+        // la votación ya no se abre sola: el coach toca «Ver recomendación» (showRec)
       }, 650);
     }, 950);
   }, 1600);
 }
 
-/* El docente toca «Ver recomendación»: aparece la recomendación y se abre la votación de 20 s en todas las pantallas */
+/* El coach toca «Ver recomendación»: aparece la recomendación y se abre la votación de 20 s en todas las pantallas */
 function showRec(){
   if (state.phase !== "revealed" || state.recShown) return;
   state.recShown = true; save();   // aparece la recomendación y la pregunta «¿Por qué…?»; la votación espera a «Continuar»
@@ -1898,7 +1898,7 @@ function closeVote(){
   openDebate();   // los resultados aparecen directamente dentro de la socialización
 }
 
-/* Socialización: conversación oral y libre moderada por el docente; sin preguntas ni votaciones nuevas */
+/* Socialización: conversación oral y libre moderada por el coach; sin preguntas ni votaciones nuevas */
 function openDebate(){
   if (state.phase !== "voted") return;
   state.phase = "debate"; save();
@@ -1925,7 +1925,7 @@ function finishGame(){
   $("resultados").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
 function resumeGame(){ state.finished = false; state.reflect = false; save(); renderAll(); }
-/* «Lo que me llevo»: el docente la abre después del resumen final; cada estudiante responde (u omite) en su celular */
+/* «Lo que me llevo»: el coach la abre después del resumen final; cada estudiante responde (u omite) en su celular */
 function openReflection(){ state.reflect = true; save(); renderAll(); live.broadcast(); if (typeof fetchReflections === "function") fetchReflections(); const c = $("reflectCard"); if (c && !c.hidden) c.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); }
 function closeReflection(){ state.reflect = false; save(); renderAll(); live.broadcast(); }
 function renderReflectCard(){
@@ -1951,8 +1951,8 @@ function newRound(){
 }
 
 function resetGame(){
-  const started = state.started, playing = state.playing, modulo = state.modulo, docente = state.docente;
-  state = fresh(); state.started = started; state.playing = playing; state.modulo = modulo; state.docente = docente; save(); renderAll(); resetSessionRemote(); pushState();
+  const started = state.started, playing = state.playing, modulo = state.modulo, coach = state.docente;
+  state = fresh(); state.started = started; state.playing = playing; state.modulo = modulo; state.docente = coach; save(); renderAll(); resetSessionRemote(); pushState();
   toast("Juego reiniciado");
 }
 
@@ -2042,7 +2042,7 @@ function renderReset(){
 
 function renderAll(){ renderStage(); renderTray(); renderTable(); renderReset(); renderReflectCard(); }
 
-/* ---------- Panel de control del docente ----------
+/* ---------- Panel de control del coach ----------
    Lee el estado y llama a las funciones que ya existen (no agrega lógica ni toca la sincronización).
    STAGES es la lista ordenada de etapas: para una fase futura basta con agregar una entrada aquí. */
 const STAGES = [
@@ -2056,7 +2056,7 @@ const STAGES = [
   { id:"final",     icon:"🏆", label:"Resumen",   is: () => state.playing && (state.finished || (state.phase === "idle" && unopened().length === 0 && state.opened.length > 0)) }
 ];
 const stageIndex = () => { const i = STAGES.findIndex(st => st.is()); return i < 0 ? 0 : i; };
-/* Qué pasa después y quién lo dispara (auto = sin intervención del docente) */
+/* Qué pasa después y quién lo dispara (auto = sin intervención del coach) */
 function nextStep(){
   const st = STAGES[stageIndex()].id, left = unopened().length;
   switch (st){
@@ -2086,7 +2086,7 @@ function renderPanel(){
   const n = live.students.length;
   const pp = $("pPeople"); pp.textContent = n ? `${n} participante${n===1?"":"s"}` : "sin participantes"; pp.classList.toggle("on", n > 0);
   const meta = $("pMeta"); meta.replaceChildren();
-  if (state.modulo || state.docente) meta.append("Módulo: ", h("b", null, state.modulo || "—"), " · Docente: ", h("b", null, state.docente || "—"));
+  if (state.modulo || state.docente) meta.append("Módulo: ", h("b", null, state.modulo || "—"), " · Coach: ", h("b", null, state.docente || "—"));
   const opened = state.opened.length, left = unopened().length;
   const counter = $("pCounter"); counter.replaceChildren("Ronda ", h("b", null, state.round), " · ", h("b", null, opened), ` de ${RECS.length} abiertas · quedan `, h("b", null, left));
   // Etapa actual
@@ -2116,7 +2116,7 @@ function beginGame(){
   $("breakBtn").focus({preventScroll:true});
 }
 
-/* ---------- Vista del estudiante (celular): solo su pantalla, nunca el panel del docente ---------- */
+/* ---------- Vista del estudiante (celular): solo su pantalla, nunca el panel del coach ---------- */
 function showStudentView(){
   live.mode = "student";
   document.body.classList.remove("is-start"); document.body.classList.add("is-student");
@@ -2127,7 +2127,7 @@ function showStudentView(){
 }
 function renderStudentShell(){
   const t = live.teacher, info = $("sInfo"); info.replaceChildren();
-  if (t && (t.modulo || t.docente)) info.append("Módulo: ", h("b", null, t.modulo || "—"), " · Docente: ", h("b", null, t.docente || "—"));
+  if (t && (t.modulo || t.docente)) info.append("Módulo: ", h("b", null, t.modulo || "—"), " · Coach: ", h("b", null, t.docente || "—"));
   else if (live.code) info.append("Sala ", h("b", null, live.code));
   const askCode = !!live.site && (!live.code || !!live.missing);  // en el sitio: sin código (o código inválido) se pide el código primero
   $("sMissing").hidden = !live.missing;
@@ -2157,8 +2157,8 @@ function wireNick(onRegister){
   renderStudentShell();
 }
 
-/* ---------- Sala en vivo con Supabase: el docente proyecta, los estudiantes votan desde su celular ----------
-   Rutas:  /                → panel del docente (crea y controla la sala; el secreto de la sala vive solo en su navegador)
+/* ---------- Sala en vivo con Supabase: el coach proyecta, los estudiantes votan desde su celular ----------
+   Rutas:  /                → panel del coach (crea y controla la sala; el secreto de la sala vive solo en su navegador)
            /sala            → pantalla del estudiante: pide el código de 4 letras
            /sala/ABCD       → pantalla del estudiante ya dentro de la sala ABCD (es lo que llevan el QR y el enlace de invitación)
            /?s=ABCD         → forma antigua del enlace; sigue funcionando y entra como estudiante
@@ -2194,7 +2194,7 @@ const live = {
   onResume(){ teacherConnect(); }
 };
 
-/* --- docente --- */
+/* --- coach --- */
 async function ensureSession(){
   if (live.session) return live.session;
   try { const saved = JSON.parse(localStorage.getItem(SESSION_KEY) || "null"); if (saved && saved.code && saved.secret){ live.session = saved; return saved; } } catch(e){}
@@ -2240,7 +2240,7 @@ async function teacherConnect(){
   live.pollTimer = setInterval(()=>{ if (state.phase === "advised") fetchVotes(); }, 4000);
   onStudentsChange();
 }
-/* Respuestas a «¿Te suena esta situación crack?» (docente) */
+/* Respuestas a «¿Te suena esta situación crack?» (coach) */
 function absorbSuena(v){
   if (state.phase !== "revealed" || !v) return;
   if (v.round !== state.round || v.cookie_idx !== state.current) return;
@@ -2322,7 +2322,7 @@ function renderInvitePeople(){
     live.students.forEach(st => box.append(h("span",{class:"chip"}, h("span", null, st.nick || "Estudiante"))));
   });
 }
-/* Nombres de los estudiantes conectados, siempre visibles en la pantalla del docente durante la partida */
+/* Nombres de los estudiantes conectados, siempre visibles en la pantalla del coach durante la partida */
 /* QR siempre visible durante la partida en la pantalla del coach: «Conéctate a jugar aquí» */
 function renderGameQr(){
   const wrap = $("gameQr"), box = $("gameQrBox"); if (!wrap || !box) return;
@@ -2348,7 +2348,7 @@ function renderSala(){
   const card = $("salaCard");
   if (!live.session || !state.started){ card.hidden = true; return; }
   card.hidden = !!state.playing;           // la invitación grande solo antes de empezar; durante la partida vive en el diálogo
-  $("salaHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Docente: ${state.docente}` : "");
+  $("salaHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Coach: ${state.docente}` : "");
   fillInvite("sala");
   if (!state.playing) renderInvitePeople();
   const inviteBtn = $("inviteBtn"); if (inviteBtn) inviteBtn.hidden = !state.playing;
@@ -2356,7 +2356,7 @@ function renderSala(){
 }
 function openInvite(){
   const dlg = $("inviteDlg"); if (!dlg || !live.session) return;
-  $("dlgHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Docente: ${state.docente}` : "");
+  $("dlgHint").textContent = (state.modulo ? `Módulo: ${state.modulo}` : "") + (state.docente ? ` · Coach: ${state.docente}` : "");
   fillInvite("dlg"); renderInvitePeople();
   if (typeof dlg.showModal === "function"){ if (!dlg.open) dlg.showModal(); } else dlg.setAttribute("open", "");
 }
@@ -2387,7 +2387,7 @@ function renderLive(){
 
 /* i3sit@ en el celular del estudiante: recorte de la ilustración de la oficina + globo de diálogo */
 function i3Head(t){
-  const say = !t ? "¡Hola! Espera al docente." :
+  const say = !t ? "¡Hola! Espera al coach." :
     t.playing === false ? "¡Ya estás en la sala!" :
     t.reflect ? "" :
     t.finished ? "¡Gracias por jugar!" :
@@ -2408,15 +2408,15 @@ function renderStudent(){
   const wait = (title, text) => h("div",{class:"s-wait"}, cookieSvg(), h("div",{class:"t"}, title), h("div", null, text));
   $("sPillText").textContent = live.code ? "Sala " + live.code : "Sin sala";
   $("sPill").classList.toggle("on", !!t);
-  if (!t){ box.append(wait("Esperando al docente…", "Cuando saque una galleta, aquí la verás.")); return; }
-  if (t.playing === false){ box.append(wait("¡Hola! Entraste al enlace y vamos a empezar.", "Vamos a sacar una galleta: vas a ver una situación laboral y responderás sí o no. ¡Espera a que el docente empiece!")); return; }
+  if (!t){ box.append(wait("Esperando al coach…", "Cuando saque una galleta, aquí la verás.")); return; }
+  if (t.playing === false){ box.append(wait("¡Hola! Entraste al enlace y vamos a empezar.", "Vamos a sacar una galleta: vas a ver una situación laboral y responderás sí o no. ¡Espera a que el coach empiece!")); return; }
   const idx = t.idx, rec = (idx !== null && idx !== undefined) ? RECS[idx] : null;
   const who = t.name ? ` Le toca a ${t.name}.` : "";
   if (t.reflect){ studentReflectUI(box, live.code, saveReflection); return; }
   if (t.finished){ box.append(wait("¿Qué te pareció inesperado de las recomendaciones?", "¡Gracias por participar! Lo conversamos entre todos.")); return; }
   if (!rec || t.phase === "idle"){ box.append(wait("¡Atentos!", who.trim())); return; }
   if (t.phase === "stirring" || t.phase === "lifting"){ live.shownKey = null; box.append(stirScene(t.phase)); return; }
-  // La misma galleta partida con el hábito que ve el docente, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
+  // La misma galleta partida con el hábito que ve el coach, sincronizada por fase; la animación de entrada solo la primera vez que llega esta galleta
   const key = t.round + ":" + idx, animate = live.shownKey !== key; live.shownKey = key;
   // en la socialización el estudiante no ve la pantalla «¿Le damos la R?»: sigue viendo la galleta con la recomendación
   box.append(h("div",{class:"s-scene"}, h("div",{class:"scene-reveal" + (animate && !reduced ? " enter" : "")}, buildSlip(idx, rec, animate, t.phase === "advised" || t.phase === "voted" || t.phase === "debate" || (t.phase === "revealed" && !!t.recShown)).paper)));
@@ -2475,7 +2475,7 @@ function studentAsk(){
   renderStudentShell();
   $("codeInput").focus({preventScroll:true});
 }
-/* Pantalla del estudiante dentro de una sala: comprueba que exista, pide el nombre y desde ahí sigue al docente en vivo.
+/* Pantalla del estudiante dentro de una sala: comprueba que exista, pide el nombre y desde ahí sigue al coach en vivo.
    Puede entrar en cualquier momento (antes o durante la partida): recibe el estado actual y se incorpora a la fase que esté. */
 async function studentConnect(code){
   live.code = code; live.missing = false;
@@ -2560,7 +2560,7 @@ function histRender(){
   const list = $("histList"); list.replaceChildren();
   rows.forEach(x => list.append(h("button",{class:"hist-row", type:"button", onclick: ()=> histDetail(x.code)},
     h("span",{class:"code"}, x.code),
-    h("span",{class:"m"}, h("b", null, (x.modulo || "Sin módulo") + " · " + (x.docente || "Sin docente")), h("span", null, fmtDate(x.created_at) + (x.finished ? " · finalizada" : ""))),
+    h("span",{class:"m"}, h("b", null, (x.modulo || "Sin módulo") + " · " + (x.docente || "Sin coach")), h("span", null, fmtDate(x.created_at) + (x.finished ? " · finalizada" : ""))),
     h("span",{class:"nums"}, `${x.participants} participantes`, h("br"), `${x.cookies} galletas · ${x.votes} votos`, h("br"), `${x.reflections} reflexiones · ${x.skipped} omitidas`))));
   if (!rows.length) list.append(h("div",{class:"reflect-empty"}, "No hay salas con esos filtros."));
 }
@@ -2572,7 +2572,7 @@ async function histDetail(code){
   box.append(h("button",{class:"btn btn-sm", type:"button", onclick: histRender}, "← Volver a la lista"));
   if (!d){ box.append(h("div",{class:"reflect-empty"}, "No se pudo cargar la sala.")); return; }
   const st = d.state || {};
-  box.append(h("h3", null, `Sala ${d.code} · ${st.modulo || "Sin módulo"} · ${st.docente || "Sin docente"}`),
+  box.append(h("h3", null, `Sala ${d.code} · ${st.modulo || "Sin módulo"} · ${st.docente || "Sin coach"}`),
     h("div",{class:"hist-count"}, `Creada: ${fmtDate(d.created_at)} · Última actividad: ${fmtDate(d.updated_at)}`));
   box.append(h("h3", null, `Participantes (${d.participants.length})`), h("div",{class:"hist-chips"}, ...(d.participants.length ? d.participants.map(n => h("span", null, n)) : [h("span", null, "Sin registros")])));
   const res = h("div",{class:"hist-res"});
