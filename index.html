@@ -917,6 +917,10 @@ details.howto[open] summary::after{content:"\2212"}
 #sceneWrap .scene-reveal.has-rec .paper.rec::before{display:none}
 /* sin el aviso «¡Crack! Situación revelada / Recomendación revelada» en la pantalla del coach */
 #teacherBox > .who{display:none}
+.game-qr{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:6px 8px;box-shadow:0 3px 0 0 var(--ink)}
+.game-qr .lab{font-family:var(--font-display);font-size:.8rem;color:var(--rose);letter-spacing:.02em;white-space:nowrap}
+.game-qr .qr{width:clamp(96px,9vw,140px);aspect-ratio:1}
+.game-qr .qr svg{width:100%;height:100%;display:block}
 .pasa-q{margin:4px 0 2px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.15;text-align:center;letter-spacing:.02em}
 .suena-box.compact{padding:8px 12px;gap:4px}
 .suena-box.compact .suena-q{font-size:.9rem}
@@ -1079,6 +1083,7 @@ details.howto[open] summary::after{content:"\2212"}
       <div class="head-actions">
         <span class="pill" id="roomPill" hidden><span class="dot"></span><span id="roomText">Sala</span></span>
         <div class="quick-top" id="quickTop" hidden aria-label="Accesos rápidos"></div>
+        <div class="game-qr" id="gameQr" hidden><span class="lab">📲 Conéctate a jugar aquí</span><div class="qr" id="gameQrBox" aria-label="Código QR para entrar a la sala"></div></div>
         
       </div>
     </div>
@@ -2066,6 +2071,7 @@ function nextStep(){
   return { text: "", auto: false };
 }
 function renderPanel(){
+  if (typeof renderGameQr === "function") renderGameQr();
   const card = $("panelCard"); if (!card || live.mode === "student") return;
   const playing = state.started && state.playing;
   // En la pantalla final (resumen) el panel no se muestra
@@ -2283,7 +2289,7 @@ function onStudentsChange(){
   $("roomPill").hidden = false; $("roomPill").classList.toggle("on", n > 0);
   $("roomText").replaceChildren(...(live.session ? ["Sala ", h("b",{class:"room-code"}, live.session.code), " · "] : []), n ? `${n} participante${n===1?"":"s"}` : "nadie conectado aún");
   renderInvitePeople();
-  renderPeopleStrip();
+  renderPeopleStrip(); renderGameQr();
   if (typeof renderPanel === "function") renderPanel();
   if (state.phase === "advised" && state.current !== null) renderSlip();
   if (state.phase === "revealed") renderSuena();
@@ -2312,6 +2318,14 @@ function renderInvitePeople(){
   });
 }
 /* Nombres de los estudiantes conectados, siempre visibles en la pantalla del docente durante la partida */
+/* QR siempre visible durante la partida en la pantalla del coach: «Conéctate a jugar aquí» */
+function renderGameQr(){
+  const wrap = $("gameQr"), box = $("gameQrBox"); if (!wrap || !box) return;
+  const on = live.mode === "teacher" && !!live.session && !!state.playing && !state.finished;
+  wrap.hidden = !on; if (!on) return;
+  const code = live.session.code;
+  if (live.gameQrFor !== code && window.qrcode){ try { const qr = window.qrcode(0, "M"); qr.addData(salaUrl()); qr.make(); box.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 1, scalable: true }); live.gameQrFor = code; } catch(e){} }
+}
 function renderPeopleStrip(){
   const box = $("peopleStrip"); if (!box) return;
   const studs = live.students || [];
