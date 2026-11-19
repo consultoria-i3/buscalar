@@ -909,7 +909,10 @@ details.howto[open] summary::after{content:"\2212"}
 .people-strip .chip.done{border-color:#3FAE2A}
 .final-q{margin:6px 0 18px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.12;text-align:center;letter-spacing:.02em;text-wrap:balance}
 /* con la recomendación en pantalla ya no se muestra la situación de arriba: solo la recomendación, grande */
-#sceneWrap .scene-reveal.has-rec .cookie-slip{display:none}
+#sceneWrap .scene-reveal.has-rec .cookie-slip,#sceneWrap .scene-reveal.has-rec .slip-head{display:none}
+/* la recomendación también aparece palabra por palabra, despacio */
+.paper.rec .big.stream .w{opacity:0;animation:wordIn .45s ease forwards;animation-delay:calc(.5s + var(--wi) * .3s)}
+@media (prefers-reduced-motion:reduce){.paper.rec .big.stream .w{opacity:1;animation:none}}
 #sceneWrap .scene-reveal.has-rec .paper.rec::before{display:none}
 .pasa-q{margin:4px 0 2px;font-family:var(--font-display);font-weight:400;color:var(--rose);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.15;text-align:center;letter-spacing:.02em}
 .suena-box.compact{padding:8px 12px;gap:4px}
@@ -1710,7 +1713,7 @@ function buildSlip(idx, rec, animate, showRec){
   }
   paper.append(row);
   const recKey = idx + ":" + (showRec ? 1 : 0), recAnim = showRec && buildSlip.lastRecKey !== recKey; buildSlip.lastRecKey = recKey;
-  if (showRec && rec.a) paper.append(h("div",{class:"paper rec" + (recAnim ? " rec-in" : "")}, h("div",{class:"label"}, h("span",{class:"letter"},"R"), "Ponle la R · La recomendación"), h("p",{class:"big"}, rec.a)));
+  if (showRec && rec.a) paper.append(h("div",{class:"paper rec" + (recAnim ? " rec-in" : "")}, h("div",{class:"label"}, h("span",{class:"letter"},"R"), "Ponle la R · La recomendación"), h("p",{class:"big" + (recAnim && !reduced ? " stream" : "")}, recAnim && !reduced ? String(rec.a).split(/(\s+)/).map((w, k) => /^\s+$/.test(w) ? w : h("span",{class:"w", style:`--wi:${k >> 1}`}, w)) : rec.a)));
   if (animate && !reduced){
     requestAnimationFrame(()=>{
       const gap = Math.max(hab.offsetWidth/2 - 24, 0);
